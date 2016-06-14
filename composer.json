@@ -1,6 +1,6 @@
 {
-	"description" : "Video Catalog",
-	"name" : "fredo",
+	"description" : "Video Catalog"
+	"name" : "administrateur/symfony",
 	"license" : "proprietary",
 	"type" : "project",
 	"autoload" : {
