@@ -52,7 +52,6 @@ class Flux
     
     public function __construct(){
     	$this->dateInsert = new \Datetime();
-    	$this->entry=$this->setEntry();
     }
     
     
