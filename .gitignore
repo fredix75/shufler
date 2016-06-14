@@ -12,4 +12,5 @@
 /web/bundles/
 /src/.metadata/*
 /.settings/*
+/web/config.php
 
