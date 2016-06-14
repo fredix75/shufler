@@ -43,7 +43,7 @@ class MainController extends Controller {
 			$videos=$this->getDoctrine()->getManager()->getRepository('SHUFLERShuflerBundle:Video')->searchAjax('sim');
 				
 			foreach($videos as $video){
-				print_r($video);
+
 			}
 			return new Response('ok');
 		

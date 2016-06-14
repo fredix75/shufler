@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename resource &apos;/SHUFLER/ShuflerBundle/Resources/views/Home/home.html.twig&apos; to &apos;index.html.twig&apos;&#x0D;&#x0A;- Original element: &apos;home.html.twig&apos;" description="Rename resource &apos;home.html.twig&apos;" flags="7" id="org.eclipse.dltk.ui.rename.resource" input="ShuflerBundle/Resources/views/Home/home.html.twig" name="index.html.twig" stamp="1448627668897" version="1.0"/>
-</session>

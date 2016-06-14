@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename resource &apos;SHUFLER/ShuflerBundle/Resources/public/img/Sans titre - 1.png&apos; to &apos;logo_shufler.png&apos;" description="Rename resource &apos;Sans titre - 1.png&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="ShuflerBundle/Resources/public/img/Sans titre - 1.png" name="logo_shufler.png" stamp="1450282380456" updateReferences="true"/>
-</session>
