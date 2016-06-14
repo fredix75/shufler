@@ -1,0 +1,262 @@
+{% extends "SHUFLERShuflerBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} Edit{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+    <style>
+        .ui-autocomplete {
+            max-height: 100px;
+            overflow-y: auto;
+            /* prevent horizontal scrollbar */
+            overflow-x: hidden;
+            /* add padding to account for vertical scrollbar */
+            padding-right: 20px;
+            background-color:white;
+            z-index:9999;
+        }
+        /* IE 6 doesn't support max-height
+         * we use height instead, but this forces the menu to always be this tall
+         */
+        * html .ui-autocomplete {
+            height: 100px;
+        }
+    </style>
+    <link rel="stylesheet" href="{{ asset('bundles/shuflershufler/css/bootstrap-switch.css') }}">
+{% endblock %}
+
+{% block body %}
+	{% if video.id is defined and video.id !=0  %}
+	<h1><span class="glyphicon glyphicon-edit"></span>&nbsp;Edit the Reference {{ video.id }}</h1>
+	<span class="badge" style="float:right;">{{ video.dateInsert|date('d/m/Y') }}</span><br/>
+	{% else %}
+	<h1><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Add a Reference</h1>
+	{% endif %}
+	
+	<div class="well">
+	{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+	{# Les erreurs générales du formulaire. #}
+	{{ form_errors(form) }}
+
+		<div class="form-group">
+		{{ form_label(form.titre, "Titre", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+			<div class="col-sm-6 col-md-6">
+			{{ form_widget(form.titre, {'attr': {'class': 'form-control'}}) }}
+			</div>
+			{{ form_errors(form.titre) }}
+		</div>
+
+		<div class="form-group">
+		{{ form_label(form.auteur, "Auteur", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+			<div class="col-sm-6 col-md-6">
+			{{ form_widget(form.auteur, {'attr': {'class': 'form-control'}}) }}
+			</div>
+			{{ form_errors(form.auteur) }}
+		</div>
+
+		<div class="form-group">
+		{{ form_label(form.lien, "Lien", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+			<div class="col-xs-11 col-sm-5 col-md-5">
+			{{ form_widget(form.lien, {'attr': {'class': 'form-control'}}) }}
+			</div>
+			<div class="col-xs-1 col-sm-1 col-md-1">
+				{% if video.id is defined and video.id is not null %}
+				<a href="#" onclick="getVid();return false;" title="chercher une autre version"><span class="glyphicon glyphicon-transfer" style="font-size:200%;"></span></a>
+				{% endif %}
+			</div>
+			{{ form_errors(form.lien) }}
+		</div>
+
+		<div class="form-group">
+		{{ form_label(form.chapo, "Chapo", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+			<div class="col-sm-6 col-md-6">
+			{{ form_widget(form.chapo, {'attr': {'class': 'form-control'}}) }}
+			</div>
+			{{ form_errors(form.chapo) }}
+		</div>
+		
+		<div class="form-group">
+		{{ form_label(form.texte, "Texte", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+			<div class="col-sm-6 col-md-6">
+			{{ form_widget(form.texte, {'attr': {'class': 'form-control','rows':6}}) }}
+			</div>
+			{{ form_errors(form.texte) }}
+		</div>
+		
+		<div class="form-group">
+		{{ form_label(form.annee, "Année", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+			<div class="col-sm-2 col-md-2">
+			{{ form_widget(form.annee, {'attr': {'class': 'form-control','maxlength':4}}) }}
+			</div>
+			{{ form_errors(form.annee) }}
+		{{ form_label(form.periode, "Période", {'label_attr': {'class': 'col-sm-1 control-label'}}) }}
+			<div class="col-sm-3 col-md-2">
+			{{ form_widget(form.periode, {'attr': {'class': 'form-control'}}) }}
+			</div>	
+			{{ form_errors(form.periode) }}
+		</div>
+
+		<div class="form-group">
+		{{ form_label(form.priorite, "Priorité", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+			<div class="col-sm-2 col-md-2">
+			{{ form_widget(form.priorite, {'attr': {'class': 'form-control'}}) }}
+			</div>
+			{{ form_errors(form.priorite) }}
+		{{ form_label(form.categorie, "Catégorie", {'label_attr': {'class': 'col-sm-1 control-label'}}) }}
+			<div class="col-sm-3 col-md-2">
+			{{ form_widget(form.categorie, {'attr': {'class': 'form-control'}}) }}
+			</div>	
+			{{ form_errors(form.categorie) }}
+		</div>
+		
+		<div class="form-group">
+		{{ form_label(form.published, "Published", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+			<div class="col-sm-2 col-md-2">
+			{{ form_widget(form.published, {'attr': {'class': 'form-control'}}) }}
+			</div>
+			{{ form_errors(form.published) }}
+			<div id="genre">
+			{{ form_label(form.genre, "Genre", {'label_attr': {'class': 'col-sm-1 control-label'}}) }}
+				<div class="col-sm-3 col-md-2">
+				{{ form_widget(form.genre, {'attr': {'class': 'form-control'}}) }}
+				</div>	
+				{{ form_errors(form.genre) }}
+			</div>
+		</div>
+		
+		<div class="form-group">
+		{{ form_label(form.moods, "Moods", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+			<div class="col-sm-6 col-md-6">
+			{{ form_widget(form.moods, {'attr': {'class': 'form-control','style':'height:170px'}}) }}
+			</div>
+			{{ form_errors(form.moods) }}
+		</div>
+	</div>	
+  	 {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+	 {{ form_end(form) }}
+	{% if video.id is defined and video.id !=0  %}
+	<a class="btn btn-default" href="{{ path('shufler_shufler_view',{'id':video.id}) }}"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;View</a>
+	&nbsp;
+	<a class="btn btn-danger" href="{{ path('shufler_shufler_delete',{'id':video.id}) }}" onclick="return confirm('Are You sure ?');"><span class="glyphicon glyphicon-trash"></span>&nbsp;Delete</a>
+	<form name="form1" action="{{  path('shufler_shufler_apiyt') }}" method="POST">
+		<input type="hidden" id="search_api" name="search_api" />
+		<input type="hidden" id="id_video" name="id_video" />
+	</form>
+	{% endif %}	
+	
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script>
+	$(function(){
+
+		$('#shufler_shuflerbundle_video_published').bootstrapSwitch();
+		
+		if($('#shufler_shuflerbundle_video_categorie').val()!=2){
+			$('#genre').hide();
+		}
+
+		{% if videokey is not null %}
+			$('#shufler_shuflerbundle_video_lien').val('https:{{ videokey }}');
+			{% if video.id is null %}
+				completeInfos();
+			{% endif %}
+		{% endif %}
+		
+	});
+
+	$('#shufler_shuflerbundle_video_lien').on('keyup',function(){
+		completeInfos();
+	});
+	
+	
+	$('#shufler_shuflerbundle_video_annee').on('keyup',function(){
+		if($('#shufler_shuflerbundle_video_annee').val().length==4){
+			selPeriode();
+		}
+	});
+
+		function completeInfos(){
+			var lien=$('#shufler_shuflerbundle_video_lien').val();
+			
+			if(lien.indexOf('youtube')>0){
+				// ceci est ma propre clé. Dans le doute, je bénéficie de celle d'un bédot qui l'a laissée trainer
+				var makey='AIzaSyBNgi3EddUNsFThnFQpPt3RR9kkuWmhHdo';
+
+				makey='AIzaSyBdMuJQlbzDhJs0Ujhvzx2ucsO30lcP0OQ';
+				
+				var match = $('#shufler_shuflerbundle_video_lien').val().match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
+		
+				var video_id=match[1];
+				
+				//var url='https://www.googleapis.com/youtube/v3/videos?id='+video_id+'&key='+key+'&fields=items(id,snippet(channelId,title,categoryId),statistics)&part=snippet,statistics';
+				$.get('https://www.googleapis.com/youtube/v3/videos?key='+makey, {	id: video_id, part: 'snippet' }, function(result) {			 
+				    if(result.items[0].id) {
+				    	$('#shufler_shuflerbundle_video_auteur').val(result.items[0].snippet.title);
+				    	$('#shufler_shuflerbundle_video_titre').val(result.items[0].snippet.title);
+				    } else {
+				        alert('La vidéo n\'existe pas');
+				    }
+				},'jsonp');
+			}else if (lien.indexOf('vimeo')){
+				var part=lien.split('/');
+				var key=part[part.length-1];
+				url='http://vimeo.com/api/v2/video/'+key+'.json';
+				$.get('http://vimeo.com/api/v2/video/'+key+'.json', {	id: key }, function(result) {
+					$('#shufler_shuflerbundle_video_auteur').val(result[0].user_name);
+					$('#shufler_shuflerbundle_video_titre').val(result[0].title);
+					$('#shufler_shuflerbundle_video_annee').val(result[0].upload_date.substring(0,4));
+					selPeriode();
+				}, 'jsonp');
+			}
+		}
+				
+		function selPeriode(){
+			
+			var annee=$('#shufler_shuflerbundle_video_annee').val();
+	
+			if(annee<=2030 && annee>=2016){
+					var periode=$('#shufler_shuflerbundle_video_periode option[value="2016-2030"]');
+					periode.attr("selected", "selected");
+				}else if(annee<=2015 && annee>=2001){
+					var periode=$('#shufler_shuflerbundle_video_periode option[value="2001-2015"]');
+					periode.attr("selected", "selected");
+				}else if(annee<=2000 && annee>=1986){
+					var periode=$('#shufler_shuflerbundle_video_periode option[value="1986-2000"]');
+					periode.attr("selected", "selected");
+				}else if(annee<=1985 && annee>=1971){
+					var periode=$('#shufler_shuflerbundle_video_periode option[value="1971-1985"]');
+					periode.attr("selected", "selected");
+				}else if(annee<=1970 && annee>=1956){
+					var periode=$('#shufler_shuflerbundle_video_periode option[value="1956-1970"]');
+					periode.attr("selected", "selected");
+				}else if(annee<=1955 && annee>=1940){
+					var periode=$('#shufler_shuflerbundle_video_periode option[value="1940-1955"]');
+					periode.attr("selected", "selected");
+				}else if(annee<=1939 && annee>=1890){
+					var periode=$('#shufler_shuflerbundle_video_periode option[value="<1939"]');
+					periode.attr("selected", "selected");
+				}else{
+					alert('Cette année semble incorrecte!')
+			}
+		}
+				
+		$('#shufler_shuflerbundle_video_categorie').on('change',function(){
+			if($('#shufler_shuflerbundle_video_categorie').val()==2){
+				$('#genre').show();
+			}else{
+				$('#genre option[value=-1]').attr('selected','selected');
+				$('#genre').hide();
+			}
+		});
+
+		function getVid(){
+			$('#search_api').val('{{ video.auteur }} {{ video.titre|replace({"'": '_' })}');
+			$('#id_video').val({{ video.id }});
+			document.form1.submit();
+		}
+		
+	</script>
+	<script type="text/javascript" src="{{ asset('bundles/shuflershufler/js/bootstrap-switch.js') }}"></script>
+{% endblock %}	

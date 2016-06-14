@@ -1,0 +1,51 @@
+{% extends "SHUFLERShuflerBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} {% trans %}flux.edit.title{% endtrans %}{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+    <style>
+        .ui-autocomplete {
+            max-height: 100px;
+            overflow-y: auto;
+            /* prevent horizontal scrollbar */
+            overflow-x: hidden;
+            /* add padding to account for vertical scrollbar */
+            padding-right: 20px;
+            background-color:white;
+            z-index:9999;
+        }
+        /* IE 6 doesn't support max-height
+         * we use height instead, but this forces the menu to always be this tall
+         */
+        * html .ui-autocomplete {
+            height: 100px;
+        }
+    </style>
+    <link rel="stylesheet" href="{{ asset('bundles/shuflershufler/css/bootstrap-switch.css') }}">
+{% endblock %}
+
+{% block body %}
+	{% if flux.id is defined and flux.id !=0  %}
+	<h1><span class="glyphicon glyphicon-edit"></span>&nbsp;{% trans %}flux.edit.title_edit{% endtrans %} {{ flux.id }}</h1>
+	<span class="badge" style="float:right;">{{ flux.dateInsert|localizeddate('short', 'short') }}</span><br/>
+	{% else %}
+	<h1><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;{% trans %}flux.edit.title_add{% endtrans %}</h1>
+	{% endif %}
+	
+	<div class="well">
+	{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+	{# Les erreurs générales du formulaire. #}
+	{{ form_errors(form) }}
+
+  	 {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}, 'label':'Save'|trans}) }}
+	 {{ form_end(form) }}
+	 	 {% if flux.id is defined and flux.logo.id is defined %}
+	 	 	{{ flux.logo.id ~ '.' ~ flux.logo.ext }}
+	 	 	<a href="{{ path('shufler_shufler_flux_deleteLogo',{'id':flux.logo.id}) }}" onclick="return confirm('{{ 'Are You sure ?'|trans}}');"><span class="glyphicon glyphicon-remove-sign"></span></a>
+	 	 {% endif %}
+	 {% if flux.id is defined and flux.id !=0 %}
+		<a class="btn btn-danger" href="{{ path('shufler_shufler_flux_delete',{'id':flux.id}) }}" onclick="return confirm('{{ 'Are You sure ?'|trans}}');"><span class="glyphicon glyphicon-remove-sign"></span>&nbsp;{{ 'Delete Flow'|trans }}</a>
+	 {% endif %}
+	 </div>		
+{% endblock %}

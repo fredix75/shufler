@@ -1,0 +1,67 @@
+{# src/SHUFLER/ShuflerBundle/Resources/views/Home/index.html.twig #}
+
+{% extends "SHUFLERShuflerBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Home{% endblock %}
+
+{% block body %}
+
+	<div class="row">
+		<section class="col-sm-8 col-md-9 ">
+			<div class="media embed-responsive embed-responsive-16by9">
+	  			<iframe class="media embed-responsive-item" src="{{  videos.0.lien }}" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+			</div>
+			<div class="topcom media-body">
+				<div class="col-md-10">
+					<h2 class="media-heading">{{  videos.0.titre }}</h2>
+					<span class="top-auteur">{{  videos.0.auteur }}</span>
+				</div>
+				<div class="col-md-2 col-push-right">
+					<div class="categorie col-md-12">{{ videos.0.categorieDisplay }}</div>
+					<div class="col-md-12"><span class="top-annee">{{  videos.0.anneeDisplay }}</span></div>
+				</div>
+			</div>
+			<div class="texte">
+				<span class="date">Vendredi 13 mars 2016</span>
+				<h1>Bien le Bonjour les gars</h1>
+				<p>Plus que quelques heures pour conclure l'accord de Paris, qui vise à endiguer le réchauffement planétaire mondial.
+    			La COP21 joue à la «roulette russe»
+				Voici un nouveau texte d’accord à la COP21: une nouvelle version «nettoyée», selon Laurent Fabius, à laquelle ont été rajoutées les avancées des ministres cofacilitateurs. Elle a été présentée mercredi aux 195 pays signataires de la Convention climat de l’ONU (CCNUCC). Le chef de la diplomatie française s’est félicité que ce nouveau brouillon d’accord fasse «29 pages au lieu de 43», et que «par rapport à la version antérieure», il y ait «une réduction des trois-quarts du nombre des points entre crochets». «C’est nettement mieux, donc, mais c’est encore trop», a conclu le président de la COP, qui a laissé jusqu’à mercredi 20 heures aux délégués pour qu’ils prennent connaissance du texte.
+				Des avancées et des «points politiques à trancher»
+				La transparence, l’adaptation aux impacts du changement climatique, les forêts, les moyens de coopération, les transferts de technologies et le préambule semblent avoir progressé, avec des propositions plus tranchées qu’avant et des paragraphes moins ambigus. «Bien entendu, la règle entre nous, c’est que rien n’est agréé tant que tout n’est pas agréé», a voulu rassurer Fabius. Tout en reconnaissant que «certains points politiques importants rest[ai]ent à trancher» : la différenciation (les efforts à fournir par les pays selon leurs moyens et leurs responsabilités dans le changement climatique), le niveau des financements et leurs moyens de mise en œuvre, et l’ambition de l’accord, c’est-à-dire son objectif de long terme. Soit trois articles fondamentaux de l’accord de Paris.</p>
+			</div>
+		</section>
+		<section class="col-sm-4 col-md-3">
+		{% for video in videos|slice(1, 4) %}
+			<div class="media topcol embed-responsive-16by9">
+				<div class="categorie">{{ video.categorieDisplay }}</div>
+				<a class="lienVideo" href="{{ video.lien2 }}" onclick="return false;">
+				{{  video.imgVideo|raw }}
+				<div class="media-body" style="">
+					<h4 class="media-heading">{{  video.auteur }}</h4>
+					{{  video.titre }} <span class="annee_small">{{  video.anneeDisplay }}</span>
+				</div>
+				</a>
+			</div>
+		{% endfor %}	
+		</section>
+	</div>
+	<div class="row">
+		<section class="col-sm-12 col-md-12" style="padding:20px;margin-top:20px;">
+		{% for video in videos|slice(5, 8) %}
+			<div class="col-sm-6 col-md-3" style="">
+				<div class="media topcol embed-responsive-16by9" style="margin-bottom:30px;">
+					<div class="categorie">{{ video.categorieDisplay }}</div>
+					<a class="lienvideo" href="{{ video.lien2 }}" onclick="return false;">
+					{{  video.imgVideo|raw }}
+					<div class="media-body" style="">
+						<h4 class="media-heading">{{  video.auteur }}</h4>
+						{{  video.titre }} <span class="annee_small">{{  video.anneeDisplay }}</span>
+					</div>
+					</a>
+				</div>	
+			</div>
+		{% endfor %}	
+		</section>
+	</div>
+{% endblock %}

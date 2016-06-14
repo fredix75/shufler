@@ -1,0 +1,53 @@
+Hello: Bonjour
+Cancel: Abandonner
+Save: Enregistrer
+View: Voir
+Delete: Effacer
+global.confirmation: 'Etes vous sûr ?'
+site.claim: 'Marre des Lolcats ? Gourmand de pépites ? Envie de croquer autre chose que les dernières vidéos virales des réseaux sociaux et les derniers clips à la mode ?<br/>Et si on partait du principe que qualité et popularité n''étaient pas toujours liés ?'
+'New Selection': 'Nouvelle Sélection'
+'Create an account': 'Créer un compte'
+Random: 'Au hasard'
+'TV Mode': 'Mode TV'
+News: 'Les News'
+Categories: Catégorie
+'Anim''': 'Anim'''
+'Music Moment': 'Moment musical'
+Strange: Etrange
+Funny: Cocasse
+'Seen on Tv': 'Vu à la Télé'
+'Movie Time': 'Instant Ciné'
+Nature: Nature
+edit.switch_version: 'chercher une autre version'
+Title: Titre
+Author: Auteur
+Link: Lien
+Description: Description
+Text: Texte
+Year: Année
+Period: Période
+Priority: Priorité
+Category: Catégorie
+Published: Publié
+Kind: Genre
+Moods: Moods
+video.edit.title: 'Edition de Vidéo'
+video.edit.title_edit: 'Editer la Ref'
+video.edit.title_add: 'Ajouter une Ref'
+flux.edit.title: 'Edition de Flux'
+flux.edit.title_edit: 'Editer le Flux'
+flux.edit.title_add: 'Ajouter un Flux'
+Periods: Périodes
+Edit: Editer
+'Add a Video': 'Ajouter une Video'
+'Add a Flow': 'Ajouter un Flux RSS'
+Links: Liens
+'APIs Search': 'APIs Search'
+'My account': 'Mon Compte'
+'My Profile': 'Mon Profil'
+'Change Password': 'Changer le Mot de Passe'
+Logout: Deconnexion
+Login: Connexion
+'Is there?': "Y'a t'il ?"
+cancel: abandonner
+validate: valider

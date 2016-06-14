@@ -1,0 +1,19 @@
+oc_platform_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: OCPlatformBundle:Default:index }
+
+hello_the_world:
+    path: /hello-world
+    defaults: { _controller: OCPlatformBundle:Advert:index }
+    
+oc_platform_view:
+    path: /advert/{id}
+    defaults: { _controller: OCPlatformBundle:Advert:view }
+    
+oc_platform_view_slug:
+    path:      /{year}/{slug}.{_format}
+    defaults:  { _controller: OCPlatformBundle:Advert:viewSlug, _format: html}
+    requirements:
+        year: \d{4}
+        _format: html|xml
+        _locale:FR

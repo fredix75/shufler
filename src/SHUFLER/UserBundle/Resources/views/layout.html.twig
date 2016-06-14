@@ -1,0 +1,17 @@
+{% extends "SHUFLERShuflerBundle::layout.html.twig" %}
+
+{% block title %} {{ parent() }} Account {% endblock %}
+{# Dans notre layout, il faut définir le block body #}
+{% block body %}
+
+  {# On affiche les messages flash que définissent les contrôleurs du bundle #}
+  {% for key, messages in app.session.flashbag.all() %}  	 
+    <div class="alert alert-{{ key }}">
+		{% for message in messages %} {{ message|trans({}, 'FOSUserBundle') }} {% endfor %}
+    </div>
+  {% endfor %}
+
+  {% block fos_user_content %}
+  {% endblock fos_user_content %}
+
+{% endblock %}

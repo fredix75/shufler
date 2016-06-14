@@ -1,0 +1,71 @@
+{# app/Resources/views/layout.html.twig #}
+
+<!DOCTYPE html>
+<html>
+	<head>
+	  <meta charset="utf-8">
+	  <meta name = " description " content = "Un site qui propose aléatoirement des vidéos démentes et des trucs méconnus.">
+	  <meta name = "keywords" content = "videos, animations, musique, clips" >
+	  <meta name = "generator" content = "Symfony2" >
+	  <meta name = "author" content = "Fred Fotré" >
+	  <meta name = "viewport" content = "width=device-width, initial-scale=1">
+	  <meta name = "robots" content = "index, follow">
+	  
+	  <title>Shufler ::{% block title %}{% endblock %}</title>
+	
+	  {% block stylesheets %}
+	    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/shuflershufler/css/styl.css') }}">
+	    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/shuflershufler/css/jquery.autocomplete.css') }}">
+	  {% endblock %}
+		<link rel="icon" type="image/png" href="{{ asset('bundles/shuflershufler/img/fav.png') }}" />
+		<style>
+
+		</style>
+	  	  
+	</head>
+	<body>
+      <header>
+		<nav class = "navbar navbar-default navbar-fixed-top" role = "navigation">
+			{{ render(controller('SHUFLERShuflerBundle:Main:navigation')) }}	
+		</nav>
+      </header>
+      
+   	  <div class="container">	
+	    {% block body %}
+	  	{% endblock %}
+	  </div>
+		  		
+		<footer>
+			<img src="https://www.kangourouge.com/img/fixtures/expertises/badge-symfony.png" height=60px style="display:block;float:right;"/>
+			<img src="http://www.developpeur-informatique.fr/bundles/alexwebsiteindex/img/tech.png" height=60px style="display:block;float:right;"/>
+	    	<br/><p>nFactory © {{ 'now'|date('Y') }} - fred_ric@hotmail.com.</p>
+	    </footer>
+	
+	
+	  {% block javascripts %}
+		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	    {# <script src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script> #} 
+	  
+	  	<script type="text/javascript">
+			$(document).ready(function() {
+			    $('#search_field').autocomplete({
+			        serviceUrl: '{{ path("shufler_shufler_searchAjax") }}',
+			        dataType:'json'
+			    });
+			});
+
+	  	 
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		  ga('create', 'UA-72614623-1', 'auto');
+		  ga('send', 'pageview'); 
+		</script>
+		<script type="text/javascript" src="{{ asset('bundles/shuflershufler/js/autocomplete.js') }}"></script>
+		  {% endblock %}
+	</body>
+</html>

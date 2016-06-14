@@ -1,0 +1,176 @@
+{# src/SHUFLER/ShuflerBundle/Resources/views/Home/index.html.twig #}
+
+{% extends "SHUFLERShuflerBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} Vidéos{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/shuflershufler/css/jquery.magnific-popup.css') }}">
+	<style>
+		.well .row{
+			float:right;margin-top:-40px;
+		}
+	</style>
+{% endblock %}
+
+{% block body %}
+	<div class="col-md-12" style="margin-bottom:30px;">
+		<form name="form1" action="{{  path('shufler_shufler_apiyt') }}" method="POST">
+		<div class="col-xs-10 col-sm-10 col-md-10">
+			<input type="search" id="search_api" name="search_api" value="{{ search }}" class="input-sm form-control" placeholder="search on the Web" style="background-color:#666666;color:white;font-size:200%;height:50px;" />
+    		{% if idVideo is defined and not null %}
+    			<input type="hidden" id="video_id" name="video_id" value="{{ idVideo }}"/>
+    		{% endif %}
+    	</div>
+    	<div class="col-xs-2 col-sm-2 col-md-2">
+    		<button type="submit" id="enter_search" class="btn btn-primary btn-sm" style="height:50px;width:50px;"><span class="glyphicon glyphicon-forward"></span></button>
+		</div>
+		</form>
+		{% if idVideo is defined and not null %}
+			<div class="col-md-push-6"><br/><strong>Video #{{ idVideo }}</strong></div>
+		{% endif %}
+	</div>	
+	<br/><br/>
+	{% if wiki is defined and not null %}
+		{% for image in wiki %}
+			<img src="{% if image.image is defined %}{{ image.image }}{% endif %}" title="{% if image.title is defined %}{{ image.title }}{% endif %}"/>
+		{% endfor %}
+	{% endif %}
+	<form name="formulaire" action="{{  path('shufler_shufler_edit',{'id':idVideo}) }}" method="POST">
+		<input type="hidden" id="videokey" name="videokey" />
+	</form>
+	<section id="contenuYT" class="col-xs-12 col-sm-6 col-md-6" style="margin-top:10px;"><h1>Youtube</h1></section>
+	<section id="contenuVIM" class="col-xs-12 col-sm-6 col-md-6" style="margin-top:10px;">
+	<h1>Vimeo</h1>
+	{% if resultatVIM is not null %}
+		{% for vignette in resultatVIM %}
+			<div class="col-sm-12">
+				<div class="col-sm-6 col-md-6"><div class="media topcol embed-responsive-16by9" style="margin-bottom:30px;">
+					<a class="lienvideo" href="{{ vignette.url }}" onclick="return false;">
+						<img src="{{ vignette.link }}" height=180px />
+					</a>
+				</div></div>
+				<div class="col-sm-6 col-md-6" style="border-top:1px dotted black;border-right:1px dotted black;height:180px;overflow:hidden;">
+					<strong>{{ vignette.name }}</strong>';
+				{% if is_granted('ROLE_AUTEUR') %}
+					<div id="{{ vignette.url }}" class="link_edit"><a href="#" onclick="return false;"><span class="glyphicon glyphicon-edit"></span></a></div>
+				{% endif %}
+					<br/><br/>{{ vignette.author }}
+					<br/><br/><span class="badge">{{ vignette.date }}</span>
+				</div>
+			</div>
+		{% endfor %}
+	{% endif %}
+	</section>
+{% endblock %}
+	
+{% block javascripts %}
+	{{ parent() }}
+	
+	<script>
+
+	$(function(){
+		$('#search_api').focus();
+	});
+	
+	{% if search is not null %}
+		$(function(){		
+			var search='{{ search }}';
+			var key='AIzaSyBNgi3EddUNsFThnFQpPt3RR9kkuWmhHdo';
+			$.get('https://www.googleapis.com/youtube/v3/search?key='+key, { part: 'snippet', q: search, maxResults: 50 }, function(result) {			 
+			    if(result) {
+					var titre;
+					var url;
+					var image;
+					var vignette;
+					var infos=new Array();
+					for(var i=0; i<result.items.length; i++){
+						if(typeof result.items[i] != 'undefined'){
+						
+							$.get('https://www.googleapis.com/youtube/v3/videos?key='+key, { part: 'contentDetails, statistics', id: result.items[i].id.videoId } , function(result2) {								
+							    	infos[i]=new Array(result2.items[0].statistics.viewCount,result2.items[0].contentDetails.duration);
+							    	return infos;
+							},'jsonp');
+
+							if(i != null){
+								var stat=' ';
+								var views=' ';
+								url='//www.youtube.com/watch?v='+result.items[i].id.videoId;
+								vignette=createVignette(result.items[i].snippet,url,stat,views);
+								$('#contenuYT').append(vignette);
+							}else{
+								console.log('error' + i);
+							}
+						}
+					}
+
+			    } else {
+			        alert('Error');
+			    }
+			},'jsonp');
+		});
+	{% endif %}
+
+
+		function createVignette(snippet,url,duration,stat){
+			vignette='<div class="col-sm-12"><div class="col-sm-6 col-md-6"><div class="media topcol embed-responsive-16by9" style="margin-bottom:30px;"><a class="lienvideo" href="';
+			vignette=vignette+url;
+			vignette=vignette+'" onclick="return false;"><img src="';
+			vignette=vignette+snippet.thumbnails.medium.url;
+			vignette=vignette+'" height=180px />';
+			vignette=vignette+'<div class="media-body">';
+			vignette=vignette+duration;
+			vignette=vignette+'</div>';
+			vignette=vignette+'</a></div></div>';
+			vignette=vignette+'<div class="col-sm-6 col-md-6" style="border-top:1px dotted black;border-right:1px dotted black;height:180px;overflow:hidden;">';
+			vignette=vignette+'<strong>'+snippet.title+'</strong>';
+			{% if is_granted('ROLE_AUTEUR') %}
+				vignette=vignette+'<div id="'+url+'" class="link_edit"><a href="#" onclick="return false;"><span class="glyphicon glyphicon-edit"></span></a></div>';
+			{% endif %}
+			vignette=vignette+'<br/><br/>'+snippet.channelTitle;
+			var options = { year: "numeric", month: "long", day: "numeric"};
+			vignette=vignette+'<br/><br/><span class="badge">'+new Date(snippet.publishedAt).toLocaleDateString('fr-FR',options)+'</span>';
+			vignette=vignette+'<br/>'+stat+' views</div></div>';
+			return vignette;
+		}
+
+		$(document).on('click','.link_edit',function(){
+			//alert(this.id);
+			$('#videokey').val(this.id);
+			document.formulaire.submit();
+		});
+		
+		
+		$(document).on('click','.lienvideo',function(){
+			
+			$('.lienvideo').magnificPopup({
+				  type: 'iframe',
+				  iframe: {
+				    patterns: {
+					     dailymotion: {
+						       index: 'dailymotion.com',
+						       id: function(url) {        
+						           var m = url.match(/^.+dailymotion.com\/(video|hub)\/([^_]+)[^#]*(#video=([^_&]+))?/);
+						           if (m !== null) {
+						               if(m[4] !== undefined) {
+						                  return m[4];
+						               }
+						               return m[2];
+						           }
+						           return null;
+						        },
+						        src: 'http://www.dailymotion.com/embed/video/%id%'		        
+						      },
+					     youtube: {
+						      index: 'youtube.com/', // String that detects type of video (in this case YouTube). Simply via url.indexOf(index).
+						      id: 'v=', // String that splits URL in a two parts, second part should be %id%
+						      src: '//www.youtube.com/embed/%id%?autoplay=1&iv_load_policy=3' // URL that will be set as a source for iframe. 
+					  }
+				    }
+				  }
+			});
+		});
+	</script>
+    <script type="text/javascript" src="{{ asset('bundles/shuflershufler/js/jquery.magnific-popup.js') }}"></script> 		
+{% endblock %}	

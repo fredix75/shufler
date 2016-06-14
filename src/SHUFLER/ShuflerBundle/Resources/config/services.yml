@@ -1,0 +1,20 @@
+parameters:
+    exemple: 18
+
+services:
+#    shufler_shufler.example:
+#        class: SHUFLER\ShuflerBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
+    shufler.filtre_affichage:
+        class: SHUFLER\ShuflerBundle\Twig\ShuflerExtension
+        public: true
+        tags:
+            - { name: twig.extension }
+
+    util.twig_extension:
+        class: COMMON\CommonBundle\Twig\UtilExtension
+        public: false
+        tags:
+            - { name: twig.extension }
+    shufler.fluxParser:
+        class: SHUFLER\ShuflerBundle\FluxParser\SHUFLERFluxParser
