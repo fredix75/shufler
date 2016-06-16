@@ -127,10 +127,8 @@ class VideoController extends Controller {
     
     }
     
-    public function viewAction($id){
-    
-    	$video=$this->getDoctrine()->getManager()->getRepository('SHUFLERShuflerBundle:Video')->getVideo($id);
-    	   	
+    public function viewAction(Video $video){
+  
     	return $this->render('SHUFLERShuflerBundle:Video:view.html.twig', array('video'=>$video));
     }
     
@@ -166,9 +164,9 @@ class VideoController extends Controller {
 	    	$videokey=null;
 	    }
 	    
-	    // À ce stade, le formulaire n'est pas valide car :
-	    // - Soit la requête est de type GET, donc le visiteur vient d'arriver sur la page et veut voir le formulaire
-	    // - Soit la requête est de type POST, mais le formulaire contient des valeurs invalides, donc on l'affiche de nouveau
+	    // Ã€ ce stade, le formulaire n'est pas valide car :
+	    // - Soit la requÃªte est de type GET, donc le visiteur vient d'arriver sur la page et veut voir le formulaire
+	    // - Soit la requÃªte est de type POST, mais le formulaire contient des valeurs invalides, donc on l'affiche de nouveau
 	    return $this->render('SHUFLERShuflerBundle:Video:edit.html.twig', array(
 	      'form' => $form->createView(),
 	      'video' => $video,
@@ -181,9 +179,8 @@ class VideoController extends Controller {
      /**
       * @Security("has_role('ROLE_AUTEUR')")
       */
-     public function depublishedAction($id){
+     public function depublishedAction(Video $video){
      	$em=$this->getDoctrine()->getManager();
-     	$video=$em->getRepository('SHUFLERShuflerBundle:Video')->find($id);
      	$video->setPublished(false);
      	$em->persist($video);
      	$em->flush();
@@ -194,9 +191,8 @@ class VideoController extends Controller {
      /**
       * @Security("has_role('ROLE_AUTEUR')")
       */
-     public function publishedAction($id){
+     public function publishedAction(Video $video){
      	$em=$this->getDoctrine()->getManager();
-     	$video=$em->getRepository('SHUFLERShuflerBundle:Video')->find($id);
      	$video->setPublished(true);
      	$em->persist($video);
      	$em->flush();
@@ -206,12 +202,9 @@ class VideoController extends Controller {
      /**
       * @Security("has_role('ROLE_AUTEUR')")
       */
-     public function deleteAction($id){
-	    $em=$this->getDoctrine()->getManager();
-     	$video=$em->getRepository('SHUFLERShuflerBundle:Video')->find($id);
-     	     	
+     public function deleteAction(Video $video){
+	    $em=$this->getDoctrine()->getManager();     	     	
      	$em->remove($video);
-     	
      	$em->flush();
      	return $this->redirectToRoute('shufler_shufler_homepage');
      }

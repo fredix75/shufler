@@ -114,21 +114,6 @@ class OtherController extends Controller {
 			}else{
 				$infos[$key->getName()]['pic']='';
 			}
-			//$key->getEntry();
-			/*
-			try{		
-				
-				$infos[$key->getName()]['flux']=$key->getEntry();
-				
-				if($key->getLogo()!=null){
-					$infos[$key->getName()]['pic']=$key->getLogo()->getUploadDir().'/'.$key->getLogo()->getId().'.'.$key->getLogo()->getExt();
-				}else{
-					$infos[$key->getName()]['pic']='';
-				}
-			}catch(\Exception $e){
-				error_log($e->getMessage());	
-			}
-			*/	
 		}
 	
 		
@@ -167,12 +152,9 @@ class OtherController extends Controller {
 		);
 	}
 	
-    public function deleteAction($id){
+    public function deleteAction(Flux $flux){
 	    $em=$this->getDoctrine()->getManager();
-     	$flux=$em->getRepository('SHUFLERShuflerBundle:Flux')->find($id);
-     	     	
      	$em->remove($flux);
-     	
      	$em->flush();
      	return $this->redirectToRoute('shufler_shufler_homepage');
     }
@@ -180,7 +162,4 @@ class OtherController extends Controller {
     public function deleteLogoAction($id){
 	   	return $this->redirectToRoute('shufler_shufler_homepage');
     }
-	
-	
-	
 }
