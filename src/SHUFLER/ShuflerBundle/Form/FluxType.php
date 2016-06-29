@@ -17,6 +17,11 @@ class FluxType extends AbstractType
         $builder
 	   		->add('name', 'text')
    			->add('url', 'text')
+   			->add('type', 'choice', array(
+   					'required' => true,
+   					'choices'=>array('rss'=>1,'podcast'=>2),
+		   			'choices_as_values' => true,
+   			))
    			->add('logo',  new ImageType(), array(
             		'required'=>false
             ))

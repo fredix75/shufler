@@ -112,7 +112,7 @@ class OtherController extends Controller {
 			if($key->getLogo()!=null){
 				$infos[$key->getName()]['pic']=$key->getPic();
 			}else{
-				$infos[$key->getName()]['pic']='';
+				$infos[$key->getName()]['pic']=null;
 			}
 		}
 	
@@ -123,6 +123,34 @@ class OtherController extends Controller {
 		//return new Response('ok');
 		
 		return $this->render('SHUFLERShuflerBundle:Other:rss.html.twig',array('infos'=>$infos));
+	}
+	
+	public function podcastAction(){	
+		error_reporting(0);
+		$infos=array();
+	
+		$rss=$this->getDoctrine()->getManager()->getRepository('SHUFLERShuflerBundle:Flux')->getPodcast();
+		
+		$fluxParser = $this->container->get('shufler.fluxParser');
+	
+		foreach($rss as $key){
+
+			$infos[$key->getName()]['flux']=$fluxParser->convertXML($key->getUrl());
+
+			if($key->getLogo()!=null){
+				$infos[$key->getName()]['pic']=$key->getPic();
+			}else{
+				$infos[$key->getName()]['pic']=null;
+			}
+		}
+	
+	
+	
+		//set_exception_handler(\Exception);
+		//var_dump($infos);
+		//return new Response('ok');
+	
+		return $this->render('SHUFLERShuflerBundle:Other:podcast.html.twig',array('infos'=>$infos));
 	}
 	
 	public function fluxEditAction(Request $request,$id){

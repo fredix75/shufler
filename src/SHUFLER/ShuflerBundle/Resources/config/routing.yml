@@ -75,6 +75,10 @@ shufler_shufler_rss:
     path: /rss
     defaults: {_controller: SHUFLERShuflerBundle:Other:rss}
 
+shufler_shufler_podcast:
+    path: /podcast
+    defaults: {_controller: SHUFLERShuflerBundle:Other:podcast}
+
 shufler_shufler_flux_edit:
     path: /fluxEdit/{id}
     defaults: {_controller: SHUFLERShuflerBundle:Other:fluxEdit, id: 0}

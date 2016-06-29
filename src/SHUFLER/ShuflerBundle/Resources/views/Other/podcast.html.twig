@@ -50,46 +50,19 @@
 			transition: all 1s ease;
 		}
 		
+		video{
+			margin-top:-100px;
+		}
+		
 	</style>
 {% endblock %}
 
 
 {% block body %}
-	<h1>Quoi de neuf dans le Monde?</h1>
+	<h1>Podcasts</h1>
 	
-		{% for key,flux in infos %}			
-		
-			{%  if  key == 'Liberation' %}
-		<div class="bande-flux col col-sm-6 col-md-4">
-			<div class="titre">
-				{% if flux.pic is defined and flux.pic is not null %}
-					<img src="{{  asset(flux.pic) }}" height=100px />
-				{% endif %}
-				<a class="btn-toggle" href="#" onclick="return false;"><span class="glyphicon glyphicon-plus"></span></a>
-			</div>
-			<div class="flux-content" style="display:none;">
-				{% for info in flux.flux|slice(0, 6) %}
-				<div class="info col-md-12">
-					<small class="date">{{ info.updated|dateFlux2 }}</small>
-					<h2><a href="{{ info.link.0.attributes.href }}" target="_blank" >{{ info.title|raw }}</a></h2>
-					{% if info.link.1.attributes.href is defined %}
-						<img src="{{ info.link.1.attributes.href|imageSubs }}" width="100%"/>
-					{% endif %}
-					<p>{{ info.summary|raw }}</p>
-				</div>
-				{% endfor %}
-			</div>
-			<div class="flux-summary">
-				<ul>
-				{% for info in flux.flux|slice(0, 6) %}
-					<li><strong><a href="{{ info.link.0.attributes.href }}" target="_blank" >{{ info.title|raw }}</a></strong> - <small>{{ info.updated|dateFlux2 }}</small></li>
-				{% endfor %}
-				</ul>
-			</div>
-		</div>
-			{%  else %}
-		
-		
+		{% for key,flux in infos %}				
+			
 		<div class="bande-flux col col-sm-6 col-md-4">
 			<div class="titre">
 				{% if flux.pic is defined and flux.pic is not null %}
@@ -103,9 +76,12 @@
 					<small class="date">{{ info.pubDate|dateFlux }}</small>
 					<h2><a href="{{ info.link }}" target="_blank" >{{ info.title|raw }}</a></h2>
 					{% if info.enclosure.attributes.url is defined %}
-						<img src="{{ info.enclosure.attributes.url }}" width="100%"/>
+						<video controls>
+  							<source src="{{ info.enclosure.attributes.url }}">
+  							Votre navigateur ne gère pas l'élément <code>video</code>.
+						</video>
 					{% endif %}
-					{% if info.description is defined and key !="figaro" %}
+					{% if info.description is defined %}
 						<p>{{ info.description|raw }}</p>
 					{% endif %}
 				</div>
@@ -120,7 +96,6 @@
 			</div>
 		</div>
 		
-			{% endif %}
 		{% endfor %}
 		
 {% endblock %}

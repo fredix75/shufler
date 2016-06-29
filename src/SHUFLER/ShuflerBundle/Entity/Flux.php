@@ -4,6 +4,7 @@ namespace SHUFLER\ShuflerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use phpDocumentor\Reflection\Types\Integer;
 
 /**
  * Flux
@@ -43,6 +44,14 @@ class Flux
      */
     private $logo;
 
+    /**
+     * @var Integer
+     *
+     * @ORM\Column(name="type", type="smallint")
+     */
+    private $type;
+    
+    
     /**
      * @var \DateTime
      *
@@ -190,4 +199,28 @@ class Flux
     }
  */   
     
+
+    /**
+     * Set type
+     *
+     * @param integer $type
+     *
+     * @return Flux
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return integer
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
 }

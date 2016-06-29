@@ -14,6 +14,22 @@ class FluxRepository extends \Doctrine\ORM\EntityRepository
 	function getRSS(){
 		$rss=$this->_em->createQueryBuilder()
 		->select('a')
+		->where('a.type= :type')
+		->setParameter('type',1)
+		->from('SHUFLERShuflerBundle:Flux','a')
+		->orderBy('a.id', 'ASC')
+		->getQuery()
+		->getResult()
+		;
+	
+		return $rss;
+	}
+	
+	function getPodcast(){
+		$rss=$this->_em->createQueryBuilder()
+		->select('a')
+		->where('a.type= :type')
+		->setParameter('type',2)
 		->from('SHUFLERShuflerBundle:Flux','a')
 		->orderBy('a.id', 'ASC')
 		->getQuery()

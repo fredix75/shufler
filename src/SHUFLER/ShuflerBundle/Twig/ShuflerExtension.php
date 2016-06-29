@@ -22,7 +22,7 @@ class ShuflerExtension extends \Twig_Extension
 				$category='Music';
 				break;
 			case 3:
-				$category= 'etrange';
+				$category='etrange';
 				break;
 			case 4:
 				$category='parodie';
@@ -37,7 +37,7 @@ class ShuflerExtension extends \Twig_Extension
 				$category='nature/timelapse';
 				break;
 			default:
-				$category="autre";
+				$category='autre';
 		}
         return $category;
     }
@@ -93,13 +93,13 @@ class ShuflerExtension extends \Twig_Extension
     			$genreDisplay='Afrobeat';
     			break;
     		default:
-    			$genreDisplay="Autre";
+    			$genreDisplay='Autre';
     	}
 		
 		return $genreDisplay;
 	}
 	
-	public function YearFilter($annee){
+	public function yearFilter($annee){
 		if($annee!=-1 && $annee!=null && $annee!=0){
     		return $annee;
     	}
