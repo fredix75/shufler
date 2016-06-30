@@ -1,0 +1,59 @@
+		.bande-flux{
+			background-color:rgba(0,0,0,0.6);
+			border-bottom:5px solid black;
+		}
+	
+		.info{
+			background-color:rgba(255,255,255,0.4);
+			margin:5px 0px;
+		}
+		
+		h2.flux-titre{
+			color:white;
+			border-bottom:1px dotted white;
+			text-align:center;
+		}
+		
+		.info h2{
+			font-size:140%;
+			font-weight:bold;
+		}
+		
+		.info a{
+			color:black;
+		}
+		
+		.flux-summary a{
+			color:white;
+		}
+		
+		.info a:hover, .flux-summary a:hover{
+			text-decoration: underline;
+		}
+		
+		.titre img{
+			display:block;
+			text-align:center;
+			margin:8px auto;
+		}
+		
+		.flux-summary{
+			color:white;
+		}
+		
+		.btn-toggle span{
+			-webkit-transition: all 1s ease; /* Safari and Chrome */
+  	 		-moz-transition: all 1s ease; /* Firefox */
+    		-o-transition: all 1s ease; /* IE 9 */
+			-ms-transition: all 1s ease; /* Opera */
+			transition: all 1s ease;
+		}
+		
+		.bloc-pages{
+			text-align:center;
+			color:yellow;
+		}
+		
+		.bloc-pages a{
+			color:white;
+		}

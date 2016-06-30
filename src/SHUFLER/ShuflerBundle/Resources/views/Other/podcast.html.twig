@@ -1,85 +1,33 @@
 
-{% extends "SHUFLERShuflerBundle::layout.html.twig" %}
+{% extends "SHUFLERShuflerBundle:Other:rss.html.twig" %}
 
-{% block title %}{{ parent() }} Flux RSS{% endblock %}
-
-{% block stylesheets %}
-	{{  parent() }}
-	<style>
-		.bande-flux{
-			background-color:rgba(0,0,0,0.6);
-		}
-	
-		.info{
-			background-color:rgba(255,255,255,0.4);
-			margin:5px 0px;
-		}
-		
-		.info h2{
-			font-size:140%;
-			font-weight:bold;
-		}
-		
-		.info a{
-			color:black;
-		}
-		
-		.flux-summary a{
-			color:white;
-		}
-		
-		.info a:hover, .flux-summary a:hover{
-			text-decoration: underline;
-		}
-		
-		.titre img{
-			display:block;
-			text-align:center;
-			margin:8px auto;
-		}
-		
-		.flux-summary{
-			color:white;
-		}
-		
-		.btn-toggle span{
-			-webkit-transition: all 1s ease; /* Safari and Chrome */
-  	 		-moz-transition: all 1s ease; /* Firefox */
-    		-o-transition: all 1s ease; /* IE 9 */
-			-ms-transition: all 1s ease; /* Opera */
-			transition: all 1s ease;
-		}
-		
-		video{
-			margin-top:-100px;
-		}
-		
-	</style>
-{% endblock %}
-
+{% block title %}{{ parent() }} Podcats {% endblock %}
 
 {% block body %}
 	<h1>Podcasts</h1>
 	
-		{% for key,flux in infos %}				
-			
+	{% for key,flux in infos %}	
 		<div class="bande-flux col col-sm-6 col-md-4">
 			<div class="titre">
 				{% if flux.pic is defined and flux.pic is not null %}
 				<img src="{{  asset(flux.pic) }}" height=100px />
+				{% else %}
+				<h2 class="flux-titre">{{ key }}</h2>
 				{% endif %}
 				<a class="btn-toggle" href="#" onclick="return false;"><span class="glyphicon glyphicon-plus"></span></a>
 			</div>
-			<div class="flux-content" style="display:none;">
+			<div id="podCont{{flux.id}}" class="flux-content" style="display:none;">
 				{% for info in flux.flux|slice(0, 6) %}
 				<div class="info col-md-12">
+					{% if info.pubDate is defined %}
 					<small class="date">{{ info.pubDate|dateFlux }}</small>
+					{% endif %}
 					<h2><a href="{{ info.link }}" target="_blank" >{{ info.title|raw }}</a></h2>
 					{% if info.enclosure.attributes.url is defined %}
-						<video controls>
-  							<source src="{{ info.enclosure.attributes.url }}">
-  							Votre navigateur ne gère pas l'élément <code>video</code>.
-						</video>
+						<audio controls="controls">
+							<source src="{{ info.enclosure.attributes.url }}" type="{{ info.enclosure.attributes.type }}">
+							Votre navigateur ne supporte pas l'élément <code>audio</code>.
+						</audio>
 					{% endif %}
 					{% if info.description is defined %}
 						<p>{{ info.description|raw }}</p>
@@ -87,35 +35,88 @@
 				</div>
 				{% endfor %}
 			</div>
-			<div class="flux-summary">
+			<div id="podSum{{flux.id}}" class="flux-summary">
 				<ul>
 				{% for info in flux.flux|slice(0, 6) %}
 					<li><strong><a href="{{ info.link }}" target="_blank" >{{ info.title|raw }}</a></strong> - <small>{{ info.pubDate|dateFlux }}</small></li>
 				{% endfor %}
 				</ul>
 			</div>
+			<div id="podPag{{flux.id}}" class="bloc-pages">
+				<a class="podcastPaginator prev" href="#" data-id="{{ flux.id }}" data-page="1" data-nbpages="{{ flux.pages}}" style="visibility:hidden"><span class="glyphicon glyphicon-backward"></span></a>
+				&nbsp;
+				<span class="noPage">1</span>/{{ flux.pages}}
+				{% if flux.pages>1 %}
+				&nbsp;<a class="podcastPaginator next" href="#" data-id="{{ flux.id }}" data-page="1" data-nbpages="{{ flux.pages}}" ><span class="glyphicon glyphicon-forward"></span></a>
+				{% endif %}
+			</div>
 		</div>
+	{% endfor %}
 		
-		{% endfor %}
 		
 {% endblock %}
 
 {% block javascripts %}
 	{{ parent() }}
 	<script>
-	$('.btn-toggle').on('click',function(){
-		$(this).parent().next('.flux-content').slideToggle(700,function(){
-			$(this).next('.flux-summary').slideToggle(300);
-			if($(this).parent().find('span:first-child').hasClass('glyphicon-minus')){
-				$(this).parent().find('span:first-child').css('transform','rotate(180deg)');
-				$(this).parent().find('span:first-child').removeClass('glyphicon-minus');
-				$(this).parent().find('span:first-child').addClass('glyphicon-plus');
-			}else{
-				$(this).parent().find('span:first-child').css('transform','rotate(-180deg)');
-				$(this).parent().find('span:first-child').removeClass('glyphicon-plus');
-				$(this).parent().find('span:first-child').addClass('glyphicon-minus');
-			}
+		$('.podcastPaginator').click(function() {
+			   var nbPages=this.dataset.nbpages;
+			   var page=this.dataset.page;
+			   if($(this).hasClass('next')){
+			   		page++;
+			   }else{
+					page--;
+			   }
+			   
+			   this.dataset.page=page;
+			   var pod=this.dataset.id;
+			   var imgLoad='<img src="http://www.owlhatworld.com/wp-content/uploads/2015/12/38.gif" width="100%" />';
+			   $('#podSum'+pod).html(imgLoad);
+			   $('#podCont'+pod).html(imgLoad);
+			   $.get('{{ path('shufler_shufler_podcast') }}',
+					   {pod:pod,page:page},
+					   function(data){
+				   			parseData(pod,data);
+			   			}
+				);
+				$('#podPag'+pod+' .noPage').html(page);
+				
+				if(page>=nbPages){
+					$('#podPag'+pod+' a.next').css('visibility','hidden');
+				}else{
+					$('#podPag'+pod+' a.next').css('visibility','visible');
+				}
+				if(page>1){
+					$('#podPag'+pod+' a.prev').css('visibility','visible');
+				}else{
+					$('#podPag'+pod+' a.prev').css('visibility','hidden');
+				}
+
 		});
-	});
+		
+		function parseData(pod,data){
+			var obj = JSON.parse(data);
+			$('#podSum'+pod).html('<ul></ul>');
+			$('#podCont'+pod).html('');
+			for(var i=0;i<obj.flux.length;i++){
+				var contentSum='<li><strong><a href="'+obj.flux[i].link+'" target="_blank">'+obj.flux[i].title+'</a></strong> - <small>'+obj.flux[i].pubDate+'</small></li>'; 
+	 		    $('#podSum'+pod+' ul').append(contentSum);
+
+	 		    var contentCont='<div class="info col-md-12"><small class="date">'+obj.flux[i].pubDate+'</small>'
+					+'<h2><a href="'+obj.flux[i].link+'" target="_blank" >'+obj.flux[i].title+'</a></h2>';
+
+				if(obj.flux[i].enclosure["@attributes"].url !=null){
+					contentCont+='<audio controls="controls"><source src="'+obj.flux[i].enclosure["@attributes"].url+'" type="'+obj.flux[i].enclosure["@attributes"].type+'">Votre navigateur ne supporte pas l\'élément <code>audio</code>.</audio>';
+				}
+				if(typeof obj.flux[i].description != 'undefined'){
+					contentCont +='<p>'+obj.flux[i].description+'</p>';
+				}
+				contentCont +='</div>';
+				$('#podCont'+pod).append(contentCont);
+			}
+		}
+
+		
+		
 	</script>
 {% endblock %}

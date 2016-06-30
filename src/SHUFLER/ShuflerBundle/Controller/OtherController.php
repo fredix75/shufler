@@ -9,6 +9,7 @@ use SHUFLER\ShuflerBundle\Entity\Link;
 use SHUFLER\ShuflerBundle\Entity\Flux;
 use SHUFLER\ShuflerBundle\Form\FluxType;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class OtherController extends Controller {
 	
@@ -103,7 +104,6 @@ class OtherController extends Controller {
 		$fluxParser = $this->container->get('shufler.fluxParser');
 		
 		foreach($rss as $key){
-			//var_dump($fluxParser->convertXML($key->getUrl()));
 			if($key->getName()=='Liberation'){
 				$infos[$key->getName()]['flux']=$fluxParser->convertXML2($key->getUrl());
 			}else{
@@ -125,29 +125,46 @@ class OtherController extends Controller {
 		return $this->render('SHUFLERShuflerBundle:Other:rss.html.twig',array('infos'=>$infos));
 	}
 	
-	public function podcastAction(){	
+	public function podcastAction(Request $request){	
 		error_reporting(0);
 		$infos=array();
-	
-		$rss=$this->getDoctrine()->getManager()->getRepository('SHUFLERShuflerBundle:Flux')->getPodcast();
-		
 		$fluxParser = $this->container->get('shufler.fluxParser');
-	
+		
+		if ($request->isXmlHttpRequest()){
+			$pod=$request->query->get('pod');
+			
+			$rss=$this->getDoctrine()->getManager()->getRepository('SHUFLERShuflerBundle:Flux')->getFlux($pod);
+			$page=$request->query->get('page');
+			$debut=($page-1)*6;
+			
+
+			$contenu=$fluxParser->convertXML($rss->getUrl());
+			for($i=$debut;$i<$debut+6;$i++){
+				$infos['flux'][]=$contenu[$i];
+			}
+				
+			return new Response(json_encode($infos));
+		}
+		
+		$rss=$this->getDoctrine()->getManager()->getRepository('SHUFLERShuflerBundle:Flux')->getPodcast();
+					
 		foreach($rss as $key){
-
-			$infos[$key->getName()]['flux']=$fluxParser->convertXML($key->getUrl());
-
+			$infos[$key->getName()]['id']=$key->getId();
+			$contenu=$fluxParser->convertXML($key->getUrl());
+			for($i=0;$i<6;$i++){
+				$infos[$key->getName()]['flux'][]=$contenu[$i];				
+			}
 			if($key->getLogo()!=null){
 				$infos[$key->getName()]['pic']=$key->getPic();
 			}else{
 				$infos[$key->getName()]['pic']=null;
 			}
+			$infos[$key->getName()]['pages']=ceil(count($contenu)/6);
 		}
-	
-	
-	
+		
+
 		//set_exception_handler(\Exception);
-		//var_dump($infos);
+		//var_dump(json_encode($infos));
 		//return new Response('ok');
 	
 		return $this->render('SHUFLERShuflerBundle:Other:podcast.html.twig',array('infos'=>$infos));

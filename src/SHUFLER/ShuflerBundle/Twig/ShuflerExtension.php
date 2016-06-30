@@ -9,6 +9,7 @@ class ShuflerExtension extends \Twig_Extension
             new \Twig_SimpleFilter('categorieDisplay', array($this, 'categoryFilter')),
 			new \Twig_SimpleFilter('genreDisplay', array($this, 'genreFilter')),
 			new \Twig_SimpleFilter('yearDisplay', array($this, 'yearFilter')),
+       		new \Twig_SimpleFilter('jsonDecode', array($this, 'jsonDecodeFilter')),
         );
     }
 
@@ -104,6 +105,11 @@ class ShuflerExtension extends \Twig_Extension
     		return $annee;
     	}
    		return;  
+	}
+	
+	public function jsonDecodeFilter($json)
+	{
+		return json_decode($json, true);
 	}
 		
     public function getName()

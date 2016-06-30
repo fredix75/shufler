@@ -5,52 +5,7 @@
 
 {% block stylesheets %}
 	{{  parent() }}
-	<style>
-		.bande-flux{
-			background-color:rgba(0,0,0,0.6);
-		}
-	
-		.info{
-			background-color:rgba(255,255,255,0.4);
-			margin:5px 0px;
-		}
-		
-		.info h2{
-			font-size:140%;
-			font-weight:bold;
-		}
-		
-		.info a{
-			color:black;
-		}
-		
-		.flux-summary a{
-			color:white;
-		}
-		
-		.info a:hover, .flux-summary a:hover{
-			text-decoration: underline;
-		}
-		
-		.titre img{
-			display:block;
-			text-align:center;
-			margin:8px auto;
-		}
-		
-		.flux-summary{
-			color:white;
-		}
-		
-		.btn-toggle span{
-			-webkit-transition: all 1s ease; /* Safari and Chrome */
-  	 		-moz-transition: all 1s ease; /* Firefox */
-    		-o-transition: all 1s ease; /* IE 9 */
-			-ms-transition: all 1s ease; /* Opera */
-			transition: all 1s ease;
-		}
-		
-	</style>
+	<link rel="stylesheet" type="text/css" href="{{ asset('bundles/shuflershufler/css/flux-styl.css') }}">
 {% endblock %}
 
 
@@ -127,20 +82,5 @@
 
 {% block javascripts %}
 	{{ parent() }}
-	<script>
-	$('.btn-toggle').on('click',function(){
-		$(this).parent().next('.flux-content').slideToggle(700,function(){
-			$(this).next('.flux-summary').slideToggle(300);
-			if($(this).parent().find('span:first-child').hasClass('glyphicon-minus')){
-				$(this).parent().find('span:first-child').css('transform','rotate(180deg)');
-				$(this).parent().find('span:first-child').removeClass('glyphicon-minus');
-				$(this).parent().find('span:first-child').addClass('glyphicon-plus');
-			}else{
-				$(this).parent().find('span:first-child').css('transform','rotate(-180deg)');
-				$(this).parent().find('span:first-child').removeClass('glyphicon-plus');
-				$(this).parent().find('span:first-child').addClass('glyphicon-minus');
-			}
-		});
-	});
-	</script>
+	<script type="text/javascript" src="{{ asset('bundles/shuflershufler/js/flux.js') }}"></script>
 {% endblock %}
