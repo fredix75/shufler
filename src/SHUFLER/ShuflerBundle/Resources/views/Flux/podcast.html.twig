@@ -1,0 +1,83 @@
+
+{% extends "SHUFLERShuflerBundle:Flux:rss.html.twig" %}
+
+{% block title %}{{ parent() }} Podcats {% endblock %}
+
+{% block body %}
+	<h1>Podcasts</h1>
+	
+	{% for key,flux in infos %}	
+		<div class="bande-flux col col-sm-6 col-md-4">
+			<div class="titre">
+				{% if flux.pic is defined and flux.pic is not null %}
+				<img src="{{  asset(flux.pic) }}" height=100px />
+				{% else %}
+				<h2 class="flux-titre">{{ key }}</h2>
+				{% endif %}
+				<a class="btn-toggle" href="#" onclick="return false;"><span class="glyphicon glyphicon-plus"></span></a>
+			</div>
+			<div id="podCont{{flux.id}}" class="flux-content" style="display:none;"></div>
+			<div id="podSum{{flux.id}}" class="flux-summary">
+				<ul></ul>
+			</div>
+			<div id="fluxPag{{flux.id}}" class="bloc-pages">
+				<a class="fluxPaginator prev" href="#" data-id="{{ flux.id }}" data-page="" data-nbpages="{{ flux.pages}}" style="visibility:hidden" onclick="return false;"><span class="glyphicon glyphicon-backward"></span></a>
+				&nbsp;
+				<span class="noPage">1</span>/{{ flux.pages}}
+				{% if flux.pages>1 %}
+				&nbsp;<a class="fluxPaginator next" href="#" data-id="{{ flux.id }}" data-page="2" data-nbpages="{{ flux.pages}}" onclick="return false;"><span class="glyphicon glyphicon-forward"></span></a>
+				{% endif %}
+			</div>
+		</div>
+	{% endfor %}
+		
+		
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script>
+		$(function(){
+		   var keys={{ jsonKeys }};
+		   var imgLoad='<img src="http://www.owlhatworld.com/wp-content/uploads/2015/12/38.gif" width="100%" />';
+			$.each(keys, function( index, value ) {
+			   $('#podSum'+value).html(imgLoad);
+				getData(value, 1);
+			});
+		});
+
+		function getData(pod, page){
+		   $.get('{{ path('shufler_shufler_podcast') }}',
+				   {pod:pod,page:page},
+				   function(data){
+					   bindData(pod,data);
+		   			}
+			);
+		}
+		
+		function bindData(pod,data){
+			var obj = JSON.parse(data);
+			$('#podSum'+pod).html('<ul></ul>');
+			$('#podCont'+pod).html('');
+			for(var i=0;i<obj.length;i++){
+				var contentSum='<li><strong><a href="'+obj[i].link+'" target="_blank">'+obj[i].title+'</a></strong> - <small>'+obj[i].pubDate+'</small></li>'; 
+	 		    $('#podSum'+pod+' ul').append(contentSum);
+
+	 		    var contentCont='<div class="info col-md-12"><small class="date">'+obj[i].pubDate+'</small>'
+					+'<h2><a href="'+obj[i].link+'" target="_blank" >'+obj[i].title+'</a></h2>';
+
+				if(obj[i].enclosure["@attributes"].url !=null){
+					contentCont+='<audio controls="controls" class="col-xs-12 col-sm-12 col-md-12"><source src="'+obj[i].enclosure["@attributes"].url+'" type="'+obj[i].enclosure["@attributes"].type+'">Votre navigateur ne supporte pas l\'élément <code>audio</code>.</audio>';
+				}
+				if(typeof obj[i].description != 'undefined'){
+					contentCont +='<p>'+obj[i].description+'</p>';
+				}
+				contentCont +='</div>';
+				$('#podCont'+pod).append(contentCont);
+			}
+		}
+
+		
+		
+	</script>
+{% endblock %}

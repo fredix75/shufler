@@ -73,26 +73,30 @@ shufler_shufler_apiyt:
 
 shufler_shufler_rss:
     path: /rss
-    defaults: {_controller: SHUFLERShuflerBundle:Other:rss}
+    defaults: {_controller: SHUFLERShuflerBundle:Flux:rss}
 
 shufler_shufler_podcast:
     path: /podcast
-    defaults: {_controller: SHUFLERShuflerBundle:Other:podcast}
+    defaults: {_controller: SHUFLERShuflerBundle:Flux:podcast}
+
+shufler_shufler_dailypod:
+    path: /dailypod
+    defaults: {_controller: SHUFLERShuflerBundle:Flux:dailyPod}
 
 shufler_shufler_flux_edit:
     path: /fluxEdit/{id}
-    defaults: {_controller: SHUFLERShuflerBundle:Other:fluxEdit, id: 0}
+    defaults: {_controller: SHUFLERShuflerBundle:Flux:fluxEdit, id: 0}
     requirements:
         id: \d*
 
 shufler_shufler_flux_delete:
     path: /fluxDelete/{id}
-    defaults: {_controller: SHUFLERShuflerBundle:Other:delete}
+    defaults: {_controller: SHUFLERShuflerBundle:Flux:delete}
     requirements:
         id: \d*
 
 shufler_shufler_flux_deleteLogo:
     path: /fluxDeleteLogo/{id}
-    defaults: {_controller: SHUFLERShuflerBundle:Other:deleteLogo}
+    defaults: {_controller: SHUFLERShuflerBundle:Flux:deleteLogo}
     requirements:
         id: \d*

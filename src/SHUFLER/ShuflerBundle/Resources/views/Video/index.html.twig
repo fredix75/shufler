@@ -48,21 +48,12 @@
 		</section>
 		
 		<section class="col-sm-4 col-md-3">
-		<h1><span class="glyphicon glyphicon-film"></span>&nbsp;Animés</h1>
-		{% for video in anims|slice(1, 4) %}
+			<h1><span class="glyphicon glyphicon-film"></span>&nbsp;Animés</h1>
+			{% for video in anims|slice(1, 4) %}
 			<div class="media topcol embed-responsive-16by9">
-				<a class="lienvideo" href="{{ video.lien2 }}" data-toggle="tooltip" data-original-title="{{ video.chapo|raw }}" onclick="return false;">
-				{{  video.imgVideo|raw }}
-				<div class="media-body">
-					{% if is_granted('ROLE_AUTEUR') %}
-					<div class="link_edit"><a href="{{ path('shufler_shufler_video_edit',{'id':video.id}) }}"><span class="glyphicon glyphicon-edit"></span></a></div> 
-					{% endif %}
-					<h3 class="media-heading">{{  video.titre }}</h3>
-					{{  video.auteur }} <span class="annee_small">{{  video.annee|yearDisplay }}</span>
-				</div>
-				</a>
+				{% include("SHUFLERShuflerBundle:Video:video_inc.html.twig") %}
 			</div>
-		{% endfor %}	
+			{% endfor %}	
 		</section>
 	</div>
 	<br/>
@@ -74,33 +65,15 @@
 			<div class="col-sm-12 col-md-6" style="">
 				<div class="media topcol embed-responsive-16by9" style="margin-bottom:30px;">
 					<div class="categorie">{{ video.genre|genreDisplay }}</div>
-					<a class="lienvideo" href="{{ video.lien2 }}" data-toggle="tooltip" data-original-title="{{ video.chapo|raw }}" onclick="return false;">
-					{{  video.imgVideo|raw }}
-					<div class="media-body">
-						{% if is_granted('ROLE_AUTEUR') %}
-						<div class="link_edit"><a href="{{ path('shufler_shufler_video_edit',{'id':video.id}) }}"><span class="glyphicon glyphicon-edit"></span></a></div> 
-						{% endif %}
-						<h3 class="media-heading">{{  video.titre }}</h3>
-						{{  video.auteur }} <span class="annee_small">{{  video.annee|yearDisplay }}</span>
-					</div>
-					</a>
+					{% include("SHUFLERShuflerBundle:Video:video_inc.html.twig") %}
 				</div>	
 			</div>
 		{% endfor %}
 		{% for video in musics|slice(2, 1) %}
 			<div class="col-sm-12 col-md-12" style="">
 			<div class="media topcol embed-responsive-16by9" style="margin-bottom:30px;">
-					<div class="categorie">{{ video.genre|genreDisplay }}</div>
-					<a class="lienvideo" href="{{ video.lien2 }}" data-toggle="tooltip" data-original-title="{{ video.chapo|raw }}" onclick="return false;">
-					{{  video.imgVideo|raw }}
-					<div class="media-body">
-						{% if is_granted('ROLE_AUTEUR') %}
-						<div class="link_edit"><a href="{{ path('shufler_shufler_video_edit',{'id':video.id}) }}"><span class="glyphicon glyphicon-edit"></span></a></div> 
-						{% endif %}
-						<h3 class="media-heading">{{  video.titre }}</h3>
-						{{  video.auteur }} <span class="annee_small">{{  video.annee|yearDisplay }}</span>
-					</div>
-					</a>
+				<div class="categorie">{{ video.genre|genreDisplay }}</div>
+				{% include("SHUFLERShuflerBundle:Video:video_inc.html.twig") %}
 			</div>
 			</div>
 		{% endfor %}				
@@ -111,59 +84,33 @@
 			{% for video in etranges|slice(0, 1) %}
 				<div class="col-sm-12 col-md-12" style="">
 					<div class="media topcol embed-responsive-16by9" style="margin-bottom:30px;">
-						<a class="lienvideo" href="{{ video.lien2 }}" data-toggle="tooltip" data-original-title="{{ video.chapo|raw }}" onclick="return false;">
-						{{  video.imgVideo|raw }}
-						<div class="media-body">
-							{% if is_granted('ROLE_AUTEUR') %}
-							<div class="link_edit"><a href="{{ path('shufler_shufler_video_edit',{'id':video.id}) }}"><span class="glyphicon glyphicon-edit"></span></a></div> 
-							{% endif %}
-							<h3 class="media-heading">{{  video.titre }}</h3>
-							{{  video.auteur }} <span class="annee_small">{{  video.annee|yearDisplay }}</span>
-						</div>
-						</a>
+						{% include("SHUFLERShuflerBundle:Video:video_inc.html.twig") %}
 					</div>
 				</div>
 			{% endfor %}
 			{% for video in etranges|slice(1,2) %}
 				<div class="col-sm-12 col-md-6" style="">
 					<div class="media topcol embed-responsive-16by9" style="margin-bottom:30px;">
-						<a class="lienvideo" href="{{ video.lien2 }}" data-toggle="tooltip" data-original-title="{{ video.chapo|raw }}" onclick="return false;">
-						{{  video.imgVideo|raw }}
-						<div class="media-body">
-							{% if is_granted('ROLE_AUTEUR') %}
-							<div class="link_edit"><a href="{{ path('shufler_shufler_video_edit',{'id':video.id}) }}"><span class="glyphicon glyphicon-edit"></span></a></div> 
-							{% endif %}
-							<h3 class="media-heading">{{  video.titre }}</h3>
-							{{  video.auteur }} <span class="annee_small">{{  video.annee|yearDisplay }}</span>
-						</div>
-						</a>
+						{% include("SHUFLERShuflerBundle:Video:video_inc.html.twig") %}
 					</div>	
 				</div>
 			{% endfor %}
-			</section>
-		</div>
-		<h1 style="margin-left:15px;margin-right:15px;"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;Etcaetera</h1><br/>
-		<div class="row">
-			<section class="col-sm-12 col-md-12">
-				{% for video in musics|slice(3,4) %}
-				<div class="col-sm-6 col-md-3" style="">
-					<div class="media topcol embed-responsive-16by9" style="margin-bottom:30px;">
-						<div class="categorie">{{ video.genre|genreDisplay }}</div>
-						<a class="lienvideo" href="{{ video.lien2 }}" data-toggle="tooltip" data-original-title="{{ video.chapo|raw }}" onclick="return false;">
-						{{  video.imgVideo|raw }}
-						<div class="media-body">
-							{% if is_granted('ROLE_AUTEUR') %}
-							<div class="link_edit"><a href="{{ path('shufler_shufler_video_edit',{'id':video.id}) }}"><span class="glyphicon glyphicon-edit"></span></a></div> 
-							{% endif %}
-							<h3 class="media-heading">{{  video.titre }}</h3>
-							{{  video.auteur }} <span class="annee_small">{{  video.annee|yearDisplay }}</span>
-						</div>
-						</a>
-					</div>	
-				</div>
-			{% endfor %}					
-			</section>
-		</div>
+		</section>
+	</div>
+	
+	<h1 style="margin-left:15px;margin-right:15px;"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;Etcaetera</h1><br/>
+	<div class="row">
+		<section class="col-sm-12 col-md-12">
+			{% for video in musics|slice(3,4) %}
+			<div class="col-sm-6 col-md-3" style="">
+				<div class="media topcol embed-responsive-16by9" style="margin-bottom:30px;">
+					<div class="categorie">{{ video.genre|genreDisplay }}</div>
+					{% include("SHUFLERShuflerBundle:Video:video_inc.html.twig") %}
+				</div>	
+			</div>
+		{% endfor %}					
+		</section>
+	</div>
 	{% endblock %}
 	
 	{% block javascripts %}

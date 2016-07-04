@@ -1,0 +1,30 @@
+{% extends "SHUFLERShuflerBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} Podcats du Jour {% endblock %}
+
+{% block stylesheets %}
+	{{  parent() }}
+	<link rel="stylesheet" type="text/css" href="{{ asset('bundles/shuflershufler/css/flux-styl.css') }}">
+{% endblock %}
+
+{% block body %}
+	<h1>Derniers Podcasts</h1>
+	
+	{% for key,flux in infos %}	
+		<div class="bande-flux">
+			<div class="titre col col-md-6">
+				{% if flux.pic is defined and flux.pic is not null %}
+				<img src="{{  asset(flux.pic) }}" height=100px />
+				{% else %}
+				<h2 class="flux-titre">{{ key }}</h2>
+				<p>{{ flux.contenu.description }}</p>
+				{% endif %}
+			</div>
+			<div class="col col-md-6">
+				<div><audio controls="controls" class="col-xs-12 col-sm-12 col-md-12">
+						<source src="{{ flux.contenu.enclosure.attributes.url }}" type="{{ flux.contenu.enclosure.attributes.type }}">Votre navigateur ne supporte pas l\'élément <code>audio</code>.
+				</audio></div>
+			</div>
+		</div>
+	{% endfor %}
+{% endblock %}
