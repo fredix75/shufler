@@ -12,6 +12,13 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class FluxController extends Controller {
 	
+	
+	//test de commentaire parfaitement inutile
+	
+	//merci de votre attention
+	
+	//bisous
+	
 	public function rssAction(Request $request){
 	
 		//error_reporting(0);
