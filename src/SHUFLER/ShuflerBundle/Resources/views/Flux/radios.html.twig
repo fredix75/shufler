@@ -1,0 +1,63 @@
+{% extends "SHUFLERShuflerBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} Radios{% endblock %}
+
+{% block stylesheets %}
+	{{  parent() }}
+	<link rel="stylesheet" type="text/css" href="{{ asset('bundles/shuflershufler/css/flux-styl.css') }}">
+{% endblock %}
+
+{% block body %}
+	<div class="selector well">
+		<input type="checkbox" value="1" checked="checked"/>&nbsp;Généralistes&nbsp;&nbsp;
+		<input type="checkbox" value="2" checked="checked"/>&nbsp;Rock&nbsp;&nbsp;
+		<input type="checkbox" value="3" checked="checked"/>&nbsp;Jazz&nbsp;&nbsp;
+		<input type="checkbox" value="4" checked="checked"/>&nbsp;Groove&nbsp;&nbsp;
+		<input type="checkbox" value="5" checked="checked"/>&nbsp;Reggae&nbsp;&nbsp;
+		<input type="checkbox" value="6" checked="checked"/>&nbsp;Disco&nbsp;&nbsp;
+		<input type="checkbox" value="7" checked="checked"/>&nbsp;Funk&nbsp;&nbsp;
+		<input type="checkbox" value="8" checked="checked"/>&nbsp;Classique&nbsp;&nbsp;
+		<input type="checkbox" value="9" checked="checked"/>&nbsp;Electro&nbsp;&nbsp;
+		<input type="checkbox" value="10" checked="checked"/>&nbsp;Bossa Nova&nbsp;&nbsp;<br/>
+		<a id="decoch" href="#">Tout décocher</a>&nbsp;|&nbsp;<a id="coch" href="#">Tout cocher</a>
+		
+	</div>
+	{% for key in radios %}
+		<div class="col col-md-6 mood{{ key.mood}}"> 
+			<iframe src="{{ key.url}}" style="width:100%;height:100px;" scrolling="no" frameborder="no"></iframe>
+			{% if is_granted('ROLE_ADMIN') %}
+				<a href="{{ path('shufler_shufler_flux_edit',{'id':key.id}) }}" style="position:absolute;top:50%;right:50px;"><span class="glyphicon glyphicon-edit"></span></a>
+			{% endif %}
+		</div>
+	{% endfor %}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script>
+		$('.selector input[type="checkbox"]').change(function(){cochDecoch(this)});
+
+		$('#decoch').click(function(){
+			$('.selector input[type="checkbox"]').each(function(){
+				$(this).attr('checked',false);
+				cochDecoch(this);
+			});
+		});
+		
+		$('#coch').click(function(){
+			$('.selector input[type="checkbox"]').each(function(){
+				$(this).prop('checked','checked');
+				cochDecoch(this);
+			});
+		});
+
+		function cochDecoch(obj){
+			if(!$(obj).is(':checked')){
+				$('.mood'+$(obj).val()).hide();
+			}else{
+				$('.mood'+$(obj).val()).show();
+			}
+
+		}
+	</script>	
+{% endblock %}

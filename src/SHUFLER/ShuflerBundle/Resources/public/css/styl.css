@@ -140,12 +140,12 @@
 		  }
 	}	  	 	
 	
-	@media (max-width: 755px) {
-		input[type="search"]#search_field{	  	 	
-			width:85%;
-			display:inline-block;
+		@media (max-width: 755px) {
+			input[type="search"]#search_field{	  	 	
+				width:85%;
+				display:inline-block;
+			}
 		}
-	}
 	  	 	
 	  	.topcol{
 			border-radius:12px;
@@ -354,4 +354,5 @@
 			height:auto;
 			font-size:2em;
 		}
+		
 		

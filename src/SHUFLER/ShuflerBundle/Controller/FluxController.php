@@ -45,11 +45,13 @@ class FluxController extends Controller {
 			
 			if($flux->getName()=='Liberation'){
 				$libe[$flux->getId()]['flux']=$fluxParser->convertXML2($flux->getUrl());
+				$libe[$flux->getId()]['name']=$flux->getName();
 				$libe[$flux->getId()]['pic']=$flux->getPic();
 			}else{
 				$infos[$flux->getId()]['id']=$flux->getId();
 				$jsonKeys[]=$flux->getId();
 				$contenu=$fluxParser->convertXML($flux->getUrl());
+				$infos[$flux->getId()]['name']=$flux->getName();
 				if($flux->getLogo()!=null){
 					$infos[$flux->getId()]['pic']=$flux->getPic();
 				}else{
@@ -60,6 +62,8 @@ class FluxController extends Controller {
 
 		}
 	
+		shuffle($infos);
+		
 		return $this->render('SHUFLERShuflerBundle:Flux:rss.html.twig',array('infos'=>$infos,'libe'=>$libe, 'jsonKeys'=>json_encode($jsonKeys)));
 	}
 	
@@ -91,19 +95,28 @@ class FluxController extends Controller {
 			$infos[$key->getName()]['id']=$key->getId();
 			$jsonKeys[]=$key->getId();
 			$contenu=$fluxParser->convertXML($key->getUrl());
-				
+			$infos[$key->getId()]['name']=$key->getName();
 			if($key->getLogo()!=null){
-				$infos[$key->getName()]['pic']=$key->getPic();
+				$infos[$key->getId()]['pic']=$key->getPic();
 			}else{
-				$infos[$key->getName()]['pic']=null;
+				$infos[$key->getId()]['pic']=null;
 			}
-			$infos[$key->getName()]['pages']=ceil(count($contenu)/6);
+			$infos[$key->getId()]['pages']=ceil(count($contenu)/6);
 		}
 	
 		return $this->render('SHUFLERShuflerBundle:Flux:podcast.html.twig',array('infos'=>$infos, 'jsonKeys'=>json_encode($jsonKeys)));
 	
 	}
 	
+	public function radioAction(Request $request){
+		error_reporting(0);
+		$infos=array();
+	
+		$radios=$this->getDoctrine()->getManager()->getRepository('SHUFLERShuflerBundle:Flux')->getRadios();
+	
+		return $this->render('SHUFLERShuflerBundle:Flux:radios.html.twig',array('radios'=>$radios));
+	
+	}
 	
 	public function dailyPodAction(Request $request){
 		error_reporting(0);
@@ -128,7 +141,9 @@ class FluxController extends Controller {
 	}
 	
 	
-	
+	/**
+	 * @Security("has_role('ROLE_AUTEUR')")
+	 */
 	public function fluxEditAction(Request $request,$id){
 		$flux= new Flux();
 	
@@ -155,7 +170,9 @@ class FluxController extends Controller {
 		)
 				);
 	}
-	
+	/**
+     * @Security("has_role('ROLE_AUTEUR')")
+     */
 	public function deleteAction(Flux $flux){
 		$em=$this->getDoctrine()->getManager();
 		$em->remove($flux);
@@ -163,6 +180,10 @@ class FluxController extends Controller {
 		return $this->redirectToRoute('shufler_shufler_homepage');
 	}
 	
+	
+	/**
+	 * @Security("has_role('ROLE_AUTEUR')")
+	 */
 	public function deleteLogoAction($id){
 		return $this->redirectToRoute('shufler_shufler_homepage');
 	}

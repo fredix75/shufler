@@ -11,8 +11,19 @@ namespace SHUFLER\ShuflerBundle\Entity;
 class FluxRepository extends \Doctrine\ORM\EntityRepository
 {
 	
+	function getFlux($id){
+		return $this->_em->createQueryBuilder()
+		->select('a')
+		->where('a.id= :id')
+		->setParameter('id',$id)
+		->from('SHUFLERShuflerBundle:flux','a')
+		->getQuery()
+		->getSingleResult()
+		;
+	}
+	
 	function getRSS(){
-		$rss=$this->_em->createQueryBuilder()
+		return $this->_em->createQueryBuilder()
 		->select('a')
 		->where('a.type= :type')
 		->setParameter('type',1)
@@ -21,12 +32,10 @@ class FluxRepository extends \Doctrine\ORM\EntityRepository
 		->getQuery()
 		->getResult()
 		;
-	
-		return $rss;
 	}
 	
 	function getPodcast(){
-		$rss=$this->_em->createQueryBuilder()
+		return $this->_em->createQueryBuilder()
 		->select('a')
 		->where('a.type= :type')
 		->setParameter('type',2)
@@ -35,21 +44,19 @@ class FluxRepository extends \Doctrine\ORM\EntityRepository
 		->getQuery()
 		->getResult()
 		;
-	
-		return $rss;
 	}
-	
-	function getFlux($id){
-		$flux=$this->_em->createQueryBuilder()
+
+	function getRadios(){
+		return $this->_em->createQueryBuilder()
 		->select('a')
-		->where('a.id= :id')
-		->setParameter('id',$id)
-		->from('SHUFLERShuflerBundle:flux','a')
+		->where('a.type= :type')
+		->setParameter('type',3)
+		->from('SHUFLERShuflerBundle:Flux','a')
+		->orderBy('a.id', 'ASC')
 		->getQuery()
-		->getSingleResult()
+		->getResult()
 		;
-	
-		return $flux;
+
 	}
 	
 }

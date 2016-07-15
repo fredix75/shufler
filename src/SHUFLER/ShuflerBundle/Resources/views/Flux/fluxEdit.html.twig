@@ -49,3 +49,23 @@
 	 {% endif %}
 	 </div>		
 {% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script>
+		$(function(){
+			if($('#shufler_shuflerbundle_flux_edit_type').val()!=3){
+				$('#shufler_shuflerbundle_flux_edit_mood').hide();
+			}
+		});
+	
+		$('#shufler_shuflerbundle_flux_edit_type').on('change',function(){
+			if($('#shufler_shuflerbundle_flux_edit_type').val()==3){
+				$('#shufler_shuflerbundle_flux_edit_mood').show();
+			}else{
+				$('#shufler_shuflerbundle_flux_edit_mood option[value=-1]').attr('selected','selected');
+				$('shufler_shuflerbundle_flux_edit_#mood').hide();
+			}
+		});
+	</script>
+{% endblock %}

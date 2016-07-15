@@ -11,15 +11,14 @@
 
 {% block body %}
 	<h1>Quoi de neuf dans le Monde?</h1>
-		<iframe src="http://tunein.com/embed/player/s235533/" style="width:100%;height:100px;" scrolling="no" frameborder="no"></iframe>
 		{% for key,flux in libe %}			
-
 		<div class="bande-flux col col-sm-6 col-md-4">
 			<div class="titre">
-				{% if flux.pic is defined and flux.pic is not null %}
-					<img src="{{  asset(flux.pic) }}" height=100px />
-				{% endif %}
+				<img src="{{  asset(flux.pic) }}" alt="{{ flux.name }}" height=100px />
 				<a class="btn-toggle" href="#" onclick="return false;"><span class="glyphicon glyphicon-plus"></span></a>
+				{% if is_granted('ROLE_ADMIN') %}
+				&nbsp;<a href="{{ path('shufler_shufler_flux_edit',{'id':key }) }}"><span class="glyphicon glyphicon-edit"></span></a>
+				{% endif %}
 			</div>
 			<div class="flux-content" style="display:none;">
 				{% for info in flux.flux|slice(0, 6) %}
@@ -41,7 +40,6 @@
 				</ul>
 			</div>
 		</div>
-
 		{% endfor %}
 		
 		
@@ -49,17 +47,20 @@
 		<div class="bande-flux col col-sm-6 col-md-4">
 			<div class="titre">
 				{% if flux.pic is defined and flux.pic is not null %}
-				<img src="{{  asset(flux.pic) }}" height=100px />
+				<img src="{{  asset(flux.pic) }}" height=100px alt="{{ flux.name }}" style="max-width:100%;"/>
 				{% else %}
 				<h2 class="flux-titre">{{ key }}</h2>
 				{% endif %}
 				<a class="btn-toggle" href="#" onclick="return false;"><span class="glyphicon glyphicon-plus"></span></a>
+				{% if is_granted('ROLE_ADMIN') %}
+				&nbsp;<a href="{{ path('shufler_shufler_flux_edit',{'id':key }) }}"><span class="glyphicon glyphicon-edit"></span></a>
+				{% endif %}
 			</div>
-			<div id="podCont{{flux.id}}" class="flux-content" style="display:none;"></div>
-			<div id="podSum{{flux.id}}" class="flux-summary">
+			<div id="podCont{{ flux.id }}" class="flux-content" style="display:none;"></div>
+			<div id="podSum{{ flux.id }}" class="flux-summary">
 				<ul></ul>
 			</div>
-			<div id="fluxPag{{flux.id}}" class="bloc-pages">
+			<div id="fluxPag{{ flux.id }}" class="bloc-pages">
 				<a class="fluxPaginator prev" href="#" data-id="{{ flux.id }}" data-page="" data-nbpages="{{ flux.pages}}" style="visibility:hidden" onclick="return false;"><span class="glyphicon glyphicon-backward"></span></a>
 				&nbsp;
 				<span class="noPage">1</span>/{{ flux.pages}}
@@ -68,7 +69,6 @@
 				{% endif %}
 			</div>
 		</div>
-		
 		{% endfor %}
 {% endblock %}
 
@@ -89,8 +89,8 @@
 
 		function getData(pod, page){
 		   $.get('{{ path('shufler_shufler_rss') }}',
-				   {pod:pod,page:page},
-				   function(data){
+				  {pod: pod, page: page},
+				  function(data){
 					   bindData(pod,data);
 		   			}
 			);
@@ -108,7 +108,7 @@
 					+'<h2><a href="'+obj[i].link+'" target="_blank" >'+obj[i].title+'</a></h2>';
 
 				if(typeof obj[i].enclosure !== 'undefined'){
-					contentCont+='<img src="'+obj[i].enclosure["@attributes"].url+'" width="100%"/>';
+					contentCont+='<img src="'+obj[i].enclosure["@attributes"].url+'" />';
 				}
 				if(obj[i].description != null){
 					contentCont +='<p>'+obj[i].description+'</p>';
@@ -116,9 +116,13 @@
 				contentCont +='</div>';
 				$('#podCont'+pod).append(contentCont);
 			}
+
+			$('.info img').removeAttr('width');
+			$('.info img').removeAttr('height');
+			$('.info iframe').removeAttr('width');
+			$('.info iframe').removeAttr('height');
 		}
 
-		
-		
+			
 	</script>
 {% endblock %}

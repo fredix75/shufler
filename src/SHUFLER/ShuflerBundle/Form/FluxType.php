@@ -19,8 +19,13 @@ class FluxType extends AbstractType
    			->add('url', 'text')
    			->add('type', 'choice', array(
    					'required' => true,
-   					'choices'=>array('rss'=>1,'podcast'=>2),
+   					'choices'=>array('rss'=>1,'podcast'=>2, 'radio'=>3),
 		   			'choices_as_values' => true,
+   			))
+   			->add('mood', 'choice', array(
+   					'required' => false,
+   					'choices'=>array('généraliste'=>1,'rock'=>2, 'jazz'=>3, 'groove'=>4, 'reggae'=>5, 'disco'=>6, 'funk'=>7, 'classique'=>'8', 'electro'=>9 , 'bossa nova'=>10, 'autre'=>99),
+   					'choices_as_values' => true,
    			))
    			->add('logo',  new ImageType(), array(
             		'required'=>false

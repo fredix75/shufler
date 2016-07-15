@@ -31,6 +31,14 @@
 			text-decoration: underline;
 		}
 		
+		.info img{
+			width:100%;
+		}
+
+		.info iframe{
+			width:100%;
+		}
+		
 		.titre img{
 			display:block;
 			text-align:center;

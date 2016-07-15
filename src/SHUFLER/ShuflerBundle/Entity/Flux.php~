@@ -230,28 +230,4 @@ class Flux
         return $this->type;
     }
 
-
-    /**
-     * Set mood
-     *
-     * @param integer $mood
-     *
-     * @return Flux
-     */
-    public function setMood($mood)
-    {
-        $this->mood = $mood;
-
-        return $this;
-    }
-
-    /**
-     * Get mood
-     *
-     * @return integer
-     */
-    public function getMood()
-    {
-        return $this->mood;
-    }
 }
