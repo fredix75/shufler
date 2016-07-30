@@ -31,7 +31,15 @@
 		</nav>
       </header>
       
-   	  <div class="container">	
+   	  <div class="container">
+   	  {% for label, flashes in app.session.flashbag.all %}
+      	{% for flash in flashes %}
+        <div class="alert alert-{{ label }}">
+        	<p><img src="{{ asset('bundles/shuflershufler/img/Warning.png') }}" width=75px/></p> 
+            <p>{{ flash }}</p>
+        </div>
+   	  {% endfor %}
+{% endfor %}	
 	    {% block body %}
 	  	{% endblock %}
 	  </div>

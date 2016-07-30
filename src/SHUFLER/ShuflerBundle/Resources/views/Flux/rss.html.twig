@@ -53,7 +53,7 @@
 				{% endif %}
 				<a class="btn-toggle" href="#" onclick="return false;"><span class="glyphicon glyphicon-plus"></span></a>
 				{% if is_granted('ROLE_ADMIN') %}
-				&nbsp;<a href="{{ path('shufler_shufler_flux_edit',{'id':key }) }}"><span class="glyphicon glyphicon-edit"></span></a>
+				&nbsp;<a href="{{ path('shufler_shufler_flux_edit',{'id':flux.id }) }}"><span class="glyphicon glyphicon-edit"></span></a>
 				{% endif %}
 			</div>
 			<div id="podCont{{ flux.id }}" class="flux-content" style="display:none;"></div>

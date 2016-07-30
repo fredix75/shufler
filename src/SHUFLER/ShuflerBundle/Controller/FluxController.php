@@ -170,21 +170,27 @@ class FluxController extends Controller {
 	
 			return $this->redirect($this->generateUrl('shufler_shufler_flux_edit', array('id' => $flux->getId())));
 		}
-	
+		
 		return $this->render('SHUFLERShuflerBundle:Flux:fluxEdit.html.twig',array(
 				'form'=>$form->createView(),
 				'flux'=>$flux
-		)
-				);
+				)
+		);
 	}
 	/**
      * @Security("has_role('ROLE_AUTEUR')")
      */
 	public function deleteAction(Flux $flux){
 		$em=$this->getDoctrine()->getManager();
-		$em->remove($flux);
-		$em->flush();
-		return $this->redirectToRoute('shufler_shufler_homepage');
+		try{
+			$em->remove($flux);
+			$em->flush();
+			return $this->redirectToRoute('shufler_shufler_homepage');
+		}catch(\Exception $e){
+			$this->get('session')->getFlashBag()->add('warning',$e->getMessage());
+			return $this->redirectToRoute('shufler_shufler_rss');
+		}
+
 	}
 	
 	

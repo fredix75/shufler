@@ -179,31 +179,7 @@ class Flux
     
     public function getPic(){
     	return $this->getLogo()->getUploadDir().'/'.$this->getLogo()->getId().'.'.$this->getLogo()->getExt();
-    }
-/*
-
-    public function getContent(){
-    	try{
-    		return simplexml_load_file($this->getUrl());
-    	}catch(\Exception $e){
-    		error_log($e->getMessage());
-    	}
-    }
-    
-	public function getEntry()
-    {
-    	
-    	if($this->name =='Liberation'){
-			$this->entry=$this->getContent()->{'entry'};
-		}else{
-			$this->entry=$this->getContent()->{'channel'}->{'item'};
-		}
-		return $this;
-		
-    	$fluxParser=$this->get('shufler.fluxParser');
-    	return $fluxParser->convertXML($this->url);
-    }
- */   
+    }  
     
 
     /**
