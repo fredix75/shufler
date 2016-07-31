@@ -1,0 +1,9 @@
+SHUFLER\ShuflerBundle\Model\User:
+    getters:
+        title:
+            - NotBlank:
+        auteur:
+            - NotBlank:
+            - Email:
+        lien:
+            - NotBlank:

@@ -4,7 +4,7 @@
 <html>
 	<head>
 	  <meta charset="utf-8">
-	  <meta name = " description " content = "Un site qui propose aléatoirement des vidéos démentes et des trucs méconnus.">
+	  <meta name = "description " content = "Un site qui propose aléatoirement des vidéos démentes et des trucs méconnus.">
 	  <meta name = "keywords" content = "videos, animations, musique, clips" >
 	  <meta name = "generator" content = "Symfony2" >
 	  <meta name = "author" content = "Fred Fotré" >
@@ -35,8 +35,8 @@
    	  {% for label, flashes in app.session.flashbag.all %}
       	{% for flash in flashes %}
         <div class="alert alert-{{ label }}">
-        	<p><img src="{{ asset('bundles/shuflershufler/img/Warning.png') }}" width=75px/></p> 
-            <p>{{ flash }}</p>
+        	<p style="float:left;"><img src="{{ asset('bundles/shuflershufler/img/' ~ label ~ '.png') }}" width=75px/></p> 
+            <p style="margin-left:120px;">{{ flash }}</p>
         </div>
    	  {% endfor %}
 {% endfor %}	

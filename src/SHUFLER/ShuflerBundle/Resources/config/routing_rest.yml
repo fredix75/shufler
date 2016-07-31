@@ -1,0 +1,8 @@
+video:
+    type: rest
+    resource:     "SHUFLERShuflerBundle:VideoRest"
+    name_prefix:  api_
+
+nelmio_api_doc:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /doc

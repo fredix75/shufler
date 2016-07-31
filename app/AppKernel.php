@@ -16,7 +16,11 @@ class AppKernel extends Kernel {
 				new SHUFLER\ShuflerBundle\SHUFLERShuflerBundle (),
 				new SHUFLER\UserBundle\SHUFLERUserBundle (),
 				new FOS\UserBundle\FOSUserBundle (),
-				new JMS\I18nRoutingBundle\JMSI18nRoutingBundle () 
+				new FOS\RestBundle\FOSRestBundle (),
+				new JMS\SerializerBundle\JMSSerializerBundle (),
+				new JMS\I18nRoutingBundle\JMSI18nRoutingBundle (),
+				new Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle (),
+				new Nelmio\ApiDocBundle\NelmioApiDocBundle (),
 		);
 		
 		if (in_array ( $this->getEnvironment (), array (

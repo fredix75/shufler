@@ -5,12 +5,19 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\VirtualProperty;
 
 /**
  * Video
  *
  * @ORM\Entity(repositoryClass="SHUFLER\ShuflerBundle\Entity\VideoRepository")
  * @ORM\HasLifecycleCallbacks()
+ * 
+ * @ExclusionPolicy("all") 
+ * 
  */
 class Video
 {
@@ -20,6 +27,10 @@ class Video
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * 
+     * @Expose
+     * @Groups({"List","Details"})
+     * 
      */
     private $id;
 
@@ -28,6 +39,10 @@ class Video
      *
      * @ORM\Column(name="titre", type="string", length=255)
      * @Assert\Length(min=2,minMessage="Ce titre paraît suspect")
+     * 
+     * @Expose
+     * @Groups({"List","Details"})
+     * 
      */
     private $titre;
     
@@ -36,6 +51,10 @@ class Video
      *
      * @ORM\Column(name="auteur", type="string", length=255)
      * @Assert\Length(min=2,minMessage="Cet auteur paraît suspect")
+     * 
+     * @Expose
+     * @Groups({"List","Details"})
+     * 
      */
     private $auteur;
 
@@ -43,6 +62,10 @@ class Video
      * @var string
      *
      * @ORM\Column(name="lien", type="string", length=255)
+     * 
+     * @Expose
+     * @Groups({"List","Details"})
+     * 
      */
     private $lien;
 
@@ -50,6 +73,9 @@ class Video
      * @var string
      *
      * @ORM\Column(name="chapo", type="string", length=255, nullable=true)
+     * 
+     * @Expose
+     * 
      */
     private $chapo;
 
@@ -65,6 +91,9 @@ class Video
      *
      * @ORM\Column(name="annee", type="integer",nullable=true)
      * @Assert\Range(min=1895, max=2030)
+     * 
+     * @Expose
+     * 
      */
     private $annee;
 
@@ -72,6 +101,9 @@ class Video
      * @var integer
      *
      * @ORM\Column(name="categorie", type="smallint")
+     * 
+     * @Expose
+     * 
      */
     private $categorie;
 
@@ -79,6 +111,9 @@ class Video
      * @var integer
      *
      * @ORM\Column(name="genre", type="smallint", nullable=true)
+     * 
+     * @Expose
+     * 
      */
     private $genre;
 
@@ -86,6 +121,9 @@ class Video
      * @var integer
      *
      * @ORM\Column(name="priorite", type="smallint")
+     * 
+     * @Expose
+     * 
      */
     private $priorite;
 
@@ -93,6 +131,9 @@ class Video
      * @var string
      *
      * @ORM\Column(name="periode", type="string", length=9)
+     * 
+     * @Expose
+     * 
      */
     private $periode;
 
@@ -102,6 +143,9 @@ class Video
 	 * 		joinColumns={ @ORM\JoinColumn(name="video_id", referencedColumnName="id")},
 	 *		inverseJoinColumns={ @ORM\JoinColumn(name="mood_id", referencedColumnName="id")}
 	 * )
+	 * 
+     * @Expose
+	 * 
      */
   	private $moods;
     
@@ -109,6 +153,9 @@ class Video
      * @var boolean
      *
      * @ORM\Column(name="published", type="boolean", nullable=true)
+     * 
+     * @Expose
+     * 
      */
     private $published=true;
     

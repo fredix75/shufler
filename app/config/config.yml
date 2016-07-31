@@ -7,6 +7,10 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    private_key_path: '%kernel.root_dir%/var/jwt/private.pem'
+    public_key_path: '%kernel.root_dir%/var/jwt/public.pem'
+    pass_phrase: ThisTokenIsNotSoSecretChangeItPlease
+    token_ttl: 86400
 
 framework:
     #esi:             ~
@@ -18,7 +22,7 @@ framework:
     form:            ~
     csrf_protection: ~
     validation:      { enable_annotations: true }
-    #serializer:      { enable_annotations: true }
+    serializer:      { enable_annotations: true }
     templating:
         engines: ['twig']
         #assets_version: SomeVersionScheme
@@ -97,3 +101,42 @@ jms_i18n_routing:
     default_locale: %locale%
     locales: [en, fr, es, de, it, nl]
     strategy: prefix
+
+fos_rest:
+    allowed_methods_listener: true
+    param_fetcher_listener: true
+    body_listener: true
+    format_listener: true
+    view:
+        view_response_listener: 'force'
+        formats:
+            xml: true
+            json : true
+        templating_formats:
+            html: true
+        force_redirects:
+            html: true
+        failed_validation: HTTP_BAD_REQUEST
+        default_engine: twig
+    routing_loader:
+        default_format: json
+
+nelmio_api_doc:
+    name: 'App API documentation'
+    sandbox:
+        body_format:
+            formats: [form, json, xml]
+            default_format: json
+
+jms_serializer:
+    metadata:
+        directories:
+            FOSUB:
+                namespace_prefix: "FOS\\UserBundle"
+                path: "%kernel.root_dir%/serializer/FOSUserBundle"
+
+lexik_jwt_authentication:
+    private_key_path:   %private_key_path%
+    public_key_path:    %public_key_path%
+    pass_phrase:        %pass_phrase%
+    token_ttl:          %token_ttl%

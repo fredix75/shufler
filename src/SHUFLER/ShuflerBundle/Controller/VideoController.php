@@ -151,7 +151,7 @@ class VideoController extends Controller {
 	      $em->persist($video);
 	      $em->flush();
 	
-	      $request->getSession()->getFlashBag()->add('notice', 'Vidéo bien enregistrée.');
+	      $request->getSession()->getFlashBag()->add('success', 'Vidéo bien enregistrée.');
 
 	      return $this->redirect($this->generateUrl('shufler_shufler_view', array('id' => $video->getId())));
 	    }

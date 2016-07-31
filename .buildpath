@@ -24,7 +24,6 @@
 	<buildpathentry kind="src" path="vendor/phpunit/php-token-stream/src"/>
 	<buildpathentry kind="src" path="vendor/sebastian/environment/src"/>
 	<buildpathentry kind="src" path="vendor/swiftmailer/swiftmailer/lib"/>
-	<buildpathentry kind="src" path="vendor/phpunit/php-file-iterator/File"/>
 	<buildpathentry kind="src" path="vendor/sebastian/version/src"/>
 	<buildpathentry kind="src" path="vendor/doctrine/doctrine-bundle"/>
 	<buildpathentry kind="src" path="vendor/doctrine/common/lib/Doctrine/Common"/>
@@ -35,9 +34,12 @@
 	<buildpathentry kind="src" path="vendor/doctrine/doctrine-fixtures-bundle"/>
 	<buildpathentry kind="src" path="vendor/webmozart/assert/src"/>
 	<buildpathentry kind="src" path="vendor/vimeo/vimeo-api/src/Vimeo"/>
+	<buildpathentry kind="src" path="vendor/willdurand/jsonp-callback-validator/src"/>
+	<buildpathentry kind="src" path="vendor/friendsofsymfony/rest-bundle"/>
 	<buildpathentry kind="src" path="vendor/phpunit/php-code-coverage/src"/>
 	<buildpathentry kind="src" path="vendor/doctrine/collections/lib"/>
 	<buildpathentry kind="src" path="vendor/phpunit/php-timer/src"/>
+	<buildpathentry kind="src" path="vendor/jms/serializer-bundle"/>
 	<buildpathentry kind="src" path="vendor/symfony/swiftmailer-bundle"/>
 	<buildpathentry kind="src" path="vendor/symfony/symfony/src/Symfony/Bundle"/>
 	<buildpathentry kind="src" path="vendor/doctrine/inflector/lib"/>
@@ -46,14 +48,18 @@
 	<buildpathentry kind="src" path="vendor/doctrine/orm/lib"/>
 	<buildpathentry kind="src" path="vendor/sensio/generator-bundle"/>
 	<buildpathentry kind="src" path="vendor/psr/log"/>
+	<buildpathentry kind="src" path="vendor/jms/serializer/src"/>
 	<buildpathentry kind="src" path="vendor/twig/extensions/lib"/>
 	<buildpathentry kind="src" path="vendor/jms/i18n-routing-bundle"/>
 	<buildpathentry kind="src" path="vendor/sebastian/exporter/src"/>
 	<buildpathentry kind="src" path="vendor/sensio/distribution-bundle"/>
+	<buildpathentry kind="src" path="vendor/phpunit/php-file-iterator/src"/>
+	<buildpathentry kind="src" path="vendor/jms/parser-lib/src"/>
 	<buildpathentry kind="src" path="vendor/phpunit/phpunit/src"/>
 	<buildpathentry kind="src" path="vendor/jdorn/sql-formatter/lib"/>
 	<buildpathentry kind="src" path="vendor/sebastian/global-state/src"/>
 	<buildpathentry kind="src" path="vendor/kriswallsmith/assetic/src"/>
+	<buildpathentry kind="src" path="vendor/willdurand/negotiation/src/Negotiation"/>
 	<buildpathentry kind="src" path="vendor/doctrine/lexer/lib"/>
 	<buildpathentry kind="src" path="vendor/doctrine/annotations/lib"/>
 	<buildpathentry kind="src" path="vendor/doctrine/doctrine-cache-bundle"/>
@@ -62,8 +68,11 @@
 	<buildpathentry kind="src" path="vendor/symfony/symfony/src/Symfony/Bridge/Monolog"/>
 	<buildpathentry kind="src" path="vendor/doctrine/dbal/lib"/>
 	<buildpathentry kind="src" path="vendor/incenteev/composer-parameter-handler"/>
+	<buildpathentry kind="src" path="vendor/jms/metadata/src"/>
 	<buildpathentry kind="src" path="vendor/paragonie/random_compat/lib"/>
+	<buildpathentry kind="src" path="vendor/phpoption/phpoption/src"/>
 	<buildpathentry kind="src" path="vendor/symfony/symfony/src/Symfony/Component/Intl/Resources/stubs"/>
+	<buildpathentry kind="src" path="vendor/phpcollection/phpcollection/src"/>
 	<buildpathentry kind="src" path="vendor/symfony/polyfill-apcu"/>
 	<buildpathentry kind="src" path="vendor/twig/twig/lib"/>
 </buildpath>

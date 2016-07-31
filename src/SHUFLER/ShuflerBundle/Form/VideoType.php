@@ -98,7 +98,8 @@ class VideoType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'SHUFLER\ShuflerBundle\Entity\Video'
+            'data_class' => 'SHUFLER\ShuflerBundle\Entity\Video',
+        	'csrf_protection'   => false,
         ));
     }
 
@@ -107,6 +108,6 @@ class VideoType extends AbstractType
      */
     public function getName()
     {
-        return 'shufler_shuflerbundle_video_edit';
+        return '';
     }
 }

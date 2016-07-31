@@ -1,0 +1,7 @@
+#rest_videos:
+#    type : rest
+#    resource: "@SHUFLERRestBundle/Resources/config/routing_rest.yml"
+
+rest_videos:
+    type : rest
+    resource: "@SHUFLERShuflerBundle/Resources/config/routing_rest.yml"

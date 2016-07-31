@@ -2,10 +2,15 @@
 namespace SHUFLER\ShuflerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\VirtualProperty;
 
 /**
  * @ORM\Entity(repositoryClass="SHUFLER\ShuflerBundle\Entity\MoodRepository")
+ * 
+ * @ExclusionPolicy("all") 
  */
 class Mood
 {
@@ -18,12 +23,17 @@ class Mood
 
 	/**
 	 * @ORM\Column(name="name", type="string", length=255)
+	 * 
+     * @Expose
+     * @Groups({"List","Details"})
+     * 
 	 */
 	private $name;
 	
 	/**
 	 * @ORM\ManyToMany(targetEntity="SHUFLER\ShuflerBundle\Entity\Video", mappedBy="moods")
 	 * @ORM\JoinTable(name="video_mood")
+	 * 
 	 */
 	private $videos;
 

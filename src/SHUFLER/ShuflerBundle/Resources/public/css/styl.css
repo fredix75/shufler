@@ -102,6 +102,10 @@
 	  	 .dropdown-menu > li > a:hover{
 	  	 	color:black;
 	  	 }
+	  	 
+	  	 .alert{
+	  	 	height:105px;
+	  	 }
 	  	 	
 	@media (max-width: 1500px) {
 		  .navbar-header {

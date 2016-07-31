@@ -166,7 +166,7 @@ class FluxController extends Controller {
 			$em->persist($flux);
 			$em->flush();
 	
-			$request->getSession()->getFlashBag()->add('notice', 'Flux bien enregistré.');
+			$request->getSession()->getFlashBag()->add('success', 'Flux bien enregistré.');
 	
 			return $this->redirect($this->generateUrl('shufler_shufler_flux_edit', array('id' => $flux->getId())));
 		}
@@ -187,7 +187,7 @@ class FluxController extends Controller {
 			$em->flush();
 			return $this->redirectToRoute('shufler_shufler_homepage');
 		}catch(\Exception $e){
-			$this->get('session')->getFlashBag()->add('warning',$e->getMessage());
+			$this->get('session')->getFlashBag()->add('danger',$e->getMessage());
 			return $this->redirectToRoute('shufler_shufler_rss');
 		}
 
