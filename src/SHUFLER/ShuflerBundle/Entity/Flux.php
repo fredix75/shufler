@@ -54,7 +54,7 @@ class Flux
     /**
      * @var Integer
      *
-     * @ORM\Column(name="mood", type="smallint")
+     * @ORM\Column(name="mood", type="smallint", nullable=true)
      */
     private $mood;
     

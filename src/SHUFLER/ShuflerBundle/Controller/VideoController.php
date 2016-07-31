@@ -136,10 +136,16 @@ class VideoController extends Controller {
      * @Security("has_role('ROLE_AUTEUR')")
      */
     public function editAction(Request $request, $id){
-   		$video = new Video();
-
+		
+    	$video=new Video();
+    	
    		if($id!=0){
-   			$video=$this->getDoctrine()->getManager()->getRepository('SHUFLERShuflerBundle:Video')->getVideo($id);
+   			try{
+   				$video=$this->getDoctrine()->getManager()->getRepository('SHUFLERShuflerBundle:Video')->getVideo($id);
+   			}catch(\Exception $e){
+   				$this->get('session')->getFlashBag()->add('danger',$e->getMessage());
+   				return $this->redirect($this->generateUrl('shufler_shufler_homepage'));
+   			}
    		}
    		
    		$form = $this->get('form.factory')->create(new VideoType(),$video);

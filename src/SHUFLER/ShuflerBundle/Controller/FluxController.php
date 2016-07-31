@@ -154,14 +154,20 @@ class FluxController extends Controller {
 	public function fluxEditAction(Request $request,$id){
 		$flux= new Flux();
 	
+
+		
 		if($id!=0){
-			$flux=$this->getDoctrine()->getManager()->getRepository('SHUFLERShuflerBundle:Flux')->getFlux($id);
+			try{
+				$flux=$this->getDoctrine()->getManager()->getRepository('SHUFLERShuflerBundle:Flux')->getFlux($id);
+			}catch(\Exception $e){
+				$this->get('session')->getFlashBag()->add('danger',$e->getMessage());
+				return $this->redirect($this->generateUrl('shufler_shufler_rss'));
+			}
 		}
 	
 		$form=$this->createForm(new FluxType(),$flux);
 	
 		if( $form->handleRequest($request)->isValid()) {
-	
 			$em = $this->getDoctrine()->getManager();
 			$em->persist($flux);
 			$em->flush();

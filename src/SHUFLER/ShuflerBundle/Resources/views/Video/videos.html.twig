@@ -34,7 +34,7 @@
 				<div class="media topcol embed-responsive-16by9" style="margin-bottom:30px;">
 					<div class="categorie">
 					{% if app.request.attributes.get("_route")!='shufler_shufler_viewByCategorie' %}
-						{{ video.categorie|categorieDisplay }} 
+						{{ video.categorie|categorieDisplay }}
 					{% else %}
 						{% if pagination.route_params.categorie==2 %}
 							{{ video.genre|genreDisplay }}
@@ -48,7 +48,7 @@
 		</section>
 	</div>
 	
-	{% include "SHUFLERShuflerBundle:Video:pagination.html.twig" %}
+{% include "SHUFLERShuflerBundle:Video:pagination.html.twig" %}
 
 {% endblock %}
 	

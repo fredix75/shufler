@@ -108,6 +108,6 @@ class VideoType extends AbstractType
      */
     public function getName()
     {
-        return '';
+        return 'shufler_shuflerbundle_video_edit';
     }
 }
