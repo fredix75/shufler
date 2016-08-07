@@ -5,12 +5,14 @@ namespace SHUFLER\ShuflerBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use phpDocumentor\Reflection\Types\Integer;
+use Doctrine\DBAL\Types\JsonArrayType;
 
 /**
  * Flux
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="SHUFLER\ShuflerBundle\Entity\FluxRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Flux
 {
@@ -63,12 +65,18 @@ class Flux
      *
      * @ORM\Column(name="dateInsert", type="datetime")
      */
-    private $dateInsert;  
+    private $dateInsert;
+    
+    /**
+     * @var \SimpleXMLElement
+     *
+     */
+    private $contenu;
     
     public function __construct(){
     	$this->dateInsert = new \Datetime();
     }
-    
+        
     
     /**
      * Get id
@@ -230,4 +238,29 @@ class Flux
     {
         return $this->mood;
     }
+    
+    /**
+     * @ORM\PostLoad
+     *
+     * @return \SimpleXMLElement
+     *
+     */
+    public function loadContent(){
+    	if($this->name != 'Liberation'){
+    		$this->contenu=@simplexml_load_file($this->url)->{'channel'}->{'item'};
+    	}else{
+    		$this->contenu=@simplexml_load_file($this->url)->{'entry'};
+    	}
+    }
+    
+    /**
+     * Get Contenu
+     *
+     * @return \SimpleXMLElement
+     */    
+    public function getContenu()
+    {
+    	return $this->contenu;
+    }
+    
 }

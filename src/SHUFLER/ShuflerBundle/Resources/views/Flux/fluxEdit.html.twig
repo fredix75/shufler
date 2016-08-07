@@ -38,6 +38,42 @@
 	{# Les erreurs générales du formulaire. #}
 	{{ form_errors(form) }}
 
+		<div class="form-group">
+			{{ form_label(form.name, 'Name'|trans, {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+				<div class="col-sm-6 col-md-6">
+					{{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+				</div>
+			{{ form_errors(form.name) }}
+		</div>
+		<div class="form-group">
+			{{ form_label(form.url, 'Url'|trans, {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+				<div class="col-sm-6 col-md-6">
+					{{ form_widget(form.url, {'attr': {'class': 'form-control'}}) }}
+				</div>
+			{{ form_errors(form.url) }}
+		</div>
+		<div class="form-group">
+			{{ form_label(form.type, 'Type'|trans, {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+				<div class="col-sm-2 col-md-2">
+					{{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
+				</div>
+			{{ form_errors(form.type) }}
+			<div id="mood">
+				{{ form_label(form.mood, 'Mood'|trans, {'label_attr': {'class': 'col-sm-1 control-label'}}) }}
+					<div class="col-sm-3 col-md-2">
+						{{ form_widget(form.mood, {'attr': {'class': 'form-control'}}) }}
+					</div>
+				{{ form_errors(form.mood) }}
+			</div>
+		</div>
+		<div class="form-group">
+			{{ form_label(form.logo, 'Logo'|trans, {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+				<div class="col-sm-1 col-md-1">
+					{{ form_widget(form.logo) }}
+				</div>
+			{{ form_errors(form.logo) }}
+		</div>
+
   	 {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}, 'label':'Save'|trans}) }}
 	 {{ form_end(form) }}
 	 	 {% if flux.id is defined and flux.logo.id is defined %}
@@ -55,16 +91,16 @@
 	<script>
 		$(function(){
 			if($('#shufler_shuflerbundle_flux_edit_type').val()!=3){
-				$('#shufler_shuflerbundle_flux_edit_mood').hide();
+				$('#mood').hide();
 			}
 		});
 	
 		$('#shufler_shuflerbundle_flux_edit_type').on('change',function(){
 			if($('#shufler_shuflerbundle_flux_edit_type').val()==3){
-				$('#shufler_shuflerbundle_flux_edit_mood').show();
+				$('#mood').show();
 			}else{
-				$('#shufler_shuflerbundle_flux_edit_mood option[value=-1]').attr('selected','selected');
-				$('shufler_shuflerbundle_flux_edit_#mood').hide();
+				$('#shufler_shuflerbundle_flux_edit_mood option[value=]').prop('selected', true);
+				$('#mood').hide();
 			}
 		});
 	</script>

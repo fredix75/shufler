@@ -42,3 +42,6 @@ rest :
   type : rest 
   resource : "routing_rest.yml"
   prefix : /api
+
+api_login_check:
+   path: /api/login_check

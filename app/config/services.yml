@@ -5,7 +5,7 @@ parameters:
 
 services:
     fos_user.doctrine_registry:
-        alias: doctrine 
+        alias: doctrine
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]

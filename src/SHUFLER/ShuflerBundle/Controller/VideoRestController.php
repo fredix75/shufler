@@ -1,57 +1,23 @@
 <?php
 namespace SHUFLER\ShuflerBundle\Controller;
 
-use SHUFLER\ShuflerBundle\Entity\Video; 
 use FOS\RestBundle\Controller\Annotations\View;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Util\Codes;
 use Nelmio\ApiDocBundle\Annotation as Doc;
-use Symfony\Component\HttpFoundation\Request;
+use SHUFLER\ShuflerBundle\Entity\Video;
 use SHUFLER\ShuflerBundle\Form\VideoType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class VideoRestController extends Controller
+class VideoRestController extends FOSRestController
 {
-	/**
-	* 
-    * @Rest\Get("/video/{id}",
-    * 		name="app_api_video",
-    * 	    requirements={"id"="\d+"}
-    * )
-    *
-    * @Doc\ApiDoc(
-    *     section="Videos",
-    *     resource=true,
-    *     description="Get a video",
-    *     requirements={
-     *      {
-     *         "name"="id",
-     *         "dataType"="integer",
-     *         "requirement"="\d+",
-     *         "description"="The video identifier."
-     *      }
-     *    },
-    *     statusCodes={
-    *          200="Returned when successful",
-    *     }
-    * )	
-	* 
-	* 
-	* @param type $id
-	* 
-	* @View(serializerGroups={"Default","Details"})
-	*
-	*/
-	public function getVideoAction(Video $video){
-		$video = $this->getDoctrine()->getRepository('SHUFLERShuflerBundle:Video')->findOneById($video);
-		return $video;
-	}
 	
 	/**
 	 * 
-     * @Rest\Get("/videos",
-     * 		name="app_api_video")
+     * @Rest\Get("/videos")
      *
      * @Doc\ApiDoc(
      *     section="Videos",
@@ -61,7 +27,6 @@ class VideoRestController extends Controller
      *          200="Returned when successful",
      *     }
      * )
-	 *
 	 *
 	 * @View(serializerGroups={"List"})
 	 *
@@ -74,9 +39,42 @@ class VideoRestController extends Controller
 		return $videos;
 	}
 	
+	/**
+	 *
+	 * @Rest\Get("/video/{id}",
+	 * 	    requirements={"id"="\d+"}
+	 * )
+	 *
+	 * @Doc\ApiDoc(
+	 *     section="Videos",
+	 *     resource=true,
+	 *     description="Get a video",
+	 *     requirements={
+	 *      {
+	 *         "name"="id",
+	 *         "dataType"="integer",
+	 *         "requirement"="\d+",
+	 *         "description"="The video identifier."
+	 *      }
+	 *    },
+	 *     statusCodes={
+	 *          200="Returned when successful",
+	 *     }
+	 * )
+	 *
+	 *
+	 * @param type $id
+	 *
+	 * @View(serializerGroups={"Default","Details"})
+	 *
+	 */
+	public function getVideoAction(Video $video){
+		$video = $this->getDoctrine()->getRepository('SHUFLERShuflerBundle:Video')->findOneById($video);
+		return $video;
+	}
 	
 	/**
-	 * @Rest\Post("/video", name="app_new_video")
+	 * @Rest\Post("/video")
 	 *
 	 *
 	 * @Rest\View(statusCode=201)
@@ -84,6 +82,7 @@ class VideoRestController extends Controller
 	 * @Doc\ApiDoc(
      *     section="Videos",
 	 *      description="Creates a new video.",
+	 *      input = "SHUFLER\ShuflerBundle\Form\VideoType",
 	 *      statusCodes={
 	 *          201="Returned if category has been successfully created",
 	 *          400="Returned if errors",
@@ -94,14 +93,12 @@ class VideoRestController extends Controller
 	 * Collection post action
 	 * @return View|array
 	 */
-	public function postVideoAction()
+	public function postVideoAction(Request $request)
 	{
-
 		$video = new Video();
-
 	    $form = $this->createForm(new VideoType(), $video);
-	    $form->handleRequest($this->getRequest());
-	    $video->setTitre('fdfd');
+	    $form->handleRequest($request);
+	    
 	    if ($form->isValid()) {
 	        $em = $this->getDoctrine()->getManager();
 	        $em->persist($video);
@@ -109,47 +106,125 @@ class VideoRestController extends Controller
 	
 	        return $this->redirectView(
 	                $this->generateUrl(
-	                    'app_api_video',
+	                    'api_get_video',
 	                    array('id' => $video->getId())
 	                    ),
 	                201
 	        );
 	    }
 	
-	    return array(
-	        'form' => $video,
-	    );
+	    return $this->view('',400);
 	}
 
-
-	private function processForm(Video $video)
+	/**
+	 * @Rest\Put("/video/{id}",
+	 * 		requirements={"id"="\d+"}
+	 * )
+	 *
+	 *
+	 * @Rest\View(statusCode=204)
+	 *
+	 * @Doc\ApiDoc(
+	 *     section="Videos",
+	 *      description="Update a video.",
+	 *      input = "SHUFLER\ShuflerBundle\Form\VideoType",
+	 *      requirements={
+	 *      {
+	 *         "name"="id",
+	 *         "dataType"="integer",
+	 *         "requirement"="\d+",
+	 *         "description"="The video identifier."
+	 *      }
+	 *    },
+	 *      statusCodes={
+	 *          204="Returned if category has been successfully updated",
+	 *          400="Returned if errors",
+	 *          500="Returned if server error"
+	 *      }
+	 * )
+	 *
+	 * Collection put action
+	 * @return View|array
+	 */
+	public function putVideoAction(Request $request, $id)
 	{
-	/*
-		$form = $this->createForm(new VideoType(), $video);
-		$form->handleRequest($this->getRequest());
-	
-		if ($form->isValid()) {
-			   $em = $this->getDoctrine()->getManager();
-   			$em->persist($video);
-    		$em->flush();
-			$statusCode=201;
-	
-			$response = new Response();
-			$response->setStatusCode($statusCode);
-	
-			// set the `Location` header only when creating new resources
-			if (201 === $statusCode) {
-				$response->headers->set('Location',
-						$this->generateUrl(
-								'shufler_api_video', array('id' => $video->getId()),
-								true // absolute
-								)
-						);
+		$video=new Video();
+		if($id!=0){
+			try{
+				$video=$this->getDoctrine()->getManager()->getRepository('SHUFLERShuflerBundle:Video')->getVideo($id);
+				//return array($video);
+			}catch(\Exception $e){
+				return $this->view('',400);
 			}
-			return $response;
 		}
-		return 400;
-	  */
-		print_r($this->getRequest());
+		$form = $this->createForm(new VideoType(), $video, array('method' => 'PUT'));
+		$form->handleRequest($request);
+
+		if ($form->isValid()) {
+			$em = $this->getDoctrine()->getManager();
+			$em->persist($video);
+			$em->flush();
+	
+			return $this->redirectView(
+					$this->generateUrl(
+							'api_get_video',
+							array('id' => $video->getId())
+							),
+					201
+					);
+		}
+	
+		return $this->view('',400);
 	}
+	
+	
+	/**
+	 * @Rest\Delete("/video/{id}",
+	 * 		requirements={"id"="\d+"}
+	 * )
+	 *
+	 *
+	 * @Rest\View(statusCode=204)
+	 *
+	 * @Doc\ApiDoc(
+	 *     section="Videos",
+	 *      description="Delete a video.",
+	 *      requirements={
+	 *      {
+	 *         "name"="id",
+	 *         "dataType"="integer",
+	 *         "requirement"="\d+",
+	 *         "description"="The video identifier."
+	 *      }
+	 *    },
+	 *      statusCodes={
+	 *          204="Returned if category has been successfully deleted",
+	 *          400="Returned if errors",
+	 *          500="Returned if server error"
+	 *      }
+	 * )
+	 *
+	 * Collection put action
+	 * @return View|array
+	 */
+	public function deleteVideoAction($id){
+		if($id!=0){
+			try{
+				$video=$this->getDoctrine()->getManager()->getRepository('SHUFLERShuflerBundle:Video')->getVideo($id);
+				//return array($video);
+			}catch(\Exception $e){
+				return $this->view('',400);
+			}
+			$em = $this->getDoctrine()->getManager();
+			$em->remove($video);
+			$em->flush();
+			return $this->redirectView(
+					$this->generateUrl(
+							'api_get_videos'
+							),
+					204
+					);			
+		}
+	}
+
 }

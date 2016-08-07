@@ -23,17 +23,19 @@ class FluxController extends Controller {
 	
 		//error_reporting(0);
 		$infos=array();
-		$fluxParser = $this->container->get('shufler.fluxParser');
 	
 		if ($request->isXmlHttpRequest()){
+			//var_dump('olé');
 			$id=$request->query->get('pod');
 				
 			$rss=$this->getDoctrine()->getManager()->getRepository('SHUFLERShuflerBundle:Flux')->getFlux($id);
 			$page=$request->query->get('page');
 			$debut=($page-1)*6;
 	
-			$contenu=$fluxParser->convertXML($rss->getUrl());
-		
+			//$contenu=$fluxParser->convertXML($rss->getUrl());
+			$contenu=$rss->getContenu();
+			
+			
 			for($i=$debut;$i<$debut+6;$i++){
 				if(isset($contenu[$i])){
 					$contenu[$i]->title=stripslashes($contenu[$i]->title);
@@ -51,13 +53,13 @@ class FluxController extends Controller {
 		foreach($rss as $flux){
 			
 			if($flux->getName()=='Liberation'){
-				$libe[$flux->getId()]['flux']=$fluxParser->convertXML2($flux->getUrl());
+				$libe[$flux->getId()]['flux']=$flux->getContenu();
 				$libe[$flux->getId()]['name']=$flux->getName();
 				$libe[$flux->getId()]['pic']=$flux->getPic();
 			}else{
 				$infos[$flux->getId()]['id']=$flux->getId();
 				$jsonKeys[]=$flux->getId();
-				$contenu=$fluxParser->convertXML($flux->getUrl());
+				$contenu=$flux->getContenu();
 				$infos[$flux->getId()]['name']=$flux->getName();
 				if($flux->getLogo()!=null){
 					$infos[$flux->getId()]['pic']=$flux->getPic();
@@ -75,9 +77,7 @@ class FluxController extends Controller {
 	}
 	
 	public function podcastAction(Request $request){
-		error_reporting(0);
 		$infos=array();
-		$fluxParser = $this->container->get('shufler.fluxParser');
 	
 		if ($request->isXmlHttpRequest()){
 			$pod=$request->query->get('pod');
@@ -86,7 +86,7 @@ class FluxController extends Controller {
 			$page=$request->query->get('page');
 			$debut=($page-1)*6;
 	
-			$contenu=$fluxParser->convertXML($rss->getUrl());
+			$contenu=$rss->getContenu();
 			for($i=$debut;$i<$debut+6;$i++){
 				$infos[]=$contenu[$i];
 			}
@@ -99,16 +99,16 @@ class FluxController extends Controller {
 		$jsonKeys = array();
 	
 		foreach($rss as $key){
-			$infos[$key->getName()]['id']=$key->getId();
+			$infos[$key->getId()]['id']=$key->getId();
 			$jsonKeys[]=$key->getId();
-			$contenu=$fluxParser->convertXML($key->getUrl());
+			$infos[$key->getId()]['contenu']=$key->getContenu();
 			$infos[$key->getId()]['name']=$key->getName();
 			if($key->getLogo()!=null){
 				$infos[$key->getId()]['pic']=$key->getPic();
 			}else{
 				$infos[$key->getId()]['pic']=null;
 			}
-			$infos[$key->getId()]['pages']=ceil(count($contenu)/6);
+			$infos[$key->getId()]['pages']=ceil(count($infos[$key->getId()]['contenu'])/6);
 		}
 	
 		return $this->render('SHUFLERShuflerBundle:Flux:podcast.html.twig',array('infos'=>$infos, 'jsonKeys'=>json_encode($jsonKeys)));
@@ -128,13 +128,12 @@ class FluxController extends Controller {
 	public function dailyPodAction(Request $request){
 		error_reporting(0);
 		$infos=array();
-		$fluxParser = $this->container->get('shufler.fluxParser');
 		
 		$rss=$this->getDoctrine()->getManager()->getRepository('SHUFLERShuflerBundle:Flux')->getPodcast();
 				
 		foreach($rss as $key){
 			$infos[$key->getName()]['id']=$key->getId();
-			$contenu=$fluxParser->convertXML($key->getUrl());
+			$contenu=$rss->getContenu();
 			$infos[$key->getName()]['contenu']=$contenu[0];
 			
 			if($key->getLogo()!=null){

@@ -545,6 +545,7 @@ class Video
     
     /**
      * @ORM\PreUpdate
+     * 
      */
     public function updateDate()
     {

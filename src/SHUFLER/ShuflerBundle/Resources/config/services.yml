@@ -16,5 +16,3 @@ services:
         public: false
         tags:
             - { name: twig.extension }
-    shufler.fluxParser:
-        class: SHUFLER\ShuflerBundle\FluxParser\SHUFLERFluxParser

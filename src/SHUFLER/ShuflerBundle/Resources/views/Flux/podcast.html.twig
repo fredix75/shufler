@@ -12,7 +12,7 @@
 				{% if flux.pic is defined and flux.pic is not null %}
 				<img src="{{  asset(flux.pic) }}" height=100px />
 				{% else %}
-				<h2 class="flux-titre">{{ key }}</h2>
+				<h2 class="flux-titre">{{ flux.name }}</h2>
 				{% endif %}
 				<a class="btn-toggle" href="#" onclick="return false;"><span class="glyphicon glyphicon-plus"></span></a>
 				{% if is_granted('ROLE_ADMIN') %}
