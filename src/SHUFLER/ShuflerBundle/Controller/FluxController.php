@@ -13,12 +13,13 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class FluxController extends Controller {
 	
 	
-	//test de commentaire parfaitement inutile
-	
-	//merci de votre attention
-	
-	//bisous
-	
+ /**
+  * Get All Flows RSS.
+  *
+  * @param Request $request request of the Flow
+  *
+  * @return Response Ajax or Rendering template
+  */
 	public function rssAction(Request $request){
 	
 		//error_reporting(0);
@@ -75,7 +76,15 @@ class FluxController extends Controller {
 		
 		return $this->render('SHUFLERShuflerBundle:Flux:rss.html.twig',array('infos'=>$infos,'libe'=>$libe, 'jsonKeys'=>json_encode($jsonKeys)));
 	}
+
 	
+ /**
+  * Get All Flows Podcast.
+  *
+  * @param Request $request request of the Flow
+  *
+  * @return Response Ajax or Rendering template
+  */
 	public function podcastAction(Request $request){
 		$infos=array();
 	
@@ -114,7 +123,14 @@ class FluxController extends Controller {
 		return $this->render('SHUFLERShuflerBundle:Flux:podcast.html.twig',array('infos'=>$infos, 'jsonKeys'=>json_encode($jsonKeys)));
 	
 	}
-	
+
+	/**
+	 * Get All Flows radios.
+	 *
+	 * @param Request $request request of the Flow
+	 *
+	 * @return Response Ajax or Rendering template
+	 */
 	public function radioAction(Request $request){
 		error_reporting(0);
 		$infos=array();
@@ -124,7 +140,15 @@ class FluxController extends Controller {
 		return $this->render('SHUFLERShuflerBundle:Flux:radios.html.twig',array('radios'=>$radios));
 	
 	}
+
 	
+	/**
+	 * Get All most recently podcasts.
+	 *
+	 * @param Request $request request of the Flow
+	 *
+	 * @return Rendering template
+	 */	
 	public function dailyPodAction(Request $request){
 		error_reporting(0);
 		$infos=array();
@@ -148,13 +172,20 @@ class FluxController extends Controller {
 	
 	
 	/**
+	 * 
+ 	 * Edit Flow.
+	 *
+	 * @param Request $request request of the Form
+ 	 * @param Id of the Flow
+	 *
+	 * @return Rendering template
+	 * 
+	 * 
 	 * @Security("has_role('ROLE_AUTEUR')")
 	 */
 	public function fluxEditAction(Request $request,$id){
 		$flux= new Flux();
 	
-
-		
 		if($id!=0){
 			try{
 				$flux=$this->getDoctrine()->getManager()->getRepository('SHUFLERShuflerBundle:Flux')->getFlux($id);

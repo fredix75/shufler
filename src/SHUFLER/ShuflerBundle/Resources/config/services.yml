@@ -12,7 +12,7 @@ services:
             - { name: twig.extension }
 
     util.twig_extension:
-        class: COMMON\CommonBundle\Twig\UtilExtension
+        class: SHUFLER\ShuflerBundle\Twig\UtilExtension
         public: false
         tags:
             - { name: twig.extension }

@@ -12,7 +12,6 @@ class AppKernel extends Kernel {
 				new Symfony\Bundle\AsseticBundle\AsseticBundle (),
 				new Doctrine\Bundle\DoctrineBundle\DoctrineBundle (),
 				new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle (),
-				new COMMON\CommonBundle\COMMONCommonBundle (),
 				new SHUFLER\ShuflerBundle\SHUFLERShuflerBundle (),
 				new SHUFLER\UserBundle\SHUFLERUserBundle (),
 				new FOS\UserBundle\FOSUserBundle (),
@@ -21,6 +20,7 @@ class AppKernel extends Kernel {
 				new JMS\I18nRoutingBundle\JMSI18nRoutingBundle (),
 				new Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle (),
 				new Nelmio\ApiDocBundle\NelmioApiDocBundle (),
+				//new Genemu\Bundle\FormBundle\GenemuFormBundle(),
 		);
 		
 		if (in_array ( $this->getEnvironment (), array (

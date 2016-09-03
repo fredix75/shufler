@@ -23,6 +23,7 @@
         }
     </style>
     <link rel="stylesheet" href="{{ asset('bundles/shuflershufler/css/bootstrap-switch.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
 {% endblock %}
 
 {% block body %}
@@ -157,13 +158,18 @@
 			$('#genre').hide();
 		}
 
+		 $('select').select2();
+		 $("#shufler_shuflerbundle_video_edit_priorite").select2({
+			  minimumResultsForSearch: Infinity
+			});
+		 
 		{% if videokey is not null %}
 			$('#shufler_shuflerbundle_video_edit_lien').val('https:{{ videokey }}');
 			{% if video.id is null %}
 				completeInfos();
 			{% endif %}
 		{% endif %}
-		
+
 	});
 
 	$('#shufler_shuflerbundle_video_edit_lien').on('keyup',function(){
@@ -179,15 +185,10 @@
 
 		function completeInfos(){
 			var lien=$('#shufler_shuflerbundle_video_edit_lien').val();
-			
-			if(lien.indexOf('youtube')>0){
-				// ceci est ma propre clé. Dans le doute, je bénéficie de celle d'un gus qui l'a laissée trainer
-				var makey='AIzaSyBNgi3EddUNsFThnFQpPt3RR9kkuWmhHdo';
-
-				makey='AIzaSyBdMuJQlbzDhJs0Ujhvzx2ucsO30lcP0OQ';
-				
+						
+			if(lien.indexOf('youtube')>0){				
+				var makey='{{ youtube_key }}';
 				var match = $('#shufler_shuflerbundle_video_edit_lien').val().match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
-		
 				var video_id=match[1];
 				
 				//var url='https://www.googleapis.com/youtube/v3/videos?id='+video_id+'&key='+key+'&fields=items(id,snippet(channelId,title,categoryId),statistics)&part=snippet,statistics';
@@ -256,7 +257,8 @@
 			$('#id_video').val({{ video.id }});
 			document.form1.submit();
 		}
-		
+
 	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 	<script type="text/javascript" src="{{ asset('bundles/shuflershufler/js/bootstrap-switch.js') }}"></script>
 {% endblock %}	

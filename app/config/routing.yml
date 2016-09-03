@@ -1,7 +1,3 @@
-common_common:
-    resource: "@COMMONCommonBundle/Resources/config/routing.yml"
-    prefix:   /
-
 shufler_shufler:
     resource: "@SHUFLERShuflerBundle/Resources/config/routing.yml"
     prefix:   /

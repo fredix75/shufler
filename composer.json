@@ -28,7 +28,8 @@
 		"friendsofsymfony/rest-bundle": "dev-master",
 		"nelmio/api-doc-bundle": "~2.8",
 		"jms/serializer-bundle": "dev-master",
-		"lexik/jwt-authentication-bundle": "dev-master"
+		"lexik/jwt-authentication-bundle": "dev-master",
+		"genemu/form-bundle": "2.2.*"
 	},
 	"require-dev" : {
 		"sensio/generator-bundle" : "~2.3",

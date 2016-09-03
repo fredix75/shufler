@@ -41,6 +41,7 @@ twig:
     strict_variables: "%kernel.debug%"
     globals:
         webmaster: %app_webmaster%
+        youtube_key: %youtube_key%
 
 # Assetic Configuration
 assetic:

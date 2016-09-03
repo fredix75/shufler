@@ -170,7 +170,7 @@ class VideoRestController extends FOSRestController
 							'api_get_video',
 							array('id' => $video->getId())
 							),
-					201
+					204
 					);
 		}
 	
