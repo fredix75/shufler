@@ -84,7 +84,7 @@
 	          
 	          var index=player.getPlaylistIndex()
 	          
-			  var makey='AIzaSyBdMuJQlbzDhJs0Ujhvzx2ucsO30lcP0OQ';
+			  var makey='{{ youtube_key }}';
 	          
 	          $.get('https://www.googleapis.com/youtube/v3/videos?key='+makey, {	id: player.getPlaylist()[index], part: 'snippet' }, function(result) {			 
 				    if(result.items[0].id) {
