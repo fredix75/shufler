@@ -9,6 +9,7 @@ use SHUFLER\ShuflerBundle\Entity\Flux;
 use SHUFLER\ShuflerBundle\Form\FluxType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\DependencyInjection\SimpleXMLElement;
 
 class FluxController extends Controller {
 	
@@ -141,6 +142,17 @@ class FluxController extends Controller {
 	
 	}
 
+	
+	public function inseeAction(Request $request){
+		$flux = new Flux();
+		$flux -> setUrl('http://www.bdm.insee.fr/series/sdmx/data/SERIES_BDM/001565183');
+		$test = simplexml_load_file('http://www.bdm.insee.fr/series/sdmx/data/SERIES_BDM/001565183')->{'Dataset'};
+
+		var_dump($test);exit;
+		
+		return $this->render('SHUFLERShuflerBundle:Flux:flux.html.twig',array('flux'=>$test));
+	}
+	
 	
 	/**
 	 * Get All most recently podcasts.
