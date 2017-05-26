@@ -5,116 +5,112 @@
 {% block title %}{{ parent() }} Home{% endblock %}
 
 {% block stylesheets %}
-	{{ parent() }}
+  {{ parent() }}
     <link rel="stylesheet" href="{{ asset('bundles/shuflershufler/css/jquery.magnific-popup.css') }}">
 {% endblock %}
 
 {% block body %}
-	<div class="row">
-		<section class="col-sm-8 col-md-9 ">
-			{% for video in anims|slice(0, 1) %}
-			<div class="media embed-responsive embed-responsive-16by9">			
-	 	 		<iframe  class="media embed-responsive-item" src="{{  video.lien }}" allowfullscreen></iframe>	
-			</div>
-			<div class="topcom media-body">
-				<div class="col-xs-10 col-sm-10 col-md-10">
-					<h2 class="media-heading">{{  video.titre }}</h2>
-					<span class="top-auteur">{{  video.auteur }}</span>
-					<br/>
-					<p class="topchapo">{{ video.chapo|raw }}</p>
-				</div>
-				<div class="col-xs-2 col-sm-2 col-md-2 col-push-md-right">
-					<div class="col-md-12"><br/><span class="top-annee">{{  video.annee|yearDisplay }}</span></div>
-					{% if is_granted('ROLE_AUTEUR') %}
-						<br/><div class="link_edit"><a href="{{ path('shufler_shufler_video_edit',{'id':video.id}) }}"><span class="glyphicon glyphicon-edit"></span></a></div> 
-					{% endif %}
-				</div>
-			</div>
-			{% endfor %}
-			<div class="texte">
-				<br/>
-				<h1>Des vidéos à grignoter</h1>
-				<br/>
-				<p><span style="font-weight:bold;font-size:120%;">{% trans %} site.claim {% endtrans %}</span></p>
-				<p><span class="text-span">Passionné</span> par ce que le web peut offrir de plus artistique, et parce que je crois que la profusion a une fâcheuse tendance a ensevelir trop vite le colossal travail de ses meilleurs contributeurs et à oublier les <span class="text-span">ovnis</span> parfois trop furtifs de la toile, 
-				avec <span class="text-span" style="color:orange;">Shufler</span> je vous propose une sélection extra-terrestre tirée <span class="text-span">aléatoirement</span> d'un repertoire qui exige à la fois <span class="text-span">l'art</span> et <span class="text-span">le distrayant</span>.</p>
-				<br/>
-				<div class="pull-right">
-					<a class="btn btn-default" href="{{ path('shufler_shufler_homepage') }}"><span class="glyphicon glyphicon-refresh"></span>&nbsp;{{ 'New Selection'|trans }}</a>&nbsp;&nbsp;
-					<a class="btn btn-default" href="{{ path('fos_user_registration_register') }}"><span class="glyphicon glyphicon-flag"></span>&nbsp;{{ 'Create an account'|trans }}</a>
-				</div>
-				<br/><br/>
-			</div>			
-		</section>
-		
-		<section class="col-sm-4 col-md-3">
-			<h1><span class="glyphicon glyphicon-film"></span>&nbsp;Animés</h1>
-			{% for video in anims|slice(1, 4) %}
-			<div class="media topcol embed-responsive-16by9">
-				{% include("SHUFLERShuflerBundle:Video:video_inc.html.twig") %}
-			</div>
-			{% endfor %}	
-		</section>
-	</div>
-	<br/>
-	<div class="row">
-		<section class="col-sm-6 col-md-6" style="margin-top:10px;">
-		<h1 style="margin-left:15px;margin-right:15px;"><span class="glyphicon glyphicon-music"></span>&nbsp;Du son, des images</h1>
-		<p class="legend">Une palanquée de morceaux d'anthologie, parfois méconnus, amoureusement choisis</p><br/>
-		{% for video in musics|slice(0, 2) %}
-			<div class="col-sm-12 col-md-6" style="">
-				<div class="media topcol embed-responsive-16by9" style="margin-bottom:30px;">
-					<div class="categorie">{{ video.genre|genreDisplay }}</div>
-					{% include("SHUFLERShuflerBundle:Video:video_inc.html.twig") %}
-				</div>	
-			</div>
-		{% endfor %}
-		{% for video in musics|slice(2, 1) %}
-			<div class="col-sm-12 col-md-12" style="">
-			<div class="media topcol embed-responsive-16by9" style="margin-bottom:30px;">
-				<div class="categorie">{{ video.genre|genreDisplay }}</div>
-				{% include("SHUFLERShuflerBundle:Video:video_inc.html.twig") %}
-			</div>
-			</div>
-		{% endfor %}				
-		</section>
-		<section class="col-sm-6 col-md-6" style="margin-top:10px;">
-			<h1 style="margin-left:15px;margin-right:15px;"><span class="glyphicon glyphicon-cutlery"></span>&nbsp;OMG, WTF ??</h1>
-			<p class="legend">Du bizarre, du cheulou comme disent les jeunes.. On y trouve aussi du mdr, voire du ptdr</p><br/>
-			{% for video in etranges|slice(0, 1) %}
-				<div class="col-sm-12 col-md-12" style="">
-					<div class="media topcol embed-responsive-16by9" style="margin-bottom:30px;">
-						{% include("SHUFLERShuflerBundle:Video:video_inc.html.twig") %}
-					</div>
-				</div>
-			{% endfor %}
-			{% for video in etranges|slice(1,2) %}
-				<div class="col-sm-12 col-md-6" style="">
-					<div class="media topcol embed-responsive-16by9" style="margin-bottom:30px;">
-						{% include("SHUFLERShuflerBundle:Video:video_inc.html.twig") %}
-					</div>	
-				</div>
-			{% endfor %}
-		</section>
-	</div>
-	
-	<h1 style="margin-left:15px;margin-right:15px;"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;Etcaetera</h1><br/>
-	<div class="row">
-		<section class="col-sm-12 col-md-12">
-			{% for video in musics|slice(3,4) %}
-			<div class="col-sm-6 col-md-3" style="">
-				<div class="media topcol embed-responsive-16by9" style="margin-bottom:30px;">
-					<div class="categorie">{{ video.genre|genreDisplay }}</div>
-					{% include("SHUFLERShuflerBundle:Video:video_inc.html.twig") %}
-				</div>	
-			</div>
-		{% endfor %}					
-		</section>
-	</div>
-	{% endblock %}
-	
-	{% block javascripts %}
-		{{ parent() }}
-	 		<script type="text/javascript" src="{{ asset('bundles/shuflershufler/js/jquery.magnific-popup.js') }}"></script>
-			<script type="text/javascript" src="{{ asset('bundles/shuflershufler/js/main.js') }}"></script>
-	{% endblock %}
+  <div class="row">
+    <section class="col-sm-8 col-md-9 ">
+      {% for video in anims|slice(0, 1) %}
+      <div class="media embed-responsive embed-responsive-16by9">     
+        <iframe  class="media embed-responsive-item" src="{{  video.lien }}" allowfullscreen></iframe>  
+      </div>
+      <div class="topcom media-body">
+        <div class="col-xs-10 col-sm-10 col-md-10">
+          <h2 class="media-heading">{{  video.titre }}</h2>
+          <span class="top-auteur">{{  video.auteur }}</span>
+          <br/>
+          <p class="topchapo">{{ video.chapo|raw }}</p>
+        </div>
+        <div class="col-xs-2 col-sm-2 col-md-2 col-push-md-right">
+          <div class="col-md-12"><br/><span class="top-annee">{{  video.annee|yearDisplay }}</span></div>
+          {% if is_granted('ROLE_AUTEUR') %}
+            <br/><div class="link_edit"><a href="{{ path('shufler_shufler_video_edit',{'id':video.id}) }}"><span class="glyphicon glyphicon-edit"></span></a></div> 
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+      <div class="texte">
+        <br/><br/>
+        <p style="font-size:260%;line-height:1;text-align:right;">SHUFLER, le site<br/>qui débloque les idées.</p>
+        <br/><br/><hr>
+        <div class="pull-right">
+          <a class="btn btn-default" href="{{ path('shufler_shufler_homepage') }}"><span class="glyphicon glyphicon-refresh"></span>&nbsp;{{ 'New Selection'|trans }}</a>&nbsp;&nbsp;
+          <a class="btn btn-default" href="{{ path('fos_user_registration_register') }}"><span class="glyphicon glyphicon-flag"></span>&nbsp;{{ 'Create an account'|trans }}</a>
+        </div>
+        <br/><br/>
+      </div>      
+    </section>
+    
+    <section class="col-sm-4 col-md-3">
+      <h1><span class="glyphicon glyphicon-film"></span>&nbsp;Animés</h1>
+      {% for video in anims|slice(1, 4) %}
+      <div class="media topcol embed-responsive-16by9">
+        {% include("SHUFLERShuflerBundle:Video:video_inc.html.twig") %}
+      </div>
+      {% endfor %}  
+    </section>
+  </div>
+  <br/>
+  <div class="row">
+    <section class="col-sm-6 col-md-6" style="margin-top:10px;">
+    <h1 style="margin-left:15px;margin-right:15px;"><span class="glyphicon glyphicon-music"></span>&nbsp;Du son, des images</h1>
+    <p class="legend">Une palanquée de morceaux d'anthologie, parfois méconnus, amoureusement choisis</p><br/>
+    {% for video in musics|slice(0, 2) %}
+      <div class="col-sm-12 col-md-6" style="">
+        <div class="media topcol embed-responsive-16by9" style="margin-bottom:30px;">
+          <div class="categorie">{{ video.genre|genreDisplay }}</div>
+          {% include("SHUFLERShuflerBundle:Video:video_inc.html.twig") %}
+        </div>  
+      </div>
+    {% endfor %}
+    {% for video in musics|slice(2, 1) %}
+      <div class="col-sm-12 col-md-12" style="">
+      <div class="media topcol embed-responsive-16by9" style="margin-bottom:30px;">
+        <div class="categorie">{{ video.genre|genreDisplay }}</div>
+        {% include("SHUFLERShuflerBundle:Video:video_inc.html.twig") %}
+      </div>
+      </div>
+    {% endfor %}        
+    </section>
+    <section class="col-sm-6 col-md-6" style="margin-top:10px;">
+      <h1 style="margin-left:15px;margin-right:15px;"><span class="glyphicon glyphicon-cutlery"></span>&nbsp;OMG, WTF ??</h1>
+      <p class="legend">Du bizarre, du cheulou comme disent les jeunes.. On y trouve aussi du mdr, voire du ptdr</p><br/>
+      {% for video in etranges|slice(0, 1) %}
+        <div class="col-sm-12 col-md-12" style="">
+          <div class="media topcol embed-responsive-16by9" style="margin-bottom:30px;">
+            {% include("SHUFLERShuflerBundle:Video:video_inc.html.twig") %}
+          </div>
+        </div>
+      {% endfor %}
+      {% for video in etranges|slice(1,2) %}
+        <div class="col-sm-12 col-md-6" style="">
+          <div class="media topcol embed-responsive-16by9" style="margin-bottom:30px;">
+            {% include("SHUFLERShuflerBundle:Video:video_inc.html.twig") %}
+          </div>  
+        </div>
+      {% endfor %}
+    </section>
+  </div>
+  
+  <h1 style="margin-left:15px;margin-right:15px;"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;Etcaetera</h1><br/>
+  <div class="row">
+    <section class="col-sm-12 col-md-12">
+      {% for video in musics|slice(3,4) %}
+      <div class="col-sm-6 col-md-3" style="">
+        <div class="media topcol embed-responsive-16by9" style="margin-bottom:30px;">
+          <div class="categorie">{{ video.genre|genreDisplay }}</div>
+          {% include("SHUFLERShuflerBundle:Video:video_inc.html.twig") %}
+        </div>  
+      </div>
+    {% endfor %}          
+    </section>
+  </div>
+  {% endblock %}
+  
+  {% block javascripts %}
+    {{ parent() }}
+      <script type="text/javascript" src="{{ asset('bundles/shuflershufler/js/jquery.magnific-popup.js') }}"></script>
+      <script type="text/javascript" src="{{ asset('bundles/shuflershufler/js/main.js') }}"></script>
+{% endblock %}
