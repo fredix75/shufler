@@ -104,3 +104,7 @@ shufler_shufler_flux_deleteLogo:
     defaults: {_controller: SHUFLERShuflerBundle:Flux:deleteLogo}
     requirements:
         id: \d*
+
+shufler_shufler_insee:
+    path: /insee
+    defaults: {_controller: SHUFLERShuflerBundle:Flux:insee}
