@@ -1,0 +1,41 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+<h1><span class="glyphicon glyphicon-edit"></span>&nbsp;{% trans %}layout.register{% endtrans %}</h1>
+{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+{# Les erreurs générales du formulaire. #}
+<div class="well">
+	<div class="row">
+		<span class="error">{{ form_errors(form.email) }}</span>
+		{{ form_label(form.email, 'form.email', {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+		<div class="col-sm-6 col-md-6">
+			{{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'form.email'}}) }}
+		</div>
+	</div>
+	<div class="row">
+		<span class="error">{{ form_errors(form.username) }}</span>
+		{{ form_label(form.username, 'form.username', {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+		<div class="col-sm-6 col-md-6">
+			{{ form_widget(form.username, {'attr': {'class': 'form-control'}}) }}
+		</div>
+	</div>
+	<div class="row">
+		<span class="error">{{ form_errors(form.plainPassword.first) }}</span>
+		{{ form_label(form.plainPassword.first, 'form.password', {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+		<div class="col-sm-3 col-md-2">
+			{{ form_widget(form.plainPassword.first) }}
+		</div>
+		{{ form_label(form.username, 'form.password_confirmation', {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+		<div class="col-sm-2 col-md-2">
+			{{ form_widget(form.plainPassword.second) }}
+		</div>
+	</div>
+	<div style="text-align:right">
+	   	<input type="submit" class= "btn btn-primary" value="{{ 'registration.submit'|trans }}" />
+	</div>
+</div>	
+{{ form_end(form) }}
+
+{% endblock fos_user_content %}

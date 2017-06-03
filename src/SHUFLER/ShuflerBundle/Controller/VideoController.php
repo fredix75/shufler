@@ -20,7 +20,7 @@ class VideoController extends Controller {
     	
     	$i=0;
     	foreach($videos as $key=>$video){
-    		if(($video->getCategorie()==1 || $video->getCategorie()==9) && count($anims)<6){
+    		if(($video->getCategorie()==1 || $video->getCategorie()==9) && count($anims)<4){
     			array_push($anims, $video);
     			unset($videos[$key]);
     			$i++;
@@ -34,7 +34,7 @@ class VideoController extends Controller {
     			$i++;
     		}
     		
-    		if($i>=18){
+    		if($i>=16){
     			break;	
     		}
     	}

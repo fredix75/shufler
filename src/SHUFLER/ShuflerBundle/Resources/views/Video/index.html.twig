@@ -33,11 +33,11 @@
       {% endfor %}
       <div class="texte">
         <br/><br/>
-        <p style="font-size:260%;line-height:1;text-align:right;">SHUFLER, le site<br/>qui débloque les idées.</p>
+        <p style="font-size:260%;line-height:1;text-align:center;"><img src="{{ asset('bundles/shuflershufler/img/logo_shufler.png') }}" width=400px /> des clips en vrac..</p>
         <br/><br/><hr>
-        <div class="pull-right">
-          <a class="btn btn-default" href="{{ path('shufler_shufler_homepage') }}"><span class="glyphicon glyphicon-refresh"></span>&nbsp;{{ 'New Selection'|trans }}</a>&nbsp;&nbsp;
-          <a class="btn btn-default" href="{{ path('fos_user_registration_register') }}"><span class="glyphicon glyphicon-flag"></span>&nbsp;{{ 'Create an account'|trans }}</a>
+        <div style="text-align:center">
+          <a class="btn btn-default" href="{{ path('shufler_shufler_homepage') }}" style="background-color:black"><span class="glyphicon glyphicon-refresh"></span>&nbsp;{{ 'New Selection'|trans }}</a>&nbsp;&nbsp;
+          <a class="btn btn-default" href="{{ path('fos_user_registration_register') }}" style="background-color:black"><span class="glyphicon glyphicon-flag"></span>&nbsp;{{ 'Create an account'|trans }}</a>
         </div>
         <br/><br/>
       </div>      
@@ -45,7 +45,7 @@
     
     <section class="col-sm-4 col-md-3">
       <h1><span class="glyphicon glyphicon-film"></span>&nbsp;Animés</h1>
-      {% for video in anims|slice(1, 4) %}
+      {% for video in anims|slice(1, 3) %}
       <div class="media topcol embed-responsive-16by9">
         {% include("SHUFLERShuflerBundle:Video:video_inc.html.twig") %}
       </div>

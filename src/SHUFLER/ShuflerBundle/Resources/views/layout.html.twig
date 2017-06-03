@@ -24,25 +24,25 @@
 		</style>
 	  	  
 	</head>
-	<body>
-      <header>
+<body>
+    <header>
 		<nav class = "navbar navbar-default navbar-fixed-top" role = "navigation">
 			{{ render(controller('SHUFLERShuflerBundle:Main:navigation')) }}	
 		</nav>
-      </header>
+    </header>
       
-   	  <div class="container">
+   	<div class="container">
    	  {% for label, flashes in app.session.flashbag.all %}
       	{% for flash in flashes %}
         <div class="alert alert-{{ label }}">
         	<p style="float:left;"><img src="{{ asset('bundles/shuflershufler/img/' ~ label ~ '.png') }}" width=75px/></p> 
             <p style="margin-left:120px;">{{ flash }}</p>
         </div>
-   	  {% endfor %}
-{% endfor %}	
-	    {% block body %}
-	  	{% endblock %}
-	  </div>
+   	  	{% endfor %}
+	  {% endfor %}	
+	  {% block body %}
+	  {% endblock %}
+	</div>
 		  		
 		<footer>
 			<img src="https://www.kangourouge.com/img/fixtures/expertises/badge-symfony.png" height=60px style="display:block;float:right;"/>
