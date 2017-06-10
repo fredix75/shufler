@@ -91,7 +91,12 @@ class OtherController extends Controller {
 				'wiki' => $wiki
 		));
 	
+	}	
+	
+	public function testAction() {
+		return $this -> render('SHUFLERShuflerBundle:Other:test.html.twig');
 	}
+	
 	
 	
 }

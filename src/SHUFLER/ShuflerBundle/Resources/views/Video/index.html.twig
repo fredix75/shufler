@@ -37,7 +37,7 @@
         <br/><br/><hr>
         <div style="text-align:center">
           <a class="btn btn-default" href="{{ path('shufler_shufler_homepage') }}" style="background-color:black"><span class="glyphicon glyphicon-refresh"></span>&nbsp;{{ 'New Selection'|trans }}</a>&nbsp;&nbsp;
-          <a class="btn btn-default" href="{{ path('fos_user_registration_register') }}" style="background-color:black"><span class="glyphicon glyphicon-flag"></span>&nbsp;{{ 'Create an account'|trans }}</a>
+          {% if not app.user %}<a id="register_second" class="btn btn-default" data-toggle="modal" data-target="#userModal" href="#" style="background-color:black" ><span class="glyphicon glyphicon-flag"></span>&nbsp;{{ 'Create an account'|trans }}</a>{% endif %}
         </div>
         <br/><br/>
       </div>      

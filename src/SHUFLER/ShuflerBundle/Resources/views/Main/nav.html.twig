@@ -54,7 +54,7 @@
             </ul>
          </li>
 	{% else %}
-         <li><a href="{{ path('fos_user_security_login') }}"><span class="glyphicon glyphicon-fire"></span>&nbsp;{{ 'Login'|trans }}</a></li>
+         <li><a href="#" data-toggle="modal" data-target="#userModal"><span class="glyphicon glyphicon-fire"></span>&nbsp;{{ 'Login'|trans }}</a></li>
       {% endif %}
      </ul>
      <form class="navbar-form navbar-right inline-form" role="form" action="{{ url('shufler_shufler_search') }}">

@@ -60,7 +60,7 @@
 	  	.container{
 	  		/*background-color:#666;*/
 	  		padding:20px;
-	  		margin-top:20px;
+	  		margin-top:60px;
 	  		box-shadow:1px 1px 14px black;
 	  		width: 100%;
 	  	}
@@ -357,4 +357,17 @@
 			font-size:2em;
 		}
 		
+		#login_tab .row, #register_tab .row {
+			margin: 20px 0;
+		}
+		
+		#login_tab label, #register_tab label {
+			font-size: 80%;
+			text-align:right;
+		}
+		
+		#login_tab .submit , #register_tab .submit {
+			text-align:center;
+			margin-bottom:20px;
+		}
 		

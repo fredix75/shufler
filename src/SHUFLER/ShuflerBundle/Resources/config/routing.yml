@@ -108,3 +108,7 @@ shufler_shufler_flux_deleteLogo:
 shufler_shufler_insee:
     path: /insee
     defaults: {_controller: SHUFLERShuflerBundle:Flux:insee}
+    
+shufler_shufler_test:
+    path: /test
+    defaults: {_controller: SHUFLERShuflerBundle:Other:test}    

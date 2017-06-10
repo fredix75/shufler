@@ -24,38 +24,44 @@
 		</style>
 	  	  
 	</head>
-<body>
-    <header>
-		<nav class = "navbar navbar-default navbar-fixed-top" role = "navigation">
-			{{ render(controller('SHUFLERShuflerBundle:Main:navigation')) }}	
-		</nav>
-    </header>
-      
-   	<div class="container">
-   	  {% for label, flashes in app.session.flashbag.all %}
-      	{% for flash in flashes %}
-        <div class="alert alert-{{ label }}">
-        	<p style="float:left;"><img src="{{ asset('bundles/shuflershufler/img/' ~ label ~ '.png') }}" width=75px/></p> 
-            <p style="margin-left:120px;">{{ flash }}</p>
-        </div>
-   	  	{% endfor %}
-	  {% endfor %}	
-	  {% block body %}
-	  {% endblock %}
-	</div>
-		  		
+	<body>
+	    <header>
+			<nav class = "navbar navbar-default navbar-fixed-top" role = "navigation">
+				{{ render(controller('SHUFLERShuflerBundle:Main:navigation')) }}	
+			</nav>
+	    </header>
+	      
+	   	<div class="container">
+	   	  {% for label, flashes in app.session.flashbag.all %}
+	      	{% for flash in flashes %}
+	        <div class="alert alert-{{ label }}">
+	        	<p style="float:left;"><img src="{{ asset('bundles/shuflershufler/img/' ~ label ~ '.png') }}" width=75px/></p> 
+	            <p style="margin-left:120px;">{{ flash }}</p>
+	        </div>
+	   	  	{% endfor %}
+		  {% endfor %}
+		  	
+		  {% block body %}{% endblock %}
+		  
+		  {%  if not app.user %}
+		  	{% include 'SHUFLERShuflerBundle:Main:login_modal.html.twig'%}
+		  {% endif %}
+		</div>
+			  		
 		<footer>
 			<img src="https://www.kangourouge.com/img/fixtures/expertises/badge-symfony.png" height=60px style="display:block;float:right;"/>
-	    	<br/><p>nFactory © {{ 'now'|date('Y') }} - fred_ric@hotmail.com.</p>
-	    </footer>
+		   	<br/><p>nFactory © {{ 'now'|date('Y') }} - fred_ric@hotmail.com.</p>
+		</footer>
+		
 	
-	
-	  {% block javascripts %}
+	{% block javascripts %}
 		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 	    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 	    {# <script src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script> #} 
 	  
 	  	<script type="text/javascript">
+
+	  		// search :: autocomplete
 			$(document).ready(function() {
 			    $('#search_field').autocomplete({
 			        serviceUrl: '{{ path("shufler_shufler_searchAjax") }}',
@@ -63,7 +69,45 @@
 			    });
 			});
 
-	  	 
+	  		// user connexion panel
+			$('#register_second').click(function(){
+				$('#onglet_register').addClass('active');
+				$('#onglet_register').siblings().removeClass('active');
+				$('#register_tab').addClass('active in');
+				$('#register_tab').siblings().removeClass('active in');				
+			});
+			
+			$(document).on('click','#register_submit',function(e){
+		        e.preventDefault();
+		        $.ajax({
+			        type: 'POST',
+			        url: '{{ path("fos_user_registration_register") }}',
+			        data: $('form').serialize()
+		        }).done(function(msg){
+		        	if(msg.success === true) {
+		        		document.location.reload();
+						return;
+			        }
+					$('#register').html(msg);
+			    });
+	        });
+
+	        $(document).on('click','#login_submit',function(e){
+		        e.preventDefault();
+		        $.ajax({
+			        type: 'POST',
+			        url: '{{ path("fos_user_security_check") }}',
+			        data: $('form').serialize()
+		        }).done(function(msg){
+		        	if(msg.success === true) {
+		        		document.location.reload();
+						return;
+			        }
+					$('#login').html(msg);
+			    });
+	        });
+
+		  // analytics
 		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -73,6 +117,6 @@
 		  ga('send', 'pageview'); 
 		</script>
 		<script type="text/javascript" src="{{ asset('bundles/shuflershufler/js/autocomplete.js') }}"></script>
-		  {% endblock %}
+	{% endblock %}
 	</body>
 </html>

@@ -2,3 +2,16 @@ services:
 #    shufler_user.example:
 #        class: SHUFLER\UserBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]
+
+    se.app.listener.registration:
+        class: SHUFLER\UserBundle\EventListener\RegistrationListener
+        arguments: ["@request_stack"]
+        tags:
+            - { name: kernel.event_subscriber }
+
+    shufler.security.authentication_handler:
+        class: SHUFLER\UserBundle\EventListener\AuthenticationHandler
+        public: false
+        arguments:
+            - @router
+            - @session
