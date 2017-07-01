@@ -41,3 +41,6 @@ rest :
 
 api_login_check:
    path: /api/login_check
+
+genemu_base64:
+   resource: "@GenemuFormBundle/Resources/config/routing/base64.xml"

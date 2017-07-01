@@ -21,7 +21,7 @@ class AppKernel extends Kernel {
 				new JMS\I18nRoutingBundle\JMSI18nRoutingBundle (),
 				new Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle (),
 				new Nelmio\ApiDocBundle\NelmioApiDocBundle (),
-				//new Genemu\Bundle\FormBundle\GenemuFormBundle(),
+				new Genemu\Bundle\FormBundle\GenemuFormBundle(),
 		);
 		
 		if (in_array ( $this->getEnvironment (), array (

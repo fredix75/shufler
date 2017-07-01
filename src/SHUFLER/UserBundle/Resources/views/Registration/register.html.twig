@@ -29,9 +29,9 @@
 		{{ form_widget(form.plainPassword.second) }}
 	</div>
 </div>
-<div class="submit">
+{{form_rest(form) }}<div class="submit">
    	<input id="register_submit" type="submit" class= "btn btn-primary" value="{{ 'registration.submit'|trans }}" />
-</div>		
+</div>
 {{ form_end(form) }}
 {% endblock fos_user_content %}
 {% block javascripts %}

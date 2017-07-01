@@ -3,11 +3,17 @@ services:
 #        class: SHUFLER\UserBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]
 
-    se.app.listener.registration:
+    shufler.listener.registration:
         class: SHUFLER\UserBundle\EventListener\RegistrationListener
         arguments: ["@request_stack"]
         tags:
             - { name: kernel.event_subscriber }
+
+    shufler.registration.form.type:
+        class: SHUFLER\UserBundle\Form\RegistrationType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: shufler_user_registration }
 
     shufler.security.authentication_handler:
         class: SHUFLER\UserBundle\EventListener\AuthenticationHandler
