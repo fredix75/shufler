@@ -11,6 +11,7 @@ parameters:
     public_key_path: '%kernel.root_dir%/var/jwt/public.pem'
     pass_phrase: ThisTokenIsNotSoSecretChangeItPlease
     token_ttl: 86400
+    youtube_key: 'AIzaSyBNgi3EddUNsFThnFQpPt3RR9kkuWmhHdo'
 
 framework:
     #esi:             ~
