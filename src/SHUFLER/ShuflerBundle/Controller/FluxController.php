@@ -147,8 +147,6 @@ class FluxController extends Controller {
 		$flux = new Flux();
 		$flux -> setUrl('http://www.bdm.insee.fr/series/sdmx/data/SERIES_BDM/001565183');
 		$test = simplexml_load_file('http://www.bdm.insee.fr/series/sdmx/data/SERIES_BDM/001565183')->{'Dataset'};
-
-		var_dump($test);exit;
 		
 		return $this->render('SHUFLERShuflerBundle:Flux:flux.html.twig',array('flux'=>$test));
 	}
