@@ -65,6 +65,10 @@
 	  		width: 100%;
 	  	}
 	  	
+	  	.alert{
+		  	height:105px;
+	  	}
+	  	
 	  	.bande{
 	  		border-radius:8px;
 	  		height:420px;
@@ -112,9 +116,6 @@
 	  		list-style-type: none;
 	  	}
 	  	 
-	  	 .alert{
-	  	 	height:105px;
-	  	 }
 	  	 	
 	@media (max-width: 1500px) {
 		  .navbar-header {
@@ -257,8 +258,6 @@
 		.annee_small{
 			color:orange;
 			font-weight:bold;
-			
-			
 		}
 		
 		.categorie{

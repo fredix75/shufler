@@ -86,11 +86,16 @@
 	          
 			  var makey='{{ youtube_key }}';
 	          
-	          $.get('https://www.googleapis.com/youtube/v3/videos?key='+makey, {	id: player.getPlaylist()[index], part: 'snippet' }, function(result) {			 
-				    if(result.items[0].id) {
+	          $.get('https://www.googleapis.com/youtube/v3/videos?key='+makey, {
+		          id: player.getPlaylist()[index],
+		          part: 'snippet'
+			    }, function(result) {	 
+				    if(result && result.items && result.items[0].id) {
 				    	$('#cartouche').html(result.items[0].snippet.title);
 				    	$('#description').html(result.items[0].snippet.description);
-				    }
+				    }else {
+				    	$('#cartouche').html('');
+					}
 			  },'jsonp');
 
           }
