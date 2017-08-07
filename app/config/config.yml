@@ -96,6 +96,12 @@ fos_user:
         address: you@example.com
         sender_name: You
 
+endroid_twitter:
+    consumer_key: 'VXoWGb1ELRCkl4EYfDdpjDHq0'
+    consumer_secret: 'i0Fz0ntQPTF23rwznQp0bLOIptOIYTq0L27seIloVxlGWQvNa0'
+    access_token: '881191637896093696-EKBLpT1BWl6BVAEfU05KaXPc4aUk4oa'
+    access_token_secret: 'MoSucw4CZjOYvY63wAcX0NROAIyIZ5PGAUVDxQKUiyn3S'
+
 services:
   twig.extension.intl:
     class: Twig_Extensions_Extension_Intl

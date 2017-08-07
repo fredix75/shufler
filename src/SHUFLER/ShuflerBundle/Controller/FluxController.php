@@ -4,12 +4,9 @@ namespace SHUFLER\ShuflerBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use SHUFLER\ShuflerBundle\Entity\Link;
 use SHUFLER\ShuflerBundle\Entity\Flux;
 use SHUFLER\ShuflerBundle\Form\FluxType;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\DependencyInjection\SimpleXMLElement;
 
 class FluxController extends Controller {
 	
@@ -36,8 +33,7 @@ class FluxController extends Controller {
 	
 			//$contenu=$fluxParser->convertXML($rss->getUrl());
 			$contenu=$rss->getContenu();
-			
-			
+				
 			for($i=$debut;$i<$debut+6;$i++){
 				if(isset($contenu[$i])){
 					$contenu[$i]->title=stripslashes($contenu[$i]->title);
@@ -142,6 +138,39 @@ class FluxController extends Controller {
 	
 	}
 
+	public function tweeterAction(Request $request) {
+		$tweets = array();
+		$search = null;
+		$twitter = $this->get('endroid.twitter');
+		
+		if($request->get('search_tweeter')){
+			$search = $request -> get('search_tweeter');
+			
+			$parameters = array('q' => $search, 'lang' => 'fr', 'count' =>100);
+			$response = $twitter->query('/search/tweets', 'GET', 'json', $parameters);
+			//var_dump($response->getContent());exit;
+			foreach (json_decode($response->getContent())->statuses as $i => $tweet) {
+				$tweets[$i]['id']= $tweet->id_str;
+				$tweets[$i]['screen']= 'x';
+			}
+						
+		} else {
+			$response = $twitter->getTimeline([
+					'count' => 5
+			]);
+
+			foreach ($response as $i => $tweet) {
+				$tweets[$i]['id'] = $tweet->id_str;
+				$tweets[$i]['screen'] = 'x';
+			}
+			
+		}
+		return $this -> render('SHUFLERShuflerBundle:Flux:tweeter.html.twig', array(
+				'tweets' => $tweets,
+				'search' => $search
+		));
+	}
+	
 	
 	public function inseeAction(Request $request){
 		$flux = new Flux();

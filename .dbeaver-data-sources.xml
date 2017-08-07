@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data-sources>
+	<data-source id="mysql5-15d417061bc-3556a9dd2d24cc46" provider="mysql" driver="mysql5" name="MySQL - Shufler" save-password="true" show-system-objects="true" read-only="false">
+		<connection host="localhost" port="3306" server="" database="Shufler" url="jdbc:mysql://localhost:3306/Shufler" user="root" type="dev">
+			<network-handler type="PROXY" id="socks_proxy" enabled="false" save-password="false">
+				<property name="socks-port" value="1080"/>
+			</network-handler>
+			<network-handler type="CONFIG" id="mysql_ssl" enabled="false" save-password="false">
+				<property name="ssl.public.key.retrieve" value="false"/>
+				<property name="ssl.verify.server" value="true"/>
+				<property name="ssl.require" value="false"/>
+			</network-handler>
+			<network-handler type="TUNNEL" id="ssh_tunnel" enabled="false" save-password="false">
+				<property name="sshConnectTimeout" value="10000"/>
+				<property name="port" value="22"/>
+				<property name="authType" value="PASSWORD"/>
+			</network-handler>
+			<bootstrap autocommit="false"/>
+		</connection>
+	</data-source>
+	<data-source id="mysql5-15d4173d69a-3366905a84c05557" provider="mysql" driver="mysql5" name="MySQL - shufler" save-password="true" show-system-objects="true" read-only="false">
+		<connection host="localhost" port="3306" server="" database="shufler" url="jdbc:mysql://localhost:3306/shufler" user="root" type="dev">
+			<network-handler type="PROXY" id="socks_proxy" enabled="false" save-password="false">
+				<property name="socks-port" value="1080"/>
+			</network-handler>
+			<network-handler type="CONFIG" id="mysql_ssl" enabled="false" save-password="false">
+				<property name="ssl.public.key.retrieve" value="false"/>
+				<property name="ssl.verify.server" value="true"/>
+				<property name="ssl.require" value="false"/>
+			</network-handler>
+			<network-handler type="TUNNEL" id="ssh_tunnel" enabled="false" save-password="false">
+				<property name="sshConnectTimeout" value="10000"/>
+				<property name="port" value="22"/>
+				<property name="authType" value="PASSWORD"/>
+			</network-handler>
+			<bootstrap autocommit="false"/>
+		</connection>
+	</data-source>
+</data-sources>

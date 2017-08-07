@@ -22,6 +22,7 @@ class AppKernel extends Kernel {
 				new Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle (),
 				new Nelmio\ApiDocBundle\NelmioApiDocBundle (),
 				//new Genemu\Bundle\FormBundle\GenemuFormBundle(),
+				new Endroid\Twitter\Bundle\EndroidTwitterBundle(),
 		);
 		
 		if (in_array ( $this->getEnvironment (), array (

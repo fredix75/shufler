@@ -80,3 +80,10 @@
 			color:#666;
 			padding:5px;
 		}
+		
+		#coch, #decoch {
+			background-color:#666;
+			color:white;
+			padding:5px;
+			border-radius: 5px;
+		}

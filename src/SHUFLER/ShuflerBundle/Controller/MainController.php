@@ -37,19 +37,7 @@ class MainController extends Controller {
 		}
 		
 	}
-	
-	
-	public function testAction(){
-	
-			$videos=$this->getDoctrine()->getManager()->getRepository('SHUFLERShuflerBundle:Video')->searchAjax('sim');
-				
-			foreach($videos as $video){
-
-			}
-			return new Response('ok');
 		
-	}
-	
 	public function mailAction(){
 /*		
 		//mail('fred_ric@hotmail.com', 'test' , 'test', 'from : fred_ric@hotmail.com');

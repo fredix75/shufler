@@ -6,11 +6,20 @@
 	{{  parent() }}
 {% endblock %}
 
-
 {% block body %}	
-HELLO
+  <div class="row">
+		<section>
+		search
+		</section
+		<section class="col-sm-12 col-md-4 ">
+			{% for status in tweets %}
+				<blockquote class="twitter-tweet" data-lang="fr"><a href="https://twitter.com/x/status/{{ status }}"></a></blockquote>
+			{% endfor %}
+		</section>
+	</div>
 {% endblock %}
 
 {% block javascripts %}
 {{ parent() }}
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 {% endblock %}

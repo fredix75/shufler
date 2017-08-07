@@ -15,7 +15,8 @@
 		    	<li><a href="{{ path('shufler_shufler_rss') }}"><span class="glyphicon glyphicon-globe"></span>&nbsp;{{'News'|trans}}</a></li>
            {%  if app.user %}
                 <li><a href="{{ path('shufler_shufler_podcast') }}"><span class="glyphicon glyphicon-headphones"></span>&nbsp;{{'Podcasts'|trans}}</a></li>
-                                <li><a href="{{ path('shufler_shufler_radio') }}"><span class="glyphicon glyphicon-flash"></span>&nbsp;{{'Radios'|trans}}</a></li>
+                <li><a href="{{ path('shufler_shufler_radio') }}"><span class="glyphicon glyphicon-flash"></span>&nbsp;{{'Radios'|trans}}</a></li>
+				<li><a href="{{ path('shufler_shufler_tweeter') }}"><span class="glyphicon glyphicon-alert"></span>&nbsp;{{'Tweeter'}}</a></li>
            		{% if is_granted('ROLE_ADMIN') %}
    					<li><a href="{{ path('shufler_shufler_links') }}"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;{{ 'Links'|trans }}</a></li>
 					<li><a href="{{ path('shufler_shufler_apiyt') }}"><span class="glyphicon glyphicon-cloud"></span>&nbsp;{{ 'APIs Search'|trans }}</a></li>

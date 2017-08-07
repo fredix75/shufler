@@ -23,13 +23,14 @@
 		"friendsofsymfony/user-bundle" : "dev-master",
 		"vimeo/vimeo-api" : "~1.2",
 		"twig/extensions" : "~1.3",
-		"jms/i18n-routing-bundle": "dev-master",
-		"coresphere/console-bundle": "dev-master",
-		"friendsofsymfony/rest-bundle": "dev-master",
-		"nelmio/api-doc-bundle": "~2.8",
-		"jms/serializer-bundle": "dev-master",
-		"lexik/jwt-authentication-bundle": "dev-master",
-		"genemu/form-bundle": "2.2.*"
+		"jms/i18n-routing-bundle" : "dev-master",
+		"coresphere/console-bundle" : "dev-master",
+		"friendsofsymfony/rest-bundle" : "dev-master",
+		"nelmio/api-doc-bundle" : "~2.8",
+		"jms/serializer-bundle" : "dev-master",
+		"lexik/jwt-authentication-bundle" : "dev-master",
+		"genemu/form-bundle" : "2.2.*",
+		"endroid/twitter" : "^1.3"
 	},
 	"require-dev" : {
 		"sensio/generator-bundle" : "~2.3",

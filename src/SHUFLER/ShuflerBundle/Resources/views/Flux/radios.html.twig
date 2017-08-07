@@ -10,6 +10,7 @@
 {% block body %}
 	<div class="selector well">
 		<input type="checkbox" value="1" checked="checked"/>&nbsp;Généralistes&nbsp;&nbsp;
+		<input type="checkbox" value="11" checked="checked"/>&nbsp;Informations&nbsp;&nbsp;
 		<input type="checkbox" value="2" checked="checked"/>&nbsp;Rock&nbsp;&nbsp;
 		<input type="checkbox" value="3" checked="checked"/>&nbsp;Jazz&nbsp;&nbsp;
 		<input type="checkbox" value="4" checked="checked"/>&nbsp;Groove&nbsp;&nbsp;
@@ -39,8 +40,9 @@
 
 		$('#decoch').click(function(){
 			$('.selector input[type="checkbox"]').each(function(){
-				$(this).attr('checked',false);
+				$(this).prop('checked',false);
 				cochDecoch(this);
+
 			});
 		});
 		

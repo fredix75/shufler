@@ -94,7 +94,8 @@ class OtherController extends Controller {
 	}	
 	
 	public function testAction() {
-		return $this -> render('SHUFLERShuflerBundle:Other:test.html.twig');
+		$tweets = array();
+		return $this -> render('SHUFLERShuflerBundle:Other:test.html.twig', array('tweets'=>$tweets));
 	}
 	
 	

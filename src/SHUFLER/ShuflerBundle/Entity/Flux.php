@@ -247,8 +247,10 @@ class Flux
      */
     public function loadContent(){
     	if($this->name != 'Liberation'){
-    		$this->contenu=@simplexml_load_file($this->url)->{'channel'}->{'item'};
-    	}else{
+    		if(@simplexml_load_file($this->url)->{'channel'}->{'item'}) {
+	    		$this->contenu=@simplexml_load_file($this->url)->{'channel'}->{'item'};
+    		}
+    	} else {
     		$this->contenu=@simplexml_load_file($this->url)->{'entry'};
     	}
     }

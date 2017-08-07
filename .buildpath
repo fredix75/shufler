@@ -1,86 +1,464 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <buildpath>
-	<buildpathentry kind="src" path="vendor/symfony/symfony/src/Symfony/Bridge/ProxyManager"/>
-	<buildpathentry kind="src" path="vendor/composer"/>
-	<buildpathentry kind="src" path="vendor/symfony/assetic-bundle"/>
-	<buildpathentry kind="src" path="vendor/sensiolabs/security-checker"/>
-	<buildpathentry kind="src" path="vendor/phpdocumentor/reflection-common/src"/>
-	<buildpathentry kind="src" path="vendor/nelmio/api-doc-bundle"/>
-	<buildpathentry kind="src" path="vendor/doctrine/cache/lib/Doctrine/Common/Cache"/>
-	<buildpathentry kind="src" path="vendor/symfony/symfony/src/Symfony/Bridge/Swiftmailer"/>
-	<buildpathentry kind="src" path="vendor/phpdocumentor/reflection-docblock/src"/>
-	<buildpathentry kind="src" path="src"/>
 	<buildpathentry kind="con" path="org.eclipse.php.core.LANGUAGE"/>
-	<buildpathentry kind="src" path="vendor/symfony/symfony/src/Symfony/Component/HttpFoundation/Resources/stubs"/>
-	<buildpathentry kind="src" path="vendor/sensio/framework-extra-bundle"/>
-	<buildpathentry kind="src" path="vendor/coresphere/console-bundle"/>
-	<buildpathentry kind="src" path="vendor/sebastian/recursion-context/src"/>
-	<buildpathentry kind="src" path="vendor/monolog/monolog/src/Monolog"/>
-	<buildpathentry kind="src" path="vendor/sebastian/diff/src"/>
-	<buildpathentry kind="src" path="vendor/symfony/symfony/src/Symfony/Bridge/Twig"/>
-	<buildpathentry kind="src" path="vendor/symfony/polyfill-mbstring"/>
-	<buildpathentry kind="src" path="vendor/phpunit/phpunit-mock-objects/src"/>
-	<buildpathentry kind="src" path="vendor/sebastian/comparator/src"/>
-	<buildpathentry kind="src" path="vendor/phpunit/php-text-template/src"/>
-	<buildpathentry kind="src" path="vendor/symfony/polyfill-util"/>
-	<buildpathentry kind="src" path="vendor/phpunit/php-token-stream/src"/>
-	<buildpathentry kind="src" path="vendor/sebastian/environment/src"/>
-	<buildpathentry kind="src" path="vendor/swiftmailer/swiftmailer/lib"/>
-	<buildpathentry kind="src" path="vendor/michelf/php-markdown"/>
-	<buildpathentry kind="src" path="vendor/sebastian/version/src"/>
-	<buildpathentry kind="src" path="vendor/doctrine/doctrine-bundle"/>
-	<buildpathentry kind="src" path="vendor/symfony/polyfill-php56"/>
-	<buildpathentry kind="src" path="vendor/doctrine/common/lib/Doctrine/Common"/>
-	<buildpathentry kind="src" path="vendor/doctrine/data-fixtures/lib"/>
-	<buildpathentry kind="src" path="vendor/phpdocumentor/type-resolver/src"/>
-	<buildpathentry kind="src" path="vendor/doctrine/instantiator/src/Doctrine/Instantiator"/>
-	<buildpathentry kind="src" path="vendor/symfony/monolog-bundle"/>
-	<buildpathentry kind="src" path="vendor/doctrine/doctrine-fixtures-bundle"/>
-	<buildpathentry kind="src" path="vendor/webmozart/assert/src"/>
-	<buildpathentry kind="src" path="vendor/vimeo/vimeo-api/src/Vimeo"/>
-	<buildpathentry kind="src" path="vendor/willdurand/jsonp-callback-validator/src"/>
-	<buildpathentry kind="src" path="vendor/friendsofsymfony/rest-bundle"/>
-	<buildpathentry kind="src" path="vendor/genemu/form-bundle"/>
-	<buildpathentry kind="src" path="vendor/phpunit/php-code-coverage/src"/>
-	<buildpathentry kind="src" path="vendor/lexik/jwt-authentication-bundle"/>
-	<buildpathentry kind="src" path="vendor/doctrine/collections/lib"/>
-	<buildpathentry kind="src" path="vendor/phpunit/php-timer/src"/>
-	<buildpathentry kind="src" path="vendor/jms/serializer-bundle"/>
-	<buildpathentry kind="src" path="vendor/symfony/swiftmailer-bundle"/>
-	<buildpathentry kind="src" path="vendor/symfony/symfony/src/Symfony/Bundle"/>
-	<buildpathentry kind="src" path="vendor/doctrine/inflector/lib"/>
-	<buildpathentry kind="src" path="vendor/phpspec/prophecy/src"/>
-	<buildpathentry kind="src" path="vendor/symfony/symfony/src/Symfony/Bridge/Doctrine"/>
-	<buildpathentry kind="src" path="vendor/doctrine/orm/lib"/>
-	<buildpathentry kind="src" path="vendor/sensio/generator-bundle"/>
-	<buildpathentry kind="src" path="vendor/psr/log"/>
-	<buildpathentry kind="src" path="vendor/jms/serializer/src"/>
-	<buildpathentry kind="src" path="vendor/twig/extensions/lib"/>
-	<buildpathentry kind="src" path="vendor/namshi/jose/src/Namshi/JOSE"/>
-	<buildpathentry kind="src" path="vendor/jms/i18n-routing-bundle"/>
-	<buildpathentry kind="src" path="vendor/sebastian/exporter/src"/>
-	<buildpathentry kind="src" path="vendor/sensio/distribution-bundle"/>
-	<buildpathentry kind="src" path="vendor/phpunit/php-file-iterator/src"/>
-	<buildpathentry kind="src" path="vendor/jms/parser-lib/src"/>
-	<buildpathentry kind="src" path="vendor/phpunit/phpunit/src"/>
-	<buildpathentry kind="src" path="vendor/jdorn/sql-formatter/lib"/>
-	<buildpathentry kind="src" path="vendor/sebastian/global-state/src"/>
-	<buildpathentry kind="src" path="vendor/kriswallsmith/assetic/src"/>
-	<buildpathentry kind="src" path="vendor/willdurand/negotiation/src/Negotiation"/>
-	<buildpathentry kind="src" path="vendor/doctrine/lexer/lib"/>
-	<buildpathentry kind="src" path="vendor/doctrine/annotations/lib"/>
-	<buildpathentry kind="src" path="vendor/doctrine/doctrine-cache-bundle"/>
-	<buildpathentry excluding="HttpFoundation/Resources/stubs/|Intl/Resources/stubs/" kind="src" path="vendor/symfony/symfony/src/Symfony/Component"/>
-	<buildpathentry kind="src" path="vendor/friendsofsymfony/user-bundle"/>
-	<buildpathentry kind="src" path="vendor/phpseclib/phpseclib/phpseclib"/>
-	<buildpathentry kind="src" path="vendor/symfony/symfony/src/Symfony/Bridge/Monolog"/>
-	<buildpathentry kind="src" path="vendor/doctrine/dbal/lib"/>
-	<buildpathentry kind="src" path="vendor/incenteev/composer-parameter-handler"/>
-	<buildpathentry kind="src" path="vendor/jms/metadata/src"/>
-	<buildpathentry kind="src" path="vendor/paragonie/random_compat/lib"/>
-	<buildpathentry kind="src" path="vendor/phpoption/phpoption/src"/>
-	<buildpathentry kind="src" path="vendor/symfony/symfony/src/Symfony/Component/Intl/Resources/stubs"/>
-	<buildpathentry kind="src" path="vendor/phpcollection/phpcollection/src"/>
-	<buildpathentry kind="src" path="vendor/symfony/polyfill-apcu"/>
-	<buildpathentry kind="src" path="vendor/twig/twig/lib"/>
+	<buildpathentry kind="src" path="src">
+		<attributes>
+			<attribute name="composer" value="source"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/composer">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/coresphere/console-bundle">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/doctrine/annotations/lib">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/doctrine/cache/lib/Doctrine/Common/Cache">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/doctrine/collections/lib">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/doctrine/common/lib/Doctrine/Common">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/doctrine/data-fixtures/lib">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/doctrine/dbal/lib">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/doctrine/doctrine-bundle">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/doctrine/doctrine-cache-bundle">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/doctrine/doctrine-fixtures-bundle">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/doctrine/inflector/lib">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/doctrine/instantiator/src/Doctrine/Instantiator">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/doctrine/lexer/lib">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/doctrine/orm/lib">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/endroid/twitter/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/friendsofsymfony/rest-bundle">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/friendsofsymfony/user-bundle">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/genemu/form-bundle">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/incenteev/composer-parameter-handler">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/ircmaxell/password-compat/lib">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/jdorn/sql-formatter/lib">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/jms/i18n-routing-bundle">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/jms/metadata/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/jms/parser-lib/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/jms/serializer-bundle">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/jms/serializer/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/kriswallsmith/assetic/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/kriswallsmith/buzz/lib">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/lexik/jwt-authentication-bundle">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/michelf/php-markdown">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/monolog/monolog/src/Monolog">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/namshi/jose/src/Namshi/JOSE">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/nelmio/api-doc-bundle">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/paragonie/random_compat/lib">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/phpcollection/phpcollection/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/phpdocumentor/reflection-common/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/phpdocumentor/reflection-docblock/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/phpdocumentor/type-resolver/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/phpoption/phpoption/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/phpspec/prophecy/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/phpunit/php-code-coverage/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/phpunit/php-file-iterator/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/phpunit/php-text-template/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/phpunit/php-timer/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/phpunit/php-token-stream/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/phpunit/phpunit-mock-objects/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/phpunit/phpunit/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/psr/log/Psr/Log">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/sebastian/comparator/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/sebastian/diff/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/sebastian/environment/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/sebastian/exporter/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/sebastian/global-state/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/sebastian/recursion-context/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/sebastian/version/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/sensio/distribution-bundle">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/sensio/framework-extra-bundle">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/sensio/generator-bundle">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/sensiolabs/security-checker">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/swiftmailer/swiftmailer/lib">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/symfony/assetic-bundle">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/symfony/monolog-bundle">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/symfony/polyfill-apcu">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/symfony/polyfill-intl-icu">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/symfony/polyfill-mbstring">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry excluding="Resources/stubs/" kind="src" path="vendor/symfony/polyfill-php54">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/symfony/polyfill-php54/Resources/stubs">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/symfony/polyfill-php55">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/symfony/polyfill-php56">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry excluding="Resources/stubs/" kind="src" path="vendor/symfony/polyfill-php70">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/symfony/polyfill-php70/Resources/stubs">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/symfony/polyfill-util">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/symfony/security-acl">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/symfony/swiftmailer-bundle">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/symfony/symfony/src/Symfony/Bridge/Doctrine">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/symfony/symfony/src/Symfony/Bridge/Monolog">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/symfony/symfony/src/Symfony/Bridge/ProxyManager">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/symfony/symfony/src/Symfony/Bridge/Swiftmailer">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/symfony/symfony/src/Symfony/Bridge/Twig">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/symfony/symfony/src/Symfony/Bundle">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry excluding="Intl/Resources/stubs/" kind="src" path="vendor/symfony/symfony/src/Symfony/Component">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/symfony/symfony/src/Symfony/Component/Intl/Resources/stubs">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/twig/extensions/lib">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/twig/extensions/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/twig/twig/lib">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/twig/twig/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/vimeo/vimeo-api/src/Vimeo">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/webmozart/assert/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/willdurand/jsonp-callback-validator/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/willdurand/negotiation/src/Negotiation">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
 </buildpath>

@@ -1,0 +1,33 @@
+{% extends "SHUFLERShuflerBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} Zone Test{% endblock %}
+
+{% block stylesheets %}
+	{{  parent() }}
+{% endblock %}
+
+{% block body %}	
+	<div class="row">
+		<section>
+			<form name="form1" action="{{  path('shufler_shufler_tweeter') }}" method="POST">
+				<div class="col-xs-10 col-sm-10 col-md-10">
+					<input type="search" id="search_tweeter" name="search_tweeter" value="{{ search|trim }}" class="input-sm form-control" placeholder="search on Twitter" style="background-color:#666666;color:white;font-size:200%;height:50px;" />
+				</div>
+				<div class="col-xs-2 col-sm-2 col-md-2">
+					<button type="submit" id="enter_search" class="btn btn-primary btn-sm" style="height:50px;width:50px;"><span class="glyphicon glyphicon-forward"></span></button>
+				</div>
+			</form>
+		</section>
+	
+		<section class="col-lg-4 col-lg-offset-4 col-sm-12">
+			{% for status in tweets %}
+				<blockquote class="twitter-tweet" data-lang="fr"><a href="https://twitter.com/{{ status.screen }}/status/{{ status.id }}"></a></blockquote>
+			{% endfor %}
+		</section>
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+{% endblock %}
