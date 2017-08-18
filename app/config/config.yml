@@ -162,3 +162,7 @@ lexik_jwt_authentication:
     public_key_path:    %public_key_path%
     pass_phrase:        %pass_phrase%
     token_ttl:          %token_ttl%
+    token_extractors:
+        authorization_header: ~
+        cookie: ~
+        query_parameter: ~

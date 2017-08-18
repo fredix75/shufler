@@ -3,18 +3,18 @@ namespace SHUFLER\ShuflerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\Groups;
-use JMS\Serializer\Annotation\VirtualProperty;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Video
  *
  * @ORM\Entity(repositoryClass="SHUFLER\ShuflerBundle\Entity\VideoRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @Assert\Callback(methods={"isGoodPeriod"})
  * 
  * @ExclusionPolicy("all") 
  * 
@@ -38,7 +38,7 @@ class Video
      * @var string
      *
      * @ORM\Column(name="titre", type="string", length=255)
-     * @Assert\Length(min=2,minMessage="Ce titre paraît suspect")
+     * @Assert\Length(min=2, minMessage="Ce titre paraît suspect")
      * 
      * @Expose
      * @Groups({"List","Details"})
@@ -50,7 +50,7 @@ class Video
      * @var string
      *
      * @ORM\Column(name="auteur", type="string", length=255)
-     * @Assert\Length(min=2,minMessage="Cet auteur paraît suspect")
+     * @Assert\Length(min=2, minMessage="Cet auteur paraît suspect")
      * 
      * @Expose
      * @Groups({"List","Details"})
@@ -131,7 +131,7 @@ class Video
      * @var string
      *
      * @ORM\Column(name="periode", type="string", length=9)
-     * 
+     *  
      * @Expose
      * 
      */
@@ -576,4 +576,21 @@ class Video
         $this->moods->removeElement($mood);
         $mood->removeElement($this);
     }
+    
+    
+    /*
+     * Is Period coherent with date Validator
+     * 
+     */
+    public function isGoodPeriod(ExecutionContextInterface $context) {
+    	if ($this->getAnnee() != '' && $this->getPeriode() != -1) {
+    		$periode = $this->getPeriode();
+    		$finPeriode = (int)substr($periode, -4);
+    		$debutPeriode = (substr($periode, 0 , 1) != '<') ? (int)substr($periode, 0, 4) : 0;
+    		if ((int)$this->getAnnee() < $debutPeriode ||  (int)$this->getAnnee() > $finPeriode) {
+    			$context->addViolation('La Période ne correspond pas à l\'année');
+    		}
+    	}
+    }
+    
 }
