@@ -32,7 +32,7 @@
 			</div>	
 			<br/>
 			<div class="well">
-				<span class="badge" style="float:right;">{{ video.dateInsert|date('d/m/Y') }}</span><br/>
+				<span class="badge" style="float:right;">{{ video.dateInsert|date('H:i:s') }}</span><br/>
 			{% if is_granted('ROLE_AUTEUR') %}
 				<a class="btn btn-default" href="{{ path('shufler_shufler_video_edit',{'id':video.id}) }}"><span class="glyphicon glyphicon-edit"></span>&nbsp;Edit the reference</a>
 				&nbsp;

@@ -1,6 +1,6 @@
 <?php
-
 namespace SHUFLER\ShuflerBundle\Entity;
+
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
@@ -12,190 +12,217 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
  */
 class VideoRepository extends \Doctrine\ORM\EntityRepository
 {
-	
-	/**
-	 * Get the paginated list of published videos
-	 *
-	 * @param int $page
-	 * @param int $maxperpage
-	 * @param string $sortby
-	 * @return Paginator
-	 */
-	
-	public function getRandomVids(){
-    	
-    	$videos=$this->_em->createQueryBuilder()
-		->select('a')
-		->where('a.priorite= :priorite')
-		->andWhere('a.published= true')
-		->setParameter('priorite',1)
-		->orderBy('a.id', 'DESC')
-		->from('SHUFLERShuflerBundle:Video','a')
-		->getQuery()
-      	->getResult()
-		;
-    	
-    	shuffle($videos);
-    	    	
-    	return $videos;
-    
-	}
-		
-	function getVideo($id){
-		$video=$this->_em->createQueryBuilder()
-		->select('a')
-		->where('a.id= :id')
-		->setParameter('id',$id)
-		->from('SHUFLERShuflerBundle:Video','a')
-		->getQuery()
-		->getSingleResult()
-		;
-		
-		return $video;
-	}
-	
-	function getTestVideo($id){
-		$video=$this->_em->createQueryBuilder()
-		->select('a')
-		->where('a.id= :id')
-		->setParameter('id',$id)
-		->from('SHUFLERShuflerBundle:Video','a')
-		->getQuery()
-		->getResult()
-		;
-	
-		return $video;
-	}
-	
-	function searchVideos($search,$page=1, $maxperpage=12){
-		$q = $this->_em->createQueryBuilder()
-		->select('a')
-		->where('a.published= 1')
-		;
-				
-		$orModule = $q->expr()->orx()
-			->add($q->expr()->like('a.auteur', ':search'))
-			->add($q->expr()->like('a.titre', ':search'))
-			->add($q->expr()->like('a.chapo', ':search'))
-			->add($q->expr()->like('a.annee', ':search'))
-		;
-		
-		$q->andWhere($orModule)
-		->setParameter('search','%'.$search.'%')
-		->from('SHUFLERShuflerBundle:Video','a')
-		;
-	
-		$q->setFirstResult(($page-1) * $maxperpage)
-		->setMaxResults($maxperpage);
-	
-		return new Paginator($q);
-	}
-	
-	function searchAjax($search){
 
-		
-		$auteurs=$this->_em->createQueryBuilder()
-		->select('a.auteur')
-		->where('a.priorite= :priorite')
-		->andWhere('a.published= true')
-		->andWhere('a.auteur like :search OR a.chapo like :search')
-		->setParameter('priorite',1)
-		->setParameter('search','%'.$search.'%')
-		->orderBy('a.auteur', 'ASC')
-		->from('SHUFLERShuflerBundle:Video','a')
-		->groupBy('a.auteur')
-		->getQuery()
-		->getResult()
-		;	
-		
-		$titres=$this->_em->createQueryBuilder()
-		->select('a.titre')
-		->where('a.priorite= :priorite')
-		->andWhere('a.published= true')
-		->andWhere('a.titre like :search')
-		->setParameter('priorite',1)
-		->setParameter('search','%'.$search.'%')
-		->orderBy('a.titre', 'ASC')
-		->from('SHUFLERShuflerBundle:Video','a')
-		->groupBy('a.titre')
-		->getQuery()
-		->getResult()
-		;
-		
-		
-		$suggestions=array();
-		foreach($auteurs as $auteur){
-			$suggestions[]=$auteur['auteur'];
-		}
-		foreach($titres as $titre){
-			$suggestions[]=$titre['titre'];			
-		}
-		
-		return $suggestions;
-	}
-	
-	public function getListByCategorie($categorie,$page=1, $maxperpage=12)
-	{
-		$q = $this->_em->createQueryBuilder()
-		->select('a')
-		->where('a.categorie = :categorie')
-		->setParameter('categorie', $categorie)
-		->andWhere('a.priorite= :priorite')
-		->setParameter('priorite',1)
-		->andWhere('a.published = true')
-		->orderBy('a.id', 'DESC')
-		->from('SHUFLERShuflerBundle:Video','a')
-		;
-	
-		$q->setFirstResult(($page-1) * $maxperpage)
-		->setMaxResults($maxperpage);
-	
-		return new Paginator($q);
-	}
-	
-	public function getCountByCategorie($categorie){
-		return $this->_em->createQueryBuilder('a')
-		->select('COUNT(a)')
-		->where('a.categorie= :categorie')
-		->setParameter('categorie',$categorie)
-		->andWhere('a.priorite= :priorite')
-		->setParameter('priorite',1)
-		->andWhere('a.published = true')
-		->from('SHUFLERShuflerBundle:Video','a')
-		->getQuery()
-		->getSingleScalarResult();
-	}
-	
-	public function getListByPeriode($periode,$page=1, $maxperpage=12)
-	{
-		$q = $this->_em->createQueryBuilder()
-		->select('a')
-		->where('a.periode = :periode')
-		->setParameter('periode', $periode)
-		->andWhere('a.priorite= :priorite')
-		->setParameter('priorite',1)
-		->andWhere('a.published = true')
-		->orderBy('a.id', 'DESC')
-		->from('SHUFLERShuflerBundle:Video','a')
-		;
-	
-		$q->setFirstResult(($page-1) * $maxperpage)
-		->setMaxResults($maxperpage);
-	
-		return new Paginator($q);
-	}
-	
-	public function getCountByPeriode($periode){
-		return $this->_em->createQueryBuilder('a')
-		->select('COUNT(a)')
-		->where('a.periode= :periode')
-		->setParameter('periode',$periode)
-		->andWhere('a.priorite= :priorite')
-		->setParameter('priorite',1)
-		->andWhere('a.published = true')
-		->from('SHUFLERShuflerBundle:Video','a')
-		->getQuery()
-		->getSingleScalarResult();
-	}
-	
+    /**
+     * Get the paginated list of published videos
+     *
+     * @param int $page            
+     * @param int $maxperpage            
+     * @param string $sortby            
+     * @return Paginator
+     */
+    public function getRandomVids()
+    {
+        $videos = $this->_em->createQueryBuilder()
+            ->select('a')
+            ->where('a.priorite= :priorite')
+            ->andWhere('a.published= true')
+            ->setParameter('priorite', 1)
+            ->orderBy('a.id', 'DESC')
+            ->from('SHUFLERShuflerBundle:Video', 'a')
+            ->getQuery()
+            ->getResult();
+        
+        shuffle($videos);
+        
+        return $videos;
+    }
+
+    /**
+     * Get One Video
+     *
+     * @param unknown $id            
+     * @return mixed|\Doctrine\DBAL\Driver\Statement|array|NULL
+     */
+    function getVideo($id)
+    {
+        $video = $this->_em->createQueryBuilder()
+            ->select('a')
+            ->where('a.id= :id')
+            ->setParameter('id', $id)
+            ->from('SHUFLERShuflerBundle:Video', 'a')
+            ->getQuery()
+            ->getSingleResult();
+        
+        return $video;
+    }
+    
+    /**
+     * Get Paginated List of Result of Search 
+     *
+     * @param unknown $search            
+     * @param number $page            
+     * @param number $maxperpage            
+     * @return \Doctrine\ORM\Tools\Pagination\Paginator
+     */
+    function searchVideos($search, $page = 1, $maxperpage = 12)
+    {
+        $q = $this->_em->createQueryBuilder()
+            ->select('a')
+            ->where('a.published= 1');
+        
+        $orModule = $q->expr()
+            ->orx()
+            ->add($q->expr()
+            ->like('a.auteur', ':search'))
+            ->add($q->expr()
+            ->like('a.titre', ':search'))
+            ->add($q->expr()
+            ->like('a.chapo', ':search'))
+            ->add($q->expr()
+            ->like('a.annee', ':search'));
+        
+        $q->andWhere($orModule)
+            ->setParameter('search', '%' . $search . '%')
+            ->from('SHUFLERShuflerBundle:Video', 'a');
+        
+        $q->setFirstResult(($page - 1) * $maxperpage)->setMaxResults($maxperpage);
+        
+        return new Paginator($q);
+    }
+
+    /**
+     * Autocomplete Search Videos Engine
+     * 
+     * @param unknown $search
+     * @return unknown[]
+     */
+    function searchAjax($search)
+    {
+        $auteurs = $this->_em->createQueryBuilder()
+            ->select('a.auteur')
+            ->where('a.priorite= :priorite')
+            ->andWhere('a.published= true')
+            ->andWhere('a.auteur like :search OR a.chapo like :search')
+            ->setParameter('priorite', 1)
+            ->setParameter('search', '%' . $search . '%')
+            ->orderBy('a.auteur', 'ASC')
+            ->from('SHUFLERShuflerBundle:Video', 'a')
+            ->groupBy('a.auteur')
+            ->getQuery()
+            ->getResult();
+        
+        $titres = $this->_em->createQueryBuilder()
+            ->select('a.titre')
+            ->where('a.priorite= :priorite')
+            ->andWhere('a.published= true')
+            ->andWhere('a.titre like :search')
+            ->setParameter('priorite', 1)
+            ->setParameter('search', '%' . $search . '%')
+            ->orderBy('a.titre', 'ASC')
+            ->from('SHUFLERShuflerBundle:Video', 'a')
+            ->groupBy('a.titre')
+            ->getQuery()
+            ->getResult();
+        
+        $suggestions = array();
+        foreach ($auteurs as $auteur) {
+            $suggestions[] = $auteur['auteur'];
+        }
+        foreach ($titres as $titre) {
+            $suggestions[] = $titre['titre'];
+        }
+        
+        return $suggestions;
+    }
+
+    /**
+     * Get Paginated List of Vidéos by category
+     * 
+     * @param unknown $categorie
+     * @param number $page
+     * @param number $maxperpage
+     * @return \Doctrine\ORM\Tools\Pagination\Paginator
+     */
+    public function getListByCategorie($categorie, $page = 1, $maxperpage = 12)
+    {
+        $q = $this->_em->createQueryBuilder()
+            ->select('a')
+            ->where('a.categorie = :categorie')
+            ->setParameter('categorie', $categorie)
+            ->andWhere('a.priorite= :priorite')
+            ->setParameter('priorite', 1)
+            ->andWhere('a.published = true')
+            ->orderBy('a.id', 'DESC')
+            ->from('SHUFLERShuflerBundle:Video', 'a');
+        
+        $q->setFirstResult(($page - 1) * $maxperpage)->setMaxResults($maxperpage);
+        
+        return new Paginator($q);
+    }
+
+    /**
+     * Get count Videos by cateory
+     * 
+     * @param unknown $categorie
+     * @return mixed|\Doctrine\DBAL\Driver\Statement|array|NULL
+     */
+    public function getCountByCategorie($categorie)
+    {
+        return $this->_em->createQueryBuilder('a')
+            ->select('COUNT(a)')
+            ->where('a.categorie= :categorie')
+            ->setParameter('categorie', $categorie)
+            ->andWhere('a.priorite= :priorite')
+            ->setParameter('priorite', 1)
+            ->andWhere('a.published = true')
+            ->from('SHUFLERShuflerBundle:Video', 'a')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * Get Paginated List of Videos by period
+     * 
+     * @param unknown $periode
+     * @param number $page
+     * @param number $maxperpage
+     * @return \Doctrine\ORM\Tools\Pagination\Paginator
+     */
+    public function getListByPeriode($periode, $page = 1, $maxperpage = 12)
+    {
+        $q = $this->_em->createQueryBuilder()
+            ->select('a')
+            ->where('a.periode = :periode')
+            ->setParameter('periode', $periode)
+            ->andWhere('a.priorite= :priorite')
+            ->setParameter('priorite', 1)
+            ->andWhere('a.published = true')
+            ->orderBy('a.id', 'DESC')
+            ->from('SHUFLERShuflerBundle:Video', 'a');
+        
+        $q->setFirstResult(($page - 1) * $maxperpage)->setMaxResults($maxperpage);
+        
+        return new Paginator($q);
+    }
+
+    /**
+     * Get count Videos by period
+     * 
+     * @param unknown $periode
+     * @return mixed|\Doctrine\DBAL\Driver\Statement|array|NULL
+     */
+    public function getCountByPeriode($periode)
+    {
+        return $this->_em->createQueryBuilder('a')
+            ->select('COUNT(a)')
+            ->where('a.periode= :periode')
+            ->setParameter('periode', $periode)
+            ->andWhere('a.priorite= :priorite')
+            ->setParameter('priorite', 1)
+            ->andWhere('a.published = true')
+            ->from('SHUFLERShuflerBundle:Video', 'a')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

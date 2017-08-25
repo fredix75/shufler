@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class RegistrationListener implements EventSubscriberInterface
 {
+
     private $router;
 
     public function __construct(RequestStack $RequestStack)
@@ -21,7 +22,9 @@ class RegistrationListener implements EventSubscriberInterface
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
+     *
      */
     public static function getSubscribedEvents()
     {
@@ -30,21 +33,30 @@ class RegistrationListener implements EventSubscriberInterface
         );
     }
 
+    /**
+     * onRegistrationSuccess
+     * 
+     * @param FormEvent $event
+     */
     public function onRegistrationSuccess(FormEvent $event)
     {
         $request = $this->requestStack->getCurrentRequest();
-
+        
         // Prepare your response
         if ($request->isXmlHttpRequest()) {
-            $array = array( 'success' => true ); // data to return via JSON
-            $response = new Response( json_encode( $array ) );
-            $response->headers->set( 'Content-Type', 'application/json' );
+            $array = array(
+                'success' => true
+            ); // data to return via JSON
+            $response = new Response(json_encode($array));
+            $response->headers->set('Content-Type', 'application/json');
         } else {
-            $array = array( 'success' => false ); // data to return via JSON
-            $response = new Response( json_encode( $array ) );
-            $response->headers->set( 'Content-Type', 'application/json' );
+            $array = array(
+                'success' => false
+            ); // data to return via JSON
+            $response = new Response(json_encode($array));
+            $response->headers->set('Content-Type', 'application/json');
         }
-
+        
         // Send it
         $event->setResponse($response);
     }

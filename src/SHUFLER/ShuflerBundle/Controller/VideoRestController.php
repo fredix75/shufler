@@ -16,6 +16,7 @@ class VideoRestController extends FOSRestController
 {
 	
 	/**
+	 * GET All Videos
 	 * 
      * @Rest\Get("/videos")
      *
@@ -36,10 +37,12 @@ class VideoRestController extends FOSRestController
 		if(!$videos){
 			throw $this->createNotFoundException();
 		}
+
 		return $videos;
 	}
 	
 	/**
+	 * GET One Video
 	 *
 	 * @Rest\Get("/video/{id}",
 	 * 	    requirements={"id"="\d+"}
@@ -74,6 +77,8 @@ class VideoRestController extends FOSRestController
 	}
 	
 	/**
+	 * POST Video
+	 * 
 	 * @Rest\Post("/video")
 	 *
 	 *
@@ -117,6 +122,8 @@ class VideoRestController extends FOSRestController
 	}
 
 	/**
+	 * PUT ONE VIDEO
+	 * 
 	 * @Rest\Put("/video/{id}",
 	 * 		requirements={"id"="\d+"}
 	 * )
@@ -179,6 +186,8 @@ class VideoRestController extends FOSRestController
 	
 	
 	/**
+	 * DELETE One Video
+	 * 
 	 * @Rest\Delete("/video/{id}",
 	 * 		requirements={"id"="\d+"}
 	 * )

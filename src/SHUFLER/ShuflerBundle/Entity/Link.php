@@ -1,5 +1,4 @@
 <?php
-
 namespace SHUFLER\ShuflerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -12,9 +11,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Link
 {
+
     /**
-     * @var integer
      *
+     * @var integer
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -22,44 +22,43 @@ class Link
     private $id;
 
     /**
-     * @var string
      *
+     * @var string
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
     /**
-     * @var string
      *
+     * @var string
      * @ORM\Column(name="link", type="string", length=255)
      */
     private $link;
 
     /**
-     * @var string
      *
+     * @var string
      * @ORM\Column(name="category", type="string", length=50)
      */
     private $category;
 
     /**
-     * @var string
      *
+     * @var string
      * @ORM\Column(name="pic", type="string", nullable=true, length=255)
      */
     private $pic;
 
     /**
-     * @var \DateTime
      *
+     * @var \DateTime
      * @ORM\Column(name="dateInsert", type="datetime")
      */
     private $dateInsert;
 
-    
-    public function __construct(){
-    	$this->dateInsert=new \Datetime();
-    	
+    public function __construct()
+    {
+        $this->dateInsert = new \Datetime();
     }
 
     /**
@@ -75,14 +74,14 @@ class Link
     /**
      * Set name
      *
-     * @param string $name
+     * @param string $name            
      *
      * @return Link
      */
     public function setName($name)
     {
         $this->name = $name;
-
+        
         return $this;
     }
 
@@ -99,14 +98,14 @@ class Link
     /**
      * Set link
      *
-     * @param string $link
+     * @param string $link            
      *
      * @return Link
      */
     public function setLink($link)
     {
         $this->link = $link;
-
+        
         return $this;
     }
 
@@ -123,14 +122,14 @@ class Link
     /**
      * Set category
      *
-     * @param string $category
+     * @param string $category            
      *
      * @return Link
      */
     public function setCategory($category)
     {
         $this->category = $category;
-
+        
         return $this;
     }
 
@@ -147,14 +146,14 @@ class Link
     /**
      * Set pic
      *
-     * @param string $pic
+     * @param string $pic            
      *
      * @return Link
      */
     public function setPic($pic)
     {
         $this->pic = $pic;
-
+        
         return $this;
     }
 
@@ -171,14 +170,14 @@ class Link
     /**
      * Set dateInsert
      *
-     * @param \DateTime $date
+     * @param \DateTime $date            
      *
      * @return Link
      */
     public function setDateInsert($dateInsert)
     {
         $this->dateInsert = $dateInsert;
-
+        
         return $this;
     }
 

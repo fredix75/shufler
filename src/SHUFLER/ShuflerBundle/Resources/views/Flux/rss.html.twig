@@ -23,7 +23,7 @@
 			<div class="flux-content" style="display:none;">
 				{% for info in flux.flux|slice(0, 6) %}
 				<div class="info col-md-12">
-					<small class="date">{{ info.updated|dateFlux2 }}</small>
+					<small class="date">{{ info.updated|dateFlux }}</small>
 					<h2><a href="{{ info.link.0.attributes.href }}" target="_blank" >{{ info.title|raw }}</a></h2>
 					{% if info.link.1.attributes.href is defined %}
 						<img src="{{ info.link.1.attributes.href|imageSubs }}" width="100%"/>
@@ -35,7 +35,7 @@
 			<div class="flux-summary">
 				<ul>
 				{% for info in flux.flux|slice(0, 6) %}
-					<li><strong><a href="{{ info.link.0.attributes.href }}" target="_blank" >{{ info.title|raw }}</a></strong> - <small>{{ info.updated|dateFlux2 }}</small></li>
+					<li><strong><a href="{{ info.link.0.attributes.href }}" target="_blank" >{{ info.title|raw }}</a></strong> - <small>{{ info.updated|dateFlux }}</small></li>
 				{% endfor %}
 				</ul>
 			</div>

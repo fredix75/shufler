@@ -15,171 +15,224 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * @ORM\Entity(repositoryClass="SHUFLER\ShuflerBundle\Entity\VideoRepository")
  * @ORM\HasLifecycleCallbacks()
  * @Assert\Callback(methods={"isGoodPeriod"})
- * 
- * @ExclusionPolicy("all") 
- * 
+ *
+ * @ExclusionPolicy("all")
  */
 class Video
 {
+
+    const MAX_LIST = 12;
+    
+    const CATEGORY_LIST = [
+        1 => 'Anim\'',
+        2 => 'Music Moment',
+        3 => 'Strange',
+        4 => 'Funny',
+        6 => 'Seen on Tv',
+        8 => 'Movie Time',
+        9 => 'Nature'
+    ];
+    
+    const PERIOD_LIST = [
+        '2016-2030',
+        '2001-2015',
+        '1986-2000',
+        '1971-1985',
+        '1956-1970',
+        '1940-1955',
+        '<1939'
+    ];
+    
+    const GENRE_LIST = [
+        -1 => 'autre',
+        1 => 'Jazz/Blues',
+        2 => 'Rock n\'Roll',
+        3 => 'Rock/Pop',
+        4 => 'Soul/Funk',
+        5 => 'Reggae/Ragga/Dub',
+        6 => 'Chanson',
+        7 => 'Punk/Alternatif',
+        8 => 'Hard-Rock',
+        9 => 'Blues Rock',
+        10 => 'Electro/DJs',
+        11 => 'World',
+        12 => 'Roots/Folk Rock',
+        13 => 'Rock progressif/psyché',
+        14 => 'Variétés / Pop',
+        15 => 'Trip-Hop',
+        16 => 'Afrobeat'	
+    ];
+    
+    const PRIORITY_LIST = [1,2,3,4];
+    
     /**
-     * @var integer
      *
+     * @var integer
+     * 
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * 
+     *     
      * @Expose
      * @Groups({"List","Details"})
-     * 
+     *     
      */
     private $id;
 
     /**
-     * @var string
      *
+     * @var string
+     * 
      * @ORM\Column(name="titre", type="string", length=255)
      * @Assert\Length(min=2, minMessage="Ce titre paraît suspect")
-     * 
+     *     
      * @Expose
      * @Groups({"List","Details"})
-     * 
+     *     
      */
     private $titre;
-    
+
     /**
-     * @var string
      *
+     * @var string
+     * 
      * @ORM\Column(name="auteur", type="string", length=255)
      * @Assert\Length(min=2, minMessage="Cet auteur paraît suspect")
-     * 
+     *     
      * @Expose
      * @Groups({"List","Details"})
-     * 
+     *     
      */
     private $auteur;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="lien", type="string", length=255)
+     * @var string
      * 
+     * @ORM\Column(name="lien", type="string", length=255)
+     *     
      * @Expose
      * @Groups({"List","Details"})
-     * 
+     *     
      */
     private $lien;
 
     /**
-     * @var string
      *
+     * @var string
+     * 
      * @ORM\Column(name="chapo", type="string", length=255, nullable=true)
-     * 
+     *     
      * @Expose
-     * 
+     *     
      */
     private $chapo;
 
     /**
-     * @var string
      *
+     * @var string
      * @ORM\Column(name="texte", type="text", nullable=true)
      */
     private $texte;
 
     /**
-     * @var integer
      *
+     * @var integer
      * @ORM\Column(name="annee", type="integer",nullable=true)
      * @Assert\Range(min=1895, max=2030)
-     * 
+     *     
      * @Expose
-     * 
+     *     
      */
     private $annee;
 
     /**
-     * @var integer
      *
+     * @var integer 
      * @ORM\Column(name="categorie", type="smallint")
-     * 
+     *     
      * @Expose
-     * 
+     *     
      */
     private $categorie;
 
     /**
-     * @var integer
      *
+     * @var integer
+     * 
      * @ORM\Column(name="genre", type="smallint", nullable=true)
-     * 
+     *     
      * @Expose
-     * 
+     *     
      */
     private $genre;
 
     /**
-     * @var integer
      *
+     * @var integer
+     * 
      * @ORM\Column(name="priorite", type="smallint")
-     * 
+     *     
      * @Expose
-     * 
+     *     
      */
     private $priorite;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="periode", type="string", length=9)
-     *  
-     * @Expose
+     * @var string
      * 
+     * @ORM\Column(name="periode", type="string", length=9)
+     *     
+     * @Expose
+     *     
      */
     private $periode;
 
-	/**
+    /**
      * @ORM\ManyToMany(targetEntity="SHUFLER\ShuflerBundle\Entity\Mood", cascade={"persist"}, inversedBy="videos")
-	 * @ORM\JoinTable(name="video_mood",
-	 * 		joinColumns={ @ORM\JoinColumn(name="video_id", referencedColumnName="id")},
-	 *		inverseJoinColumns={ @ORM\JoinColumn(name="mood_id", referencedColumnName="id")}
-	 * )
-	 * 
+     * @ORM\JoinTable(name="video_mood",
+     *  joinColumns={ @ORM\JoinColumn(name="video_id", referencedColumnName="id")},
+     *  inverseJoinColumns={ @ORM\JoinColumn(name="mood_id", referencedColumnName="id")}
+     * )
+     *
      * @Expose
-	 * 
      */
-  	private $moods;
-    
+    private $moods;
+
     /**
+     *
      * @var boolean
-     *
+     * 
      * @ORM\Column(name="published", type="boolean", nullable=true)
-     * 
+     *     
      * @Expose
-     * 
+     *     
      */
-    private $published=true;
-    
+    private $published = true;
+
     /**
-     * @var \DateTime
      *
+     * @var \DateTime
+     * 
      * @ORM\Column(name="date_insert", type="datetime")
      */
     private $dateInsert;
-    
+
     /**
-     * @var \DateTime
      *
+     * @var \DateTime
+     * 
      * @ORM\Column(name="date_update", type="datetime", nullable=true)
      */
     private $dateUpdate;
-    
-    
-    public function __construct(){
-    	$this->dateInsert = new \Datetime();
-    	$this->moods   = new ArrayCollection();
+
+    public function __construct()
+    {
+        $this->dateInsert = new \Datetime();
+        $this->moods = new ArrayCollection();
     }
-    
-    
+
     /**
      * Get id
      *
@@ -189,19 +242,18 @@ class Video
     {
         return $this->id;
     }
-    
-    
+
     /**
      * Set titre
      *
-     * @param string $titre
+     * @param string $titre            
      *
      * @return Video
      */
     public function setTitre($titre)
     {
         $this->titre = $titre;
-
+        
         return $this;
     }
 
@@ -215,18 +267,17 @@ class Video
         return $this->titre;
     }
 
-    
     /**
      * Set auteur
      *
-     * @param string $auteur
+     * @param string $auteur            
      *
      * @return Video
      */
     public function setAuteur($auteur)
     {
         $this->auteur = $auteur;
-
+        
         return $this;
     }
 
@@ -239,11 +290,11 @@ class Video
     {
         return $this->auteur;
     }
-       
+
     /**
      * Set lien
      *
-     * @param string $lien
+     * @param string $lien            
      *
      * @return Video
      */
@@ -251,24 +302,24 @@ class Video
     {
         $this->lien = $lien;
         
-        $pattern1='https://vimeo.com/channels/staffpicks/';
-        if(strripos($this->lien,$pattern1)!==false){
-        	$this->lien=str_replace($pattern1,'//player.vimeo.com/video/',$this->lien);
+        $pattern1 = 'https://vimeo.com/channels/staffpicks/';
+        if (strripos($this->lien, $pattern1) !== false) {
+            $this->lien = str_replace($pattern1, '//player.vimeo.com/video/', $this->lien);
         }
         
-        $pattern2='https://vimeo.com/';        
-        if(strripos($this->lien,$pattern2)!==false){
-        	$this->lien=str_replace($pattern2,'//player.vimeo.com/video/',$this->lien);
+        $pattern2 = 'https://vimeo.com/';
+        if (strripos($this->lien, $pattern2) !== false) {
+            $this->lien = str_replace($pattern2, '//player.vimeo.com/video/', $this->lien);
         }
         
-        $pattern4='https://player.vimeo.com/';
-        if(strripos($this->lien,$pattern4)!==false){
-        	$this->lien=str_replace($pattern4,'//player.vimeo.com/video/',$this->lien);
+        $pattern4 = 'https://player.vimeo.com/';
+        if (strripos($this->lien, $pattern4) !== false) {
+            $this->lien = str_replace($pattern4, '//player.vimeo.com/video/', $this->lien);
         }
         
-        $pattern3='http://www.dailymotion.com/video/';
-        if(strripos($this->lien,$pattern3)!==false){
-        	$this->lien=str_replace($pattern3,'//www.dailymotion.com/embed/video/',$this->lien);
+        $pattern3 = 'http://www.dailymotion.com/video/';
+        if (strripos($this->lien, $pattern3) !== false) {
+            $this->lien = str_replace($pattern3, '//www.dailymotion.com/embed/video/', $this->lien);
         }
         
         return $this;
@@ -281,29 +332,28 @@ class Video
      */
     public function getLien()
     {
-    	$lien=$this->lien;
-     	$pattern="https://www.youtube.com/watch?v=";
-    	$vid="//www.youtube.com/embed/";
-    	if(mb_substr($lien, 0, strlen($pattern))==$pattern){
-    		$vid.=substr($lien,strlen($pattern));
-    		$lien=$vid;
-    		
-    	}   	
-    	
+        $lien = $this->lien;
+        $pattern = "https://www.youtube.com/watch?v=";
+        $vid = "//www.youtube.com/embed/";
+        if (mb_substr($lien, 0, strlen($pattern)) == $pattern) {
+            $vid .= substr($lien, strlen($pattern));
+            $lien = $vid;
+        }
+        
         return $lien;
     }
 
     /**
      * Set chapo
      *
-     * @param string $chapo
+     * @param string $chapo            
      *
      * @return Video
      */
     public function setChapo($chapo)
     {
         $this->chapo = $chapo;
-
+        
         return $this;
     }
 
@@ -320,14 +370,14 @@ class Video
     /**
      * Set texte
      *
-     * @param string $texte
+     * @param string $texte            
      *
      * @return Video
      */
     public function setTexte($texte)
     {
         $this->texte = $texte;
-
+        
         return $this;
     }
 
@@ -344,14 +394,14 @@ class Video
     /**
      * Set annee
      *
-     * @param integer $annee
+     * @param integer $annee            
      *
      * @return Video
      */
     public function setAnnee($annee)
     {
         $this->annee = $annee;
-
+        
         return $this;
     }
 
@@ -368,14 +418,14 @@ class Video
     /**
      * Set categorie
      *
-     * @param integer $categorie
+     * @param integer $categorie            
      *
      * @return Video
      */
     public function setCategorie($categorie)
     {
         $this->categorie = $categorie;
-
+        
         return $this;
     }
 
@@ -392,14 +442,14 @@ class Video
     /**
      * Set genre
      *
-     * @param integer $genre
+     * @param integer $genre            
      *
      * @return Video
      */
     public function setGenre($genre)
     {
         $this->genre = $genre;
-
+        
         return $this;
     }
 
@@ -416,14 +466,14 @@ class Video
     /**
      * Set priorite
      *
-     * @param integer $priorite
+     * @param integer $priorite            
      *
      * @return Video
      */
     public function setPriorite($priorite)
     {
         $this->priorite = $priorite;
-
+        
         return $this;
     }
 
@@ -440,14 +490,14 @@ class Video
     /**
      * Set periode
      *
-     * @param string $periode
+     * @param string $periode            
      *
      * @return Video
      */
     public function setPeriode($periode)
     {
         $this->periode = $periode;
-
+        
         return $this;
     }
 
@@ -464,14 +514,14 @@ class Video
     /**
      * Set dateInsert
      *
-     * @param \DateTime $dateInsert
+     * @param \DateTime $dateInsert            
      *
      * @return Video
      */
     public function setDateInsert($dateInsert)
     {
         $this->dateInsert = $dateInsert;
-
+        
         return $this;
     }
 
@@ -488,14 +538,14 @@ class Video
     /**
      * Set published
      *
-     * @param boolean $published
+     * @param boolean $published            
      *
      * @return Video
      */
     public function setPublished($published)
     {
         $this->published = $published;
-
+        
         return $this;
     }
 
@@ -507,8 +557,8 @@ class Video
     public function getPublished()
     {
         return $this->published;
-    }    
- 
+    }
+
     /**
      * Get moods
      *
@@ -516,20 +566,20 @@ class Video
      */
     public function getMoods()
     {
-    	return $this->moods;
+        return $this->moods;
     }
 
     /**
      * Set dateUpdate
      *
-     * @param \DateTime $dateUpdate
+     * @param \DateTime $dateUpdate            
      *
      * @return Video
      */
     public function setDateUpdate($dateUpdate)
     {
         $this->dateUpdate = $dateUpdate;
-
+        
         return $this;
     }
 
@@ -542,55 +592,56 @@ class Video
     {
         return $this->dateUpdate;
     }
-    
+
     /**
-     * @ORM\PreUpdate
+     * Update Date 
      * 
+     * @ORM\PreUpdate
      */
     public function updateDate()
     {
-    	$this->setDateUpdate(new \Datetime());
+        $this->setDateUpdate(new \Datetime());
     }
 
     /**
      * Add mood
      *
-     * @param \SHUFLER\ShuflerBundle\Entity\Mood $mood
+     * @param \SHUFLER\ShuflerBundle\Entity\Mood $mood            
      *
      * @return Video
      */
     public function addMood(\SHUFLER\ShuflerBundle\Entity\Mood $mood)
     {
         $this->moods[] = $mood;
-
+        
         return $this;
     }
 
     /**
      * Remove mood
      *
-     * @param \SHUFLER\ShuflerBundle\Entity\Mood $mood
+     * @param \SHUFLER\ShuflerBundle\Entity\Mood $mood            
      */
     public function removeMood(\SHUFLER\ShuflerBundle\Entity\Mood $mood)
     {
         $this->moods->removeElement($mood);
         $mood->removeElement($this);
     }
-    
-    
-    /*
+
+    /**
      * Is Period coherent with date Validator
      * 
+     * @param ExecutionContextInterface $context
      */
-    public function isGoodPeriod(ExecutionContextInterface $context) {
-    	if ($this->getAnnee() != '' && $this->getPeriode() != -1) {
-    		$periode = $this->getPeriode();
-    		$finPeriode = (int)substr($periode, -4);
-    		$debutPeriode = (substr($periode, 0 , 1) != '<') ? (int)substr($periode, 0, 4) : 0;
-    		if ((int)$this->getAnnee() < $debutPeriode ||  (int)$this->getAnnee() > $finPeriode) {
-    			$context->addViolation('La Période ne correspond pas à l\'année');
-    		}
-    	}
+    public function isGoodPeriod(ExecutionContextInterface $context)
+    {
+        if ($this->getAnnee() != '' && $this->getPeriode() != - 1) {
+            $periode = $this->getPeriode();
+            $finPeriode = (int) substr($periode, - 4);
+            $debutPeriode = (substr($periode, 0, 1) != '<') ? (int) substr($periode, 0, 4) : 0;
+            if ((int) $this->getAnnee() < $debutPeriode || (int) $this->getAnnee() > $finPeriode) {
+                $context->addViolation('La Période ne correspond pas à l\'année');
+            }
+        }
     }
-    
 }

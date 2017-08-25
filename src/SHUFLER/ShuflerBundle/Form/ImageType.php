@@ -1,5 +1,4 @@
 <?php
-
 namespace SHUFLER\ShuflerBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -8,19 +7,20 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ImageType extends AbstractType
 {
+
     /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
+     *
+     * @param FormBuilderInterface $builder            
+     * @param array $options            
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('File','file')
-        ;
+        $builder->add('File', 'file');
     }
-    
+
     /**
-     * @param OptionsResolverInterface $resolver
+     *
+     * @param OptionsResolverInterface $resolver            
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
@@ -30,6 +30,7 @@ class ImageType extends AbstractType
     }
 
     /**
+     *
      * @return string
      */
     public function getName()

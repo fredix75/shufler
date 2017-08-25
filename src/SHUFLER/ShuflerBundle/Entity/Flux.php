@@ -1,11 +1,10 @@
 <?php
-
 namespace SHUFLER\ShuflerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use phpDocumentor\Reflection\Types\Integer;
-use Doctrine\DBAL\Types\JsonArrayType;
+
 
 /**
  * Flux
@@ -16,9 +15,31 @@ use Doctrine\DBAL\Types\JsonArrayType;
  */
 class Flux
 {
+
+    const FLUX_TYPE = array(
+        1 => 'rss',
+        2 => 'podcast',
+        3 => 'radio'
+    );
+    
+    const RADIO_TYPE = array(
+        1 => 'généraliste',
+        2 => 'rock',
+        3 => 'jazz',
+        4 => 'groove',
+        5 => 'reggae',
+        6 => 'disco',
+        7 => 'funk',
+        8 => 'classique',
+        9 => 'electro',
+        10 => 'bossa nova',
+        99 => 'autre'        
+    );
+    
     /**
-     * @var integer
      *
+     * @var integer
+     * 
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -26,20 +47,19 @@ class Flux
     private $id;
 
     /**
-     * @var string
      *
+     * @var string
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
     /**
-     * @var string
      *
+     * @var string
      * @ORM\Column(name="url", type="string", length=255)
      */
     private $url;
 
-    
     /**
      * @ORM\ManyToOne(targetEntity="SHUFLER\ShuflerBundle\Entity\Image", cascade={"persist","remove"})
      * @Assert\Valid()
@@ -47,37 +67,38 @@ class Flux
     private $logo;
 
     /**
-     * @var Integer
      *
+     * @var Integer
      * @ORM\Column(name="type", type="smallint")
      */
     private $type;
-    
+
     /**
-     * @var Integer
      *
+     * @var Integer
      * @ORM\Column(name="mood", type="smallint", nullable=true)
      */
     private $mood;
-    
+
     /**
-     * @var \DateTime
      *
+     * @var \DateTime
      * @ORM\Column(name="dateInsert", type="datetime")
      */
     private $dateInsert;
-    
+
     /**
+     *
      * @var \SimpleXMLElement
      *
      */
     private $contenu;
-    
-    public function __construct(){
-    	$this->dateInsert = new \Datetime();
+
+    public function __construct()
+    {
+        $this->dateInsert = new \Datetime();
     }
-        
-    
+
     /**
      * Get id
      *
@@ -91,14 +112,14 @@ class Flux
     /**
      * Set name
      *
-     * @param string $name
+     * @param string $name            
      *
      * @return Flux
      */
     public function setName($name)
     {
         $this->name = $name;
-
+        
         return $this;
     }
 
@@ -115,14 +136,14 @@ class Flux
     /**
      * Set url
      *
-     * @param string $url
+     * @param string $url            
      *
      * @return Flux
      */
     public function setUrl($url)
     {
         $this->url = $url;
-
+        
         return $this;
     }
 
@@ -139,14 +160,14 @@ class Flux
     /**
      * Set logo
      *
-     * @param string $logo
+     * @param string $logo            
      *
      * @return Flux
      */
     public function setLogo(Image $logo = null)
     {
         $this->logo = $logo;
-
+        
         return $this;
     }
 
@@ -155,7 +176,6 @@ class Flux
      *
      * @return string
      */
- 
     public function getLogo()
     {
         return $this->logo;
@@ -164,14 +184,14 @@ class Flux
     /**
      * Set dateInsert
      *
-     * @param \DateTime $dateInsert
+     * @param \DateTime $dateInsert            
      *
      * @return Flux
      */
     public function setDateInsert($dateInsert)
     {
         $this->dateInsert = $dateInsert;
-
+        
         return $this;
     }
 
@@ -184,23 +204,23 @@ class Flux
     {
         return $this->dateInsert;
     }
-    
-    public function getPic(){
-    	return $this->getLogo()->getUploadDir().'/'.$this->getLogo()->getId().'.'.$this->getLogo()->getExt();
-    }  
-    
+
+    public function getPic()
+    {
+        return $this->getLogo()->getUploadDir() . '/' . $this->getLogo()->getId() . '.' . $this->getLogo()->getExt();
+    }
 
     /**
      * Set type
      *
-     * @param integer $type
+     * @param integer $type            
      *
      * @return Flux
      */
     public function setType($type)
     {
         $this->type = $type;
-
+        
         return $this;
     }
 
@@ -214,18 +234,17 @@ class Flux
         return $this->type;
     }
 
-
     /**
      * Set mood
      *
-     * @param integer $mood
+     * @param integer $mood            
      *
      * @return Flux
      */
     public function setMood($mood)
     {
         $this->mood = $mood;
-
+        
         return $this;
     }
 
@@ -238,31 +257,31 @@ class Flux
     {
         return $this->mood;
     }
-    
+
     /**
      * @ORM\PostLoad
      *
      * @return \SimpleXMLElement
      *
      */
-    public function loadContent(){
-    	if($this->name != 'Liberation'){
-    		if(@simplexml_load_file($this->url)->{'channel'}->{'item'}) {
-	    		$this->contenu=@simplexml_load_file($this->url)->{'channel'}->{'item'};
-    		}
-    	} else {
-    		$this->contenu=@simplexml_load_file($this->url)->{'entry'};
-    	}
+    public function loadContent()
+    {
+        if ($this->name != 'Liberation') {
+            if (@simplexml_load_file($this->url)->{'channel'}->{'item'}) {
+                $this->contenu = @simplexml_load_file($this->url)->{'channel'}->{'item'};
+            }
+        } else {
+            $this->contenu = @simplexml_load_file($this->url)->{'entry'};
+        }
     }
-    
+
     /**
      * Get Contenu
      *
      * @return \SimpleXMLElement
-     */    
+     */
     public function getContenu()
     {
-    	return $this->contenu;
+        return $this->contenu;
     }
-    
 }

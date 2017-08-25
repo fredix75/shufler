@@ -1,5 +1,4 @@
 <?php
-
 namespace SHUFLER\ShuflerBundle\Entity;
 
 /**
@@ -10,29 +9,29 @@ namespace SHUFLER\ShuflerBundle\Entity;
  */
 class LinkRepository extends \Doctrine\ORM\EntityRepository
 {
-	
-	function getLinks(){
-		$links=$this->_em->createQueryBuilder()
-		->select('a')
-		->from('SHUFLERShuflerBundle:Link','a')
-		->orderBy('a.category', 'ASC')
-		->orderBy('a.name', 'ASC')
-		->getQuery()
-      	->getResult()
-		;
-	
-		return $links;
-	}
-	
-	function getCategories(){
-		$categories=$this->_em->createQueryBuilder()
-		->select('distinct a.category')
-		->from('SHUFLERShuflerBundle:Link','a')
-		->orderBy('a.category', 'ASC')
-		->getQuery()
-		->getResult()
-		;
-	
-		return $categories;
-	}
+
+    function getLinks()
+    {
+        $links = $this->_em->createQueryBuilder()
+            ->select('a')
+            ->from('SHUFLERShuflerBundle:Link', 'a')
+            ->orderBy('a.category', 'ASC')
+            ->orderBy('a.name', 'ASC')
+            ->getQuery()
+            ->getResult();
+        
+        return $links;
+    }
+
+    function getCategories()
+    {
+        $categories = $this->_em->createQueryBuilder()
+            ->select('distinct a.category')
+            ->from('SHUFLERShuflerBundle:Link', 'a')
+            ->orderBy('a.category', 'ASC')
+            ->getQuery()
+            ->getResult();
+        
+        return $categories;
+    }
 }

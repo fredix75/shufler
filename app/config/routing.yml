@@ -10,11 +10,6 @@ shufler_user_update:
     path: /update
     defaults: {_controller: SHUFLERUserBundle:User:update}
 
-shufler_shufler_translation:
-  path:     /{_locale}/traduction/{name}
-  defaults:
-    _controller: SHUFLERShuflerBundle:Video:translation
-
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 
@@ -33,6 +28,10 @@ fos_user_resetting:
 fos_user_change_password:
     resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
     prefix: /profile
+
+security_forbidden:
+    path: /forbidden
+    defaults: {_controller: SHUFLERUserBundle:User:forbidden} 
 
 rest : 
   type : rest 
