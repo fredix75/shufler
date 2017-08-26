@@ -53,8 +53,27 @@ class FluxController extends Controller
             ->getManager()
             ->getRepository('SHUFLERShuflerBundle:Flux')
             ->getRss();
+        
+        $flux = $this->formatFlux($rss);    
+            
+        shuffle($flux['infos']);
+        
+        return $this->render('SHUFLERShuflerBundle:Flux:rss.html.twig', array(
+            'infos' => $flux['infos'],
+            'libe' => $flux['libe'],
+            'jsonKeys' => json_encode($flux['jsonKeys'])
+        ));
+    }
 
+    /**
+     * format Flux to display
+     * 
+     * @param unknown $rss
+     * @return array[]|number[]|NULL[][]
+     */
+    private function formatFlux($rss) {
         $libe = [];
+        $infos = [];
         $jsonKeys = [];
         foreach ($rss as $flux) {
             if ($flux->getName() == 'Liberation') {
@@ -75,15 +94,14 @@ class FluxController extends Controller
             }
         }
         
-        shuffle($infos);
+        $result = [];
+        $result['libe'] = $libe;
+        $result['infos'] = $infos;
+        $result['jsonKeys'] = $jsonKeys;
         
-        return $this->render('SHUFLERShuflerBundle:Flux:rss.html.twig', array(
-            'infos' => $infos,
-            'libe' => $libe,
-            'jsonKeys' => json_encode($jsonKeys)
-        ));
+        return $result;
     }
-
+    
     /**
      * Get All Flows Podcast.
      *
