@@ -1,89 +1,89 @@
-		.bande-flux{
-			background-color:rgba(0,0,0,0.6);
-			border-bottom:5px solid black;
-		}
-	
-		.info{
-			background-color:rgba(255,255,255,0.4);
-			margin:5px 0px;
-		}
-		
-		h2.flux-titre{
-			color:white;
-			border-bottom:1px dotted white;
-			text-align:center;
-		}
-		
-		.info h2{
-			font-size:140%;
-			font-weight:bold;
-		}
-		
-		.info a{
-			color:black;
-		}
-		
-		.flux-summary a{
-			color:white;
-		}
-		
-		.info a:hover, .flux-summary a:hover{
-			text-decoration: underline;
-		}
-		
-		.info img{
-			width:100%;
-		}
+.bande-flux {
+	background-color: rgba(0, 0, 0, 0.6);
+	border-bottom: 5px solid black;
+}
 
-		.info iframe{
-			width:100%;
-		}
-		
-		.titre img{
-			display:block;
-			text-align:center;
-			margin:8px auto;
-		}
-		
-		.flux-summary{
-			color:white;
-		}
-		
-		.btn-toggle span{
-			-webkit-transition: all 1s ease; /* Safari and Chrome */
-  	 		-moz-transition: all 1s ease; /* Firefox */
-    		-o-transition: all 1s ease; /* IE 9 */
-			-ms-transition: all 1s ease; /* Opera */
-			transition: all 1s ease;
-		}
-		
-		.bloc-pages{
-			text-align:center;
-			color:yellow;
-		}
-		
-		.bloc-pages a{
-			color:white;
-		}
-		
-		.play{
-			background-color:white;
-			width:100%;
-			vertical-align: middle;
-			margin-bottom: 15px;
-			cursor: pointer;
-			height: 35px;
-		}
-		
-		.play-button{
-			border-radius: 15px;
-			color:#666;
-			padding:5px;
-		}
-		
-		#coch, #decoch {
-			background-color:#666;
-			color:white;
-			padding:5px;
-			border-radius: 5px;
-		}
+.info {
+	background-color: rgba(255, 255, 255, 0.4);
+	margin: 5px 0px;
+}
+
+h2.flux-titre {
+	color: white;
+	border-bottom: 1px dotted white;
+	text-align: center;
+}
+
+.info h2 {
+	font-size: 140%;
+	font-weight: bold;
+}
+
+.info a {
+	color: black;
+}
+
+.flux-summary a {
+	color: white;
+}
+
+.info a:hover, .flux-summary a:hover {
+	text-decoration: underline;
+}
+
+.info img {
+	width: 100%;
+}
+
+.info iframe {
+	width: 100%;
+}
+
+.titre img {
+	display: block;
+	text-align: center;
+	margin: 8px auto;
+}
+
+.flux-summary {
+	color: white;
+}
+
+.btn-toggle span {
+	-webkit-transition: all 1s ease; /* Safari and Chrome */
+	-moz-transition: all 1s ease; /* Firefox */
+	-o-transition: all 1s ease; /* IE 9 */
+	-ms-transition: all 1s ease; /* Opera */
+	transition: all 1s ease;
+}
+
+.bloc-pages {
+	text-align: center;
+	color: yellow;
+}
+
+.bloc-pages a {
+	color: white;
+}
+
+.play {
+	background-color: white;
+	width: 100%;
+	vertical-align: middle;
+	margin-bottom: 15px;
+	cursor: pointer;
+	height: 35px;
+}
+
+.play-button {
+	border-radius: 15px;
+	color: #666;
+	padding: 5px;
+}
+
+#coch, #decoch {
+	background-color: #666;
+	color: white;
+	padding: 5px;
+	border-radius: 5px;
+}
