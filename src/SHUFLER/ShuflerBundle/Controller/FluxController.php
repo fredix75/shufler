@@ -53,10 +53,10 @@ class FluxController extends Controller
             ->getManager()
             ->getRepository('SHUFLERShuflerBundle:Flux')
             ->getRss();
-        
+
+        $libe = [];
+        $jsonKeys = [];
         foreach ($rss as $flux) {
-            $libe = [];
-            $jsonKeys = [];
             if ($flux->getName() == 'Liberation') {
                 $libe[$flux->getId()]['flux'] = $flux->getContenu();
                 $libe[$flux->getId()]['name'] = $flux->getName();
