@@ -17,7 +17,7 @@
 				<div class="col-md-10">
 					<h2 class="media-heading">{{  video.titre }}</h2>
 					<span class="top-auteur">{{  video.auteur }}</span>
-					<p class="topchapo">{{ video.chapo|raw }}</p>
+					<p class="topchapo">{{ video.chapo }}</p>
 				</div>
 				<div class="col-md-2 col-push-right">
 					<div class="categorie col-md-12">{{ video.categorie|categorieDisplay }}</div>
@@ -28,7 +28,7 @@
 				{% endfor %}
 			</div>
 			<div class="media">
-				{{ video.texte|raw }}
+				{{ video.texte }}
 			</div>	
 			<br/>
 			<div class="well">

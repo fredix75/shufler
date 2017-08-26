@@ -11,7 +11,7 @@
 			<ul>	
 				{% for link in links %}
 					{% if link.category == categ.category %}
-						<li><a href="http://{{link.link|raw }}" target=_blank>{{ link.name }}</a></li>
+						<li><a href="http://{{link.link }}" target=_blank>{{ link.name }}</a></li>
 					{% endif %}
 				{% endfor %}
 			</ul>
