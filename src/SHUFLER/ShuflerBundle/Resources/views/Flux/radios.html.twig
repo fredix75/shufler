@@ -27,7 +27,7 @@
 		<div class="col col-md-6 mood{{ key.mood}}"> 
 			<iframe src="{{ key.url}}" style="width:100%;height:100px;" scrolling="no" frameborder="no"></iframe>
 			{% if is_granted('ROLE_ADMIN') %}
-				<a href="{{ path('shufler_shufler_flux_edit',{'id':key.id}) }}" style="position:absolute;top:50%;right:50px;"><span class="glyphicon glyphicon-edit"></span></a>
+				<a href="{{ path('shufler_flux_edit',{'id':key.id}) }}" style="position:absolute;top:50%;right:50px;"><span class="glyphicon glyphicon-edit"></span></a>
 			{% endif %}
 		</div>
 	{% endfor %}

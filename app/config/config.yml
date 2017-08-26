@@ -102,12 +102,6 @@ endroid_twitter:
     access_token: '881191637896093696-EKBLpT1BWl6BVAEfU05KaXPc4aUk4oa'
     access_token_secret: 'MoSucw4CZjOYvY63wAcX0NROAIyIZ5PGAUVDxQKUiyn3S'
 
-services:
-  twig.extension.intl:
-    class: Twig_Extensions_Extension_Intl
-    tags:
-      - { name: twig.extension }
-
 jms_i18n_routing:
     default_locale: %locale%
     locales: [en, fr, es, de, it, nl]

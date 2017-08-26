@@ -61,7 +61,7 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
                 $url = $this->session->get('_security.main.target_path');
             } else {
                 
-                $url = $this->router->generate('shufler_shufler_homepage');
+                $url = $this->router->generate('shufler_homepage');
             } // end if
             return new RedirectResponse($url);
         }

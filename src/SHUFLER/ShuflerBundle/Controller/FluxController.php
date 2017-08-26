@@ -287,7 +287,7 @@ class FluxController extends Controller
                 $this->get('session')
                     ->getFlashBag()
                     ->add('danger', $e->getMessage());
-                return $this->redirect($this->generateUrl('shufler_shufler_rss'));
+                return $this->redirect($this->generateUrl('shufler_rss'));
             }
         }
         
@@ -302,7 +302,7 @@ class FluxController extends Controller
                 ->getFlashBag()
                 ->add('success', 'Flux bien enregistré.');
             
-            return $this->redirect($this->generateUrl('shufler_shufler_flux_edit', array(
+            return $this->redirect($this->generateUrl('shufler_flux_edit', array(
                 'id' => $flux->getId()
             )));
         }
@@ -327,12 +327,12 @@ class FluxController extends Controller
         try {
             $em->remove($flux);
             $em->flush();
-            return $this->redirectToRoute('shufler_shufler_homepage');
+            return $this->redirectToRoute('shufler_homepage');
         } catch (\Exception $e) {
             $this->get('session')
                 ->getFlashBag()
                 ->add('danger', $e->getMessage());
-            return $this->redirectToRoute('shufler_shufler_rss');
+            return $this->redirectToRoute('shufler_rss');
         }
     }
 
@@ -346,6 +346,6 @@ class FluxController extends Controller
      */
     public function deleteLogoAction($id)
     {
-        return $this->redirectToRoute('shufler_shufler_homepage');
+        return $this->redirectToRoute('shufler_homepage');
     }
 }

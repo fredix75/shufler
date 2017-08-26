@@ -26,7 +26,7 @@
         <div class="col-xs-2 col-sm-2 col-md-2 col-push-md-right">
           <div class="col-md-12"><br/><span class="top-annee">{{  video.annee|yearDisplay }}</span></div>
           {% if is_granted('ROLE_AUTEUR') %}
-            <br/><div class="link_edit"><a href="{{ path('shufler_shufler_video_edit',{'id':video.id}) }}"><span class="glyphicon glyphicon-edit"></span></a></div> 
+            <br/><div class="link_edit"><a href="{{ path('shufler_video_edit',{'id':video.id}) }}"><span class="glyphicon glyphicon-edit"></span></a></div> 
           {% endif %}
         </div>
       </div>
@@ -36,7 +36,7 @@
         <p style="font-size:260%;line-height:1;text-align:center;"><img src="{{ asset('bundles/shuflershufler/img/logo_shufler.png') }}" width=50% /> des clips en vrac..</p>
         <br/><br/><hr>
         <div style="text-align:center">
-          <a class="btn btn-default" href="{{ path('shufler_shufler_homepage') }}" style="background-color:black"><span class="glyphicon glyphicon-refresh"></span>&nbsp;{{ 'New Selection'|trans }}</a>&nbsp;&nbsp;
+          <a class="btn btn-default" href="{{ path('shufler_homepage') }}" style="background-color:black"><span class="glyphicon glyphicon-refresh"></span>&nbsp;{{ 'New Selection'|trans }}</a>&nbsp;&nbsp;
           {% if not app.user %}<a id="register_second" class="btn btn-default" data-toggle="modal" data-target="#userModal" href="#" style="background-color:black" ><span class="glyphicon glyphicon-flag"></span>&nbsp;{{ 'Create an account'|trans }}</a>{% endif %}
         </div>
         <br/><br/>

@@ -17,7 +17,7 @@ class MainController extends Controller
     public function navigationAction()
     {   
         return $this->render('SHUFLERShuflerBundle:Main:nav.html.twig', array(
-            'categories' => array_flip(Video::CATEGORY_LIST),
+            'categories' => Video::CATEGORY_LIST,
             'periodes' => Video::PERIOD_LIST
         ));
     }

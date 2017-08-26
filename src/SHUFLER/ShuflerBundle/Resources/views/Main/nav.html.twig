@@ -4,22 +4,22 @@
 		<span class="icon-bar"></span>
 		<span class="icon-bar"></span>
 	</button>
-	<a class="navbar-brand" href="{{ path('shufler_shufler_homepage') }}"><img src="{{ asset('bundles/shuflershufler/img/logo_shufler.png') }}" width=100px /></a>
+	<a class="navbar-brand" href="{{ path('shufler_homepage') }}"><img src="{{ asset('bundles/shuflershufler/img/logo_shufler.png') }}" width=100px /></a>
 </div>
 <div class="collapse navbar-collapse">
 	<ul class="nav navbar-nav">
-    	<li><a href="{{ path('shufler_shufler_homepage') }}"><span class="glyphicon glyphicon-refresh"></span>&nbsp;{{'Random'|trans}}</a> </li>
-    	<li><a href="{{ path('shufler_shufler_couch') }}"><span class="glyphicon glyphicon-road"></span>&nbsp;{{'TV Mode'|trans}}</a></li>
+    	<li><a href="{{ path('shufler_homepage') }}"><span class="glyphicon glyphicon-refresh"></span>&nbsp;{{'Random'|trans}}</a> </li>
+    	<li><a href="{{ path('shufler_couch') }}"><span class="glyphicon glyphicon-road"></span>&nbsp;{{'TV Mode'|trans}}</a></li>
     	<li class="dropdown"><a data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-tasks"></span>&nbsp;{{ 'Misc'|trans }}<b class="caret"></b></a>
         	<ul class="dropdown-menu">
-		    	<li><a href="{{ path('shufler_shufler_rss') }}"><span class="glyphicon glyphicon-globe"></span>&nbsp;{{'News'|trans}}</a></li>
+		    	<li><a href="{{ path('shufler_rss') }}"><span class="glyphicon glyphicon-globe"></span>&nbsp;{{'News'|trans}}</a></li>
            {%  if app.user %}
-                <li><a href="{{ path('shufler_shufler_podcast') }}"><span class="glyphicon glyphicon-headphones"></span>&nbsp;{{'Podcasts'|trans}}</a></li>
-                <li><a href="{{ path('shufler_shufler_radio') }}"><span class="glyphicon glyphicon-flash"></span>&nbsp;{{'Radios'|trans}}</a></li>
-				<li><a href="{{ path('shufler_shufler_tweeter') }}"><span class="glyphicon glyphicon-alert"></span>&nbsp;{{'Tweeter'}}</a></li>
+                <li><a href="{{ path('shufler_podcast') }}"><span class="glyphicon glyphicon-headphones"></span>&nbsp;{{'Podcasts'|trans}}</a></li>
+                <li><a href="{{ path('shufler_radio') }}"><span class="glyphicon glyphicon-flash"></span>&nbsp;{{'Radios'|trans}}</a></li>
+				<li><a href="{{ path('shufler_tweeter') }}"><span class="glyphicon glyphicon-alert"></span>&nbsp;{{'Tweeter'}}</a></li>
            		{% if is_granted('ROLE_ADMIN') %}
-   					<li><a href="{{ path('shufler_shufler_links') }}"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;{{ 'Links'|trans }}</a></li>
-					<li><a href="{{ path('shufler_shufler_apiyt') }}"><span class="glyphicon glyphicon-cloud"></span>&nbsp;{{ 'APIs Search'|trans }}</a></li>
+   					<li><a href="{{ path('shufler_links') }}"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;{{ 'Links'|trans }}</a></li>
+					<li><a href="{{ path('shufler_apiyt') }}"><span class="glyphicon glyphicon-cloud"></span>&nbsp;{{ 'APIs Search'|trans }}</a></li>
            		{% endif %}
            {% endif %}
             </ul>
@@ -28,22 +28,22 @@
         <li class="dropdown"><a data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-list"></span>&nbsp;{{'Categories'|trans}}<b class="caret"></b></a>
         	<ul class="dropdown-menu">
             	{% for key,value in categories %}
-            	<li><a href="{{ path('shufler_shufler_viewByCategorie', {'categorie': key}) }}">{{ value|trans }}</a></li>
+            	<li><a href="{{ path('shufler_viewByCategorie', {'categorie': key}) }}">{{ value|trans }}</a></li>
             	{% endfor %}
             </ul>
          </li> 
         <li class="dropdown"><a data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-time"></span>&nbsp;{{ 'Periods'|trans }}<b class="caret"></b></a>
         	<ul class="dropdown-menu">
             	{% for key,value in periodes %}
-            	<li><a href="{{ path('shufler_shufler_viewByPeriode', {'periode': value}) }}">{{ value }}</a></li>
+            	<li><a href="{{ path('shufler_viewByPeriode', {'periode': value}) }}">{{ value }}</a></li>
             	{% endfor %}
             </ul>
          </li>
 		{% if is_granted('ROLE_ADMIN') %}
 		<li class="dropdown"><a data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-edit"></span>&nbsp;{{ 'Edit'|trans }}<b class="caret"></b></a>
         	<ul class="dropdown-menu">
-				<li><a href="{{ path('shufler_shufler_video_edit') }}">{{ 'Add a Video'|trans }}</a></li>
-				<li><a href="{{ path('shufler_shufler_flux_edit') }}">{{ 'Add a Flow'|trans }}</a></li>
+				<li><a href="{{ path('shufler_video_edit') }}">{{ 'Add a Video'|trans }}</a></li>
+				<li><a href="{{ path('shufler_flux_edit') }}">{{ 'Add a Flow'|trans }}</a></li>
             </ul>
          </li>
         {% endif %}
@@ -58,7 +58,7 @@
          <li><a href="#" data-toggle="modal" data-target="#userModal"><span class="glyphicon glyphicon-fire"></span>&nbsp;{{ 'Login'|trans }}</a></li>
       {% endif %}
      </ul>
-     <form class="navbar-form navbar-right inline-form" role="form" action="{{ url('shufler_shufler_search') }}">
+     <form class="navbar-form navbar-right inline-form" role="form" action="{{ url('shufler_search') }}">
         <div class="form-group">
            <input type="search" id="search_field" name="search_field" class="input-sm form-control" placeholder="{{ "Is there?"|trans }}">
            <button type="submit" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-search"></span></button>
@@ -69,12 +69,12 @@
      <ul class="nav navbar-nav navbar-right">
 	 	<li class="dropdown"><a data-toggle="dropdown" href="#"><img src="{{ asset('bundles/shuflershufler/img/flag-'~ app.request.locale ~'.png')}}" width="30px" />&nbsp;<b class="caret"></b></a>
 	    	<ul class="dropdown-menu">
-				<li><a href="{{ path('shufler_shufler_homepage', {'_locale':'en'}) }}"><img src="{{ asset('bundles/shuflershufler/img/flag-en.png')}}" width="30px" />&nbsp;english</a></li>
-				<li><a href="{{ path('shufler_shufler_homepage', {'_locale':'fr'}) }}"><img src="{{ asset('bundles/shuflershufler/img/flag-fr.png')}}" width="30px" />&nbsp;français</a></li>
-				<li><a href="{{ path('shufler_shufler_homepage', {'_locale':'de'}) }}"><img src="{{ asset('bundles/shuflershufler/img/flag-de.png')}}" width="30px" />&nbsp;deutsch</a></li>
-				<li><a href="{{ path('shufler_shufler_homepage', {'_locale':'es'}) }}"><img src="{{ asset('bundles/shuflershufler/img/flag-es.png')}}" width="30px" />&nbsp;español</a></li>
-				<li><a href="{{ path('shufler_shufler_homepage', {'_locale':'it'}) }}"><img src="{{ asset('bundles/shuflershufler/img/flag-it.png')}}" width="30px" />&nbsp;italiano</a></li>
-				<li><a href="{{ path('shufler_shufler_homepage', {'_locale':'nl'}) }}"><img src="{{ asset('bundles/shuflershufler/img/flag-nl.png')}}" width="30px" />&nbsp;vlaams</a></li>
+				<li><a href="{{ path('shufler_homepage', {'_locale':'en'}) }}"><img src="{{ asset('bundles/shuflershufler/img/flag-en.png')}}" width="30px" />&nbsp;english</a></li>
+				<li><a href="{{ path('shufler_homepage', {'_locale':'fr'}) }}"><img src="{{ asset('bundles/shuflershufler/img/flag-fr.png')}}" width="30px" />&nbsp;français</a></li>
+				<li><a href="{{ path('shufler_homepage', {'_locale':'de'}) }}"><img src="{{ asset('bundles/shuflershufler/img/flag-de.png')}}" width="30px" />&nbsp;deutsch</a></li>
+				<li><a href="{{ path('shufler_homepage', {'_locale':'es'}) }}"><img src="{{ asset('bundles/shuflershufler/img/flag-es.png')}}" width="30px" />&nbsp;español</a></li>
+				<li><a href="{{ path('shufler_homepage', {'_locale':'it'}) }}"><img src="{{ asset('bundles/shuflershufler/img/flag-it.png')}}" width="30px" />&nbsp;italiano</a></li>
+				<li><a href="{{ path('shufler_homepage', {'_locale':'nl'}) }}"><img src="{{ asset('bundles/shuflershufler/img/flag-nl.png')}}" width="30px" />&nbsp;vlaams</a></li>
 	         </ul>
 	    </li>
      </ul>

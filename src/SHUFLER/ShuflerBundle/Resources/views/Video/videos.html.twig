@@ -20,9 +20,9 @@
 		{% include "SHUFLERShuflerBundle:Video:pagination.html.twig" %}	
 	</div>
 	{% else %}
-		{% if  app.request.attributes.get("_route")=='shufler_shufler_viewByCategorie' %}
+		{% if  app.request.attributes.get("_route")=='shufler_viewByCategorie' %}
 			<h1>{{ pagination.route_params.categorie|categorieDisplay }}</h1>
-		{% elseif  app.request.attributes.get("_route")=='shufler_shufler_viewByPeriode' %}
+		{% elseif  app.request.attributes.get("_route")=='shufler_viewByPeriode' %}
 			<h1>{{ pagination.route_params.periode }}</h1>
 		{% endif %}
 	{% endif %}
@@ -33,7 +33,7 @@
 			<div class="col-sm-6 col-md-3" style="">
 				<div class="media topcol embed-responsive-16by9" style="margin-bottom:30px;">
 					<div class="categorie">
-					{% if app.request.attributes.get("_route")!='shufler_shufler_viewByCategorie' %}
+					{% if app.request.attributes.get("_route")!='shufler_viewByCategorie' %}
 						{{ video.categorie|categorieDisplay }}
 					{% else %}
 						{% if pagination.route_params.categorie==2 %}

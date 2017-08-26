@@ -6,6 +6,11 @@ parameters:
 services:
     fos_user.doctrine_registry:
         alias: doctrine
+        
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }    
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]

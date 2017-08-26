@@ -20,7 +20,7 @@ class UtilExtension extends \Twig_Extension
 
     public function dateFluxFilter($dateRaw)
     {
-        $d = \DateTime::createFromFormat("D, d M Y H:i:s O", $dateRaw);
+        $d = \DateTime::createFromFormat("D, d M Y H:i:s T", $dateRaw);
         if ($d) {
             $date = $d->format('d M Y H:i:s');
             return $date;

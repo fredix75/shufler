@@ -76,7 +76,7 @@ class VideoController extends Controller
         $pagination = array(
             'search_field' => $search,
             'page' => $page,
-            'route' => 'shufler_shufler_search',
+            'route' => 'shufler_search',
             'pages_count' => ceil($videos_count / Video::MAX_LIST),
             'route_params' => array(
                 'search_field' => $search
@@ -112,7 +112,7 @@ class VideoController extends Controller
         
         $pagination = array(
             'page' => $page,
-            'route' => 'shufler_shufler_viewByCategorie',
+            'route' => 'shufler_viewByCategorie',
             'pages_count' => ceil($videos_count / Video::MAX_LIST),
             'route_params' => $request->attributes->get('_route_params')
         );
@@ -145,7 +145,7 @@ class VideoController extends Controller
             ->getCountByPeriode($periode);
         $pagination = array(
             'page' => $page,
-            'route' => 'shufler_shufler_viewByPeriode',
+            'route' => 'shufler_viewByPeriode',
             'pages_count' => ceil($videos_count / Video::MAX_LIST),
             'route_params' => $request->attributes->get('_route_params')
         );
@@ -224,7 +224,7 @@ class VideoController extends Controller
                 $this->get('session')
                     ->getFlashBag()
                     ->add('danger', $e->getMessage());
-                return $this->redirect($this->generateUrl('shufler_shufler_homepage'));
+                return $this->redirect($this->generateUrl('shufler_homepage'));
             }
         }
         
@@ -241,7 +241,7 @@ class VideoController extends Controller
                 ->getFlashBag()
                 ->add('success', 'Vidéo bien enregistrée.');
             
-            return $this->redirect($this->generateUrl('shufler_shufler_view', array(
+            return $this->redirect($this->generateUrl('shufler_view', array(
                 'id' => $video->getId()
             )));
         }
@@ -277,7 +277,7 @@ class VideoController extends Controller
         $video->setPublished(false);
         $em->persist($video);
         $em->flush();
-        return $this->redirectToRoute('shufler_shufler_homepage');
+        return $this->redirectToRoute('shufler_homepage');
     }
 
     /**
@@ -294,7 +294,7 @@ class VideoController extends Controller
         $video->setPublished(true);
         $em->persist($video);
         $em->flush();
-        return $this->redirectToRoute('shufler_shufler_homepage');
+        return $this->redirectToRoute('shufler_homepage');
     }
 
     /**
@@ -311,7 +311,7 @@ class VideoController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->remove($video);
         $em->flush();
-        return $this->redirectToRoute('shufler_shufler_homepage');
+        return $this->redirectToRoute('shufler_homepage');
     }
 
     /**

@@ -78,10 +78,10 @@
 	 {{ form_end(form) }}
 	 	 {% if flux.id is defined and flux.logo.id is defined %}
 	 	 	{{ flux.logo.id ~ '.' ~ flux.logo.ext }}
-	 	 	<a href="{{ path('shufler_shufler_flux_deleteLogo',{'id':flux.logo.id}) }}" onclick="return confirm('{{ 'Are You sure ?'|trans}}');"><span class="glyphicon glyphicon-remove-sign"></span></a>
+	 	 	<a href="{{ path('shufler_flux_deleteLogo',{'id':flux.logo.id}) }}" onclick="return confirm('{{ 'Are You sure ?'|trans}}');"><span class="glyphicon glyphicon-remove-sign"></span></a>
 	 	 {% endif %}
 	 {% if flux.id is defined and flux.id !=0 %}
-		<a class="btn btn-danger" href="{{ path('shufler_shufler_flux_delete',{'id':flux.id}) }}" onclick="return confirm('{{ 'Are You sure ?'|trans}}');"><span class="glyphicon glyphicon-remove-sign"></span>&nbsp;{{ 'Delete Flow'|trans }}</a>
+		<a class="btn btn-danger" href="{{ path('shufler_flux_delete',{'id':flux.id}) }}" onclick="return confirm('{{ 'Are You sure ?'|trans}}');"><span class="glyphicon glyphicon-remove-sign"></span>&nbsp;{{ 'Delete Flow'|trans }}</a>
 	 {% endif %}
 	 </div>		
 {% endblock %}
