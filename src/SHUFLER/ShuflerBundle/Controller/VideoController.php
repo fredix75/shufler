@@ -230,8 +230,9 @@ class VideoController extends Controller
         
         $form = $this->get('form.factory')->create(VideoType::class, $video);
         
-        // On vérifie que les valeurs entrées sont correctes
-        if ($form->handleRequest($request)->isValid()) {
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
             
             $em = $this->getDoctrine()->getManager();
             $em->persist($video);

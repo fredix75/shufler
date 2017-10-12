@@ -14,7 +14,6 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *
  * @ORM\Entity(repositoryClass="SHUFLER\ShuflerBundle\Entity\VideoRepository")
  * @ORM\HasLifecycleCallbacks()
- * @Assert\Callback(methods={"isGoodPeriod"})
  *
  * @ExclusionPolicy("all")
  */
@@ -632,6 +631,7 @@ class Video
      * Is Period coherent with date Validator
      * 
      * @param ExecutionContextInterface $context
+     * @Assert\Callback
      */
     public function isGoodPeriod(ExecutionContextInterface $context)
     {

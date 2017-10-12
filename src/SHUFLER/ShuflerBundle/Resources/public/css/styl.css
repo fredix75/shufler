@@ -354,16 +354,16 @@ footer {
 	font-size: 2em;
 }
 
-#login_tab .row, #register_tab .row {
+#login_tab .row, #register_tab .row, #update_tab {
 	margin: 20px 0;
 }
 
-#login_tab label, #register_tab label {
+#login_tab label, #register_tab label, #update_tab label {
 	font-size: 80%;
 	text-align: right;
 }
 
-#login_tab .submit, #register_tab .submit {
+#login_tab .submit, #register_tab .submit, #update_tab .submit {
 	text-align: center;
 	margin-bottom: 20px;
 }

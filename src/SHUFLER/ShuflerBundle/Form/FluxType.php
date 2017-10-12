@@ -24,14 +24,12 @@ class FluxType extends AbstractType
             ->add('type', ChoiceType::Class, array(
             'required' => true,
             'placeholder' => 'Choose a Type',
-            'choices' => array_flip(Flux::FLUX_TYPE),
-            'choices_as_values' => true
+            'choices' => array_flip(Flux::FLUX_TYPE)
         ))
         ->add('mood', ChoiceType::Class, array(
             'required' => false,
             'placeholder' => 'Choose a Mood',
-            'choices' => array_flip(Flux::RADIO_TYPE),
-            'choices_as_values' => true
+            'choices' => array_flip(Flux::RADIO_TYPE)
         ))
             ->add('logo', ImageType::Class, array(
             'required' => false

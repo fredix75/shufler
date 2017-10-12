@@ -15,7 +15,7 @@ parameters:
 
 framework:
     #esi:             ~
-    translator:      { fallbacks: [%locale%] }
+    translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -27,9 +27,8 @@ framework:
     templating:
         engines: ['twig']
         #assets_version: SomeVersionScheme
-    default_locale:  %locale%
+    default_locale:  "%locale%"
     trusted_hosts:   ~
-    trusted_proxies: ~
     session:
         # handler_id set to null will use default session handler from php.ini
         handler_id:  ~
@@ -41,8 +40,8 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     globals:
-        webmaster: %app_webmaster%
-        youtube_key: %youtube_key%
+        webmaster: "%app_webmaster%"
+        youtube_key: "%youtube_key%"
 
 # Assetic Configuration
 assetic:
@@ -53,9 +52,9 @@ assetic:
     filters:
         cssrewrite: ~
         yui_js:
-            jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.8.jar
+            jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.8.jar"
         yui_css:
-            jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.8.jar
+            jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.8.jar"
 
 # Doctrine Configuration
 doctrine:
@@ -103,7 +102,7 @@ endroid_twitter:
     access_token_secret: 'MoSucw4CZjOYvY63wAcX0NROAIyIZ5PGAUVDxQKUiyn3S'
 
 jms_i18n_routing:
-    default_locale: %locale%
+    default_locale: "%locale%"
     locales: [en, fr, es, de, it, nl]
     strategy: prefix
 
@@ -129,10 +128,8 @@ fos_rest:
             'Doctrine\ORM\OptimisticLockException': HTTP_CONFLICT
         messages:
             'Symfony\Component\Routing\Exception\ResourceNotFoundException': true
-    allowed_methods_listener: true
     access_denied_listener:
         json: true
-    body_listener: true
     disable_csrf_role: ROLE_API
     routing_loader:
         default_format: json
@@ -152,10 +149,10 @@ jms_serializer:
                 path: "%kernel.root_dir%/serializer/FOSUserBundle"
 
 lexik_jwt_authentication:
-    private_key_path:   %private_key_path%
-    public_key_path:    %public_key_path%
-    pass_phrase:        %pass_phrase%
-    token_ttl:          %token_ttl%
+    private_key_path:   "%private_key_path%"
+    public_key_path:    "%public_key_path%"
+    pass_phrase:        "%pass_phrase%"
+    token_ttl:          "%token_ttl%"
     token_extractors:
         authorization_header: ~
         cookie: ~
