@@ -21,7 +21,7 @@
 	</div>
 	{% else %}
 		{% if  app.request.attributes.get("_route")=='shufler_viewByCategorie' %}
-			<h1>{{ pagination.route_params.categorie|categorieDisplay }}</h1>
+			<h1>{{ pagination.route_params.categorie|categorieDisplay|trans }}</h1>
 		{% elseif  app.request.attributes.get("_route")=='shufler_viewByPeriode' %}
 			<h1>{{ pagination.route_params.periode }}</h1>
 		{% endif %}

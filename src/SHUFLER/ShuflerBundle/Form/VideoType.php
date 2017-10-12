@@ -16,7 +16,7 @@ class VideoType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('lien', 'textarea')
+        $builder->add('lien', 'text')
             ->add('titre', 'text')
             ->add('auteur', 'text')
             ->add('chapo', 'textarea', array(
@@ -48,12 +48,7 @@ class VideoType extends AbstractType
         ))
             ->add('priorite', 'choice', array(
             'required' => true,
-            'choices' => array(
-                1 => 1,
-                2 => 2,
-                3 => 3,
-                4 => 4
-            ),
+            'choices' => Video::PRIORITY_LIST,
             'choices_as_values' => true
         ))
             ->add('moods', 'entity', array(

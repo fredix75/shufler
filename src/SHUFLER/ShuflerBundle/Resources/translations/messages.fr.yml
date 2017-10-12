@@ -32,12 +32,16 @@ Category: Catégorie
 Published: Publié
 Kind: Genre
 Moods: Moods
-video.edit.title: 'Edition de Vidéo'
-video.edit.title_edit: 'Editer la Ref'
-video.edit.title_add: 'Ajouter une Ref'
-flux.edit.title: 'Edition de Flux'
-flux.edit.title_edit: 'Editer le Flux'
-flux.edit.title_add: 'Ajouter un Flux'
+video:
+    edit:
+        title: 'Edition de Vidéo'
+        title_edit: 'Editer la Ref'
+        title_add: 'Ajouter une Ref'
+flux:
+    edit:
+        title: 'Edition de Flux'
+        title_edit: 'Editer le Flux'
+        title_add: 'Ajouter un Flux'
 Periods: Périodes
 Edit: Editer
 'Add a Video': 'Ajouter une Video'

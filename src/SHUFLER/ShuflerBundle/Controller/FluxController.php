@@ -21,7 +21,6 @@ class FluxController extends Controller
      */
     public function rssAction(Request $request)
     {
-        
         $infos = array();
         
         if ($request->isXmlHttpRequest()) {
@@ -54,8 +53,8 @@ class FluxController extends Controller
             ->getRepository('SHUFLERShuflerBundle:Flux')
             ->getRss();
         
-        $flux = $this->formatFlux($rss);    
-            
+        $flux = $this->formatFlux($rss);
+        
         shuffle($flux['infos']);
         
         return $this->render('SHUFLERShuflerBundle:Flux:rss.html.twig', array(
@@ -67,11 +66,12 @@ class FluxController extends Controller
 
     /**
      * format Flux to display
-     * 
-     * @param unknown $rss
+     *
+     * @param unknown $rss            
      * @return array[]|number[]|NULL[][]
      */
-    private function formatFlux($rss) {
+    private function formatFlux($rss)
+    {
         $libe = [];
         $infos = [];
         $jsonKeys = [];
@@ -89,7 +89,8 @@ class FluxController extends Controller
                     $infos[$flux->getId()]['pic'] = $flux->getPic();
                 } else {
                     $infos[$flux->getId()]['pic'] = null;
-                };
+                }
+                ;
                 $infos[$flux->getId()]['pages'] = ceil(count($contenu) / 6);
             }
         }
@@ -101,7 +102,7 @@ class FluxController extends Controller
         
         return $result;
     }
-    
+
     /**
      * Get All Flows Podcast.
      *
@@ -226,9 +227,9 @@ class FluxController extends Controller
 
     /**
      * UNUSED Insee test
-     * 
-     * 
-     * @param Request $request
+     *
+     *
+     * @param Request $request            
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function inseeAction(Request $request)
@@ -289,7 +290,7 @@ class FluxController extends Controller
      * @return Rendering template
      *        
      *        
-     * @Security("has_role('ROLE_AUTEUR')")
+     *         @Security("has_role('ROLE_AUTEUR')")
      */
     public function fluxEditAction(Request $request, $id)
     {
@@ -333,11 +334,9 @@ class FluxController extends Controller
 
     /**
      * Delete Video
-     * 
-     * @param Flux $flux
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     * 
-     * @Security("has_role('ROLE_AUTEUR')")
+     *
+     * @param Flux $flux            
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse @Security("has_role('ROLE_AUTEUR')")
      */
     public function deleteAction(Flux $flux)
     {
@@ -356,11 +355,9 @@ class FluxController extends Controller
 
     /**
      * Delete Logo
-     * 
-     * @param unknown $id
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     * 
-     * @Security("has_role('ROLE_AUTEUR')")
+     *
+     * @param unknown $id            
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse @Security("has_role('ROLE_AUTEUR')")
      */
     public function deleteLogoAction($id)
     {
