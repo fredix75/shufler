@@ -310,7 +310,7 @@ class FluxController extends Controller
             }
         }
         
-        $form = $this->createForm(new FluxType(), $flux);
+        $form = $this->createForm(FluxType::Class, $flux);
         
         if ($form->handleRequest($request)->isValid()) {
             $em = $this->getDoctrine()->getManager();

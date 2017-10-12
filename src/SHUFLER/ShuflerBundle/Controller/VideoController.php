@@ -34,7 +34,7 @@ class VideoController extends Controller
                 array_push($anims, $video);
                 unset($videos[$key]);
                 $i ++;
-            } elseif ($video->getCategorie() == 2 && count($musics) < 8) {
+            } elseif ($video->getCategorie() == 2 && count($musics) < 15) {
                 array_push($musics, $video);
                 unset($videos[$key]);
                 $i ++;
@@ -44,7 +44,7 @@ class VideoController extends Controller
                 $i ++;
             }
             
-            if ($i >= 16) {
+            if ($i >= 24) {
                 break;
             }
         }
@@ -228,7 +228,7 @@ class VideoController extends Controller
             }
         }
         
-        $form = $this->get('form.factory')->create(new VideoType(), $video);
+        $form = $this->get('form.factory')->create(VideoType::class, $video);
         
         // On vérifie que les valeurs entrées sont correctes
         if ($form->handleRequest($request)->isValid()) {

@@ -5,6 +5,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use SHUFLER\ShuflerBundle\Entity\Flux;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class FluxType extends AbstractType
 {
@@ -16,24 +19,24 @@ class FluxType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', 'text')
-            ->add('url', 'text')
-            ->add('type', 'choice', array(
+        $builder->add('name', TextType::Class)
+        ->add('url', TextType::Class)
+            ->add('type', ChoiceType::Class, array(
             'required' => true,
             'placeholder' => 'Choose a Type',
             'choices' => array_flip(Flux::FLUX_TYPE),
             'choices_as_values' => true
         ))
-            ->add('mood', 'choice', array(
+        ->add('mood', ChoiceType::Class, array(
             'required' => false,
             'placeholder' => 'Choose a Mood',
             'choices' => array_flip(Flux::RADIO_TYPE),
             'choices_as_values' => true
         ))
-            ->add('logo', new ImageType(), array(
+            ->add('logo', ImageType::Class, array(
             'required' => false
         ))
-            ->add('save', 'submit');
+            ->add('save', SubmitType::Class);
     }
 
     /**
@@ -52,7 +55,7 @@ class FluxType extends AbstractType
      *
      * @return string
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'shufler_shuflerbundle_flux_edit';
     }

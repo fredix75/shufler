@@ -5,6 +5,12 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use SHUFLER\ShuflerBundle\Entity\Video;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class VideoType extends AbstractType
 {
@@ -16,51 +22,51 @@ class VideoType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('lien', 'text')
-            ->add('titre', 'text')
-            ->add('auteur', 'text')
-            ->add('chapo', 'textarea', array(
+        $builder->add('lien', TextType::class)
+            ->add('titre', TextType::class)
+            ->add('auteur', TextType::class)
+            ->add('chapo', TextareaType::class, array(
             'required' => false
         ))
-            ->add('texte', 'textarea', array(
+            ->add('texte', TextareaType::class, array(
             'required' => false
         ))
-            ->add('annee', 'text', array(
+            ->add('annee', TextType::class, array(
             'required' => false
         ))
-            ->add('periode', 'choice', array(
+            ->add('periode', ChoiceType::class, array(
             'required' => true,
             'placeholder' => 'Choose a period',
             'choices' => array_flip(Video::PERIOD_LIST),
             'choices_as_values' => true
         ))
-            ->add('categorie', 'choice', array(
+            ->add('categorie', ChoiceType::class, array(
             'required' => true,
             'placeholder' => 'Choose a category',
             'choices' => array_flip(Video::CATEGORY_LIST),
             'choices_as_values' => true
         ))
-            ->add('genre', 'choice', array(
+            ->add('genre', ChoiceType::class, array(
             'required' => false,
             'placeholder' => 'Choose a style',
             'choices' => array_flip(Video::GENRE_LIST),
             'choices_as_values' => true
         ))
-            ->add('priorite', 'choice', array(
+            ->add('priorite', ChoiceType::class, array(
             'required' => true,
             'choices' => Video::PRIORITY_LIST,
             'choices_as_values' => true
         ))
-            ->add('moods', 'entity', array(
+            ->add('moods', EntityType::Class, array(
             'class' => 'SHUFLERShuflerBundle:Mood',
             'choice_label' => 'name',
             'multiple' => true,
             'required' => false
         ))
-            ->add('published', 'checkbox', array(
+            ->add('published', CheckboxType::Class, array(
             'required' => false
         ))
-            ->add('save', 'submit');
+        ->add('save', SubmitType::Class);
     }
 
     /**
@@ -79,7 +85,7 @@ class VideoType extends AbstractType
      *
      * @return string
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'shufler_shuflerbundle_video_edit';
     }

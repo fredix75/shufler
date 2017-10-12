@@ -13,5 +13,5 @@ services:
         class: SHUFLER\UserBundle\EventListener\AuthenticationHandler
         public: false
         arguments:
-            - @router
-            - @session
+            - "@router"
+            - "@session"

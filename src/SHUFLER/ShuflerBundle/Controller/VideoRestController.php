@@ -101,7 +101,7 @@ class VideoRestController extends FOSRestController
 	public function postVideoAction(Request $request)
 	{
 		$video = new Video();
-	    $form = $this->createForm(new VideoType(), $video);
+	    $form = $this->createForm(VideoType::Class, $video);
 	    $form->handleRequest($request);
 	    
 	    if ($form->isValid()) {
@@ -164,7 +164,7 @@ class VideoRestController extends FOSRestController
 				return $this->view('',400);
 			}
 		}
-		$form = $this->createForm(new VideoType(), $video, array('method' => 'PUT'));
+		$form = $this->createForm(VideoType::Class, $video, array('method' => 'PUT'));
 		$form->handleRequest($request);
 
 		if ($form->isValid()) {

@@ -1,9 +1,10 @@
 /app/bootstrap.php.cache
 /app/cache/*
+/app/logs/*
+/var/*
 !app/cache/.gitkeep
 /app/config/parameters.yml
 /app/parameters.yml
-/app/logs/*
 !app/logs/.gitkeep
 /app/phpunit.xml
 /bin/
@@ -13,4 +14,3 @@
 /src/.metadata/*
 /.settings/*
 /web/config.php
-
