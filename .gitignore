@@ -1,7 +1,7 @@
 /app/bootstrap.php.cache
 /app/cache/*
 /app/logs/*
-/var/*
+/var/
 !app/cache/.gitkeep
 /app/config/parameters.yml
 /app/parameters.yml
