@@ -49,8 +49,7 @@
         {% endif %}
          <li class="dropdown"><a data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-flag"></span>&nbsp;{{ 'My account'|trans }}<b class="caret"></b></a>
         	<ul class="dropdown-menu">
-            	<li><a data-toggle="modal" data-target="#userUpdateModal" href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;{{ 'My Profile'|trans }}</a></li>
-            	<li><a href="{{ path('fos_user_change_password') }}"><span class="glyphicon glyphicon-lock"></span>&nbsp;{{ 'Change Password'|trans }}</a></li>
+            	<li><a href="#" data-toggle="modal" data-target="#userModal"><span class="glyphicon glyphicon-user"></span>&nbsp;{{ 'My Profile'|trans }}</a></li>
     	        <li><a href="{{ path('fos_user_security_logout') }}"><span class="glyphicon glyphicon-off"></span>&nbsp;{{ 'Logout'|trans }}</a></li>
             </ul>
          </li>

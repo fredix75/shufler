@@ -12,7 +12,7 @@ use FOS\UserBundle\Form\Type\RegistrationFormType;
 /**
  * Ajax listener on FOS UserBundle registration
  */
-class RegistrationListener implements EventSubscriberInterface
+class ProfileListener implements EventSubscriberInterface
 {
 
     private $router;
@@ -30,25 +30,21 @@ class RegistrationListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            FOSUserEvents::REGISTRATION_SUCCESS => 'onRegistrationSuccess',
-            FOSUserEvents::REGISTRATION_FAILURE => 'onRegistrationFailure'
+            FOSUserEvents::PROFILE_EDIT_SUCCESS => 'onProfileSuccess'
         );
     }
 
     /**
-     * onRegistrationSuccess
+     * onProfileSuccess
      *
      * @param FormEvent $event            
      */
-    public function onRegistrationSuccess(FormEvent $event)
+    public function onProfileSuccess(FormEvent $event)
     {
-        $request = $this->requestStack->getCurrentRequest();
+     
         
-        if ($request->isXmlHttpRequest()) {
-            $success = true;
-        } else {
-            $success = false;
-        }
+        $success = true;
+        
         $response = new Response(json_encode(array(
             'success' => $success
         )));
@@ -56,24 +52,5 @@ class RegistrationListener implements EventSubscriberInterface
         $response->headers->set('Content-Type', 'application/json');
         $event->setResponse($response);
     }
-    /**
-     * onRegistrationFailure
-     * 
-     * @param FormEvent $event
-     */
-    public function onRegistrationFailure(FormEvent $event)
-    {
-        
-        $form = $event->getForm();
-                
-        $response = new Response(json_encode(array(
-            'success' => false,
-        )));
-
-        $event->setResponse($response);
-        // if AJAX login
-       //$request = $event->getRequest();
-        
-        
-    }
+   
 }

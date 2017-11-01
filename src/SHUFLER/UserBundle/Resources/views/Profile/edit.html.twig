@@ -3,11 +3,30 @@
 {% block fos_user_content %}
 
 <form action="{{ path("fos_user_profile_edit") }}" method="post">
-	<div class="form-group">
-		{{ form_widget(form) }}
-		<div>
-			<input type="submit" value="{{ 'profile.edit.submit'|trans }}" />
-		</div>
+<div class="row">
+	<span class="error">{{ form_errors(form.username) }}</span>
+	{{ form_label(form.username, 'form.username', {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+	<div class="col-sm-6 col-md-6">
+		{{ form_widget(form.username, {'attr': {'class': 'form-control' , 'placeholder': 'form.username'}}) }}
 	</div>
-</form>
+</div>
+<div class="row">
+	<span class="error">{{ form_errors(form.email) }}</span>
+	{{ form_label(form.email, 'form.email', {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+	<div class="col-sm-6 col-md-6">
+		{{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'form.email'}}) }}
+	</div>
+</div>
+<div class="row">
+	<span class="error">{{ form_errors(form.current_password) }}</span>
+	{{ form_label(form.current_password, 'form.current_password', {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+	<div class="col-sm-6 col-md-6">
+		{{ form_widget(form.current_password) }}
+	</div>
+</div>
+<div class="submit">
+	<input id="update_submit" class= "btn btn-primary" type="submit" value="{{ 'profile.edit.submit'|trans }}" />
+</div>
+
+{{ form_end(form) }}
 {% endblock fos_user_content %}
