@@ -41,16 +41,11 @@ class ProfileListener implements EventSubscriberInterface
      */
     public function onProfileSuccess(FormEvent $event)
     {
-     
-        
-        $success = true;
-        
         $response = new Response(json_encode(array(
-            'success' => $success
+            'success' => true
         )));
         
         $response->headers->set('Content-Type', 'application/json');
         $event->setResponse($response);
     }
-   
 }

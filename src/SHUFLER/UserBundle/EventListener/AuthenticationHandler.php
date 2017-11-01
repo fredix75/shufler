@@ -42,28 +42,12 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token)
     {
-        // if AJAX login
-        if ($request->isXmlHttpRequest()) {
-            
-            $response = new Response(json_encode(array(
-                'success' => true
-            )));
-            $response->headers->set('Content-Type', 'application/json');
-            
-            return $response;
-            
-            // if form login
-        } else {
-            
-            if ($this->session->get('_security.main.target_path')) {
-                
-                $url = $this->session->get('_security.main.target_path');
-            } else {
-                
-                $url = $this->router->generate('shufler_homepage');
-            } // end if
-            return new RedirectResponse($url);
-        }
+        $response = new Response(json_encode(array(
+            'success' => true
+        )));
+        $response->headers->set('Content-Type', 'application/json');
+        
+        return $response;
     }
 
     /**
@@ -76,14 +60,12 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
         // if AJAX login
-             
-            $response = new Response(json_encode(array(
-                'success' => false,
-                'message' => $exception->getMessage()
-            )));
-           // $response->headers->set('Content-Type', 'application/json');
-            
-            return $response;
+        $response = new Response(json_encode(array(
+            'success' => false,
+            'message' => $exception->getMessage()
+        )));
+        // $response->headers->set('Content-Type', 'application/json');
         
+        return $response;
     }
 }

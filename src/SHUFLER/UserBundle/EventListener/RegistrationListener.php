@@ -58,22 +58,17 @@ class RegistrationListener implements EventSubscriberInterface
     }
     /**
      * onRegistrationFailure
+     *
+     *  == Marche pas ==
      * 
      * @param FormEvent $event
      */
     public function onRegistrationFailure(FormEvent $event)
-    {
-        
-        $form = $event->getForm();
-                
+    {                
         $response = new Response(json_encode(array(
             'success' => false,
         )));
 
         $event->setResponse($response);
-        // if AJAX login
-       //$request = $event->getRequest();
-        
-        
     }
 }
