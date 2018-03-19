@@ -64,6 +64,26 @@ class Video
     
     const PRIORITY_LIST = [1,2,3,4];
     
+    const YOUTUBE_EMBED = 'www.youtube.com';
+        
+    const YOUTUBE_API = 'http://img.youtube.com/vi';
+    
+    const YOUTUBE_WATCH = 'https://www.youtube.com/watch?v=';
+    
+    const DAILYMOTION_EMBED =  'www.dailymotion.com';
+    
+    const DAILYMOTION_VIDEO = 'http://www.dailymotion.com/video/';
+       
+    const DAILYMOTION_API = 'http://www.dailymotion.com/services/oembed?url=';
+    
+    const VIMEO_PLAYER = 'player.vimeo.com';
+    
+   const VIMEO_API = 'http://vimeo.com/api/v2/video';
+    
+    const VIDEO_UNAVAILABLE = 'http://s3.amazonaws.com/colorcombos-images/users/1/color-schemes/color-scheme-2-main.png?v=20111009081033';
+    
+    
+        
     /**
      *
      * @var integer
