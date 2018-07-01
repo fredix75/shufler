@@ -7,6 +7,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use SHUFLER\ShuflerBundle\Entity\Flux;
 use SHUFLER\ShuflerBundle\Form\FluxType;
 use Symfony\Component\HttpFoundation\Response;
+use SHUFLER\ShuflerBundle\Entity\ChannelFlux;
+use SHUFLER\ShuflerBundle\Form\ChannelFluxType;
 
 class FluxController extends Controller
 {
@@ -33,8 +35,8 @@ class FluxController extends Controller
             $page = $request->query->get('page');
             $debut = ($page - 1) * 6;
             
-            // $contenu=$fluxParser->convertXML($rss->getUrl());
-            $contenu = $rss->getContenu();
+            // $contenu=$fluxParser->convertXML($rss->getUrl())
+            $contenu = $rss->loadContent();
             
             for ($i = $debut; $i < $debut + 6; $i ++) {
                 if (isset($contenu[$i])) {
@@ -63,6 +65,50 @@ class FluxController extends Controller
             'jsonKeys' => json_encode($flux['jsonKeys'])
         ));
     }
+    
+    /**
+     * Get All Flows Podcast.
+     *
+     * @param Request $request
+     *            request of the Flow
+     *
+     * @return Response Ajax or Rendering template
+     */
+    public function podcastAction(Request $request)
+    {
+        $infos = array();
+        
+        if ($request->isXmlHttpRequest()) {
+            $pod = $request->query->get('pod');
+            
+            $rss = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('SHUFLERShuflerBundle:Flux')
+            ->getFlux($pod);
+            $page = $request->query->get('page');
+            $debut = ($page - 1) * 6;
+            
+            $contenu = $rss->loadContent();
+            
+            for ($i = $debut; $i < $debut + 6; $i ++) {
+                $infos[] = $contenu[$i];
+            }
+            
+            return new Response(json_encode($infos));
+        }
+        
+        $rss = $this->getDoctrine()
+        ->getManager()
+        ->getRepository('SHUFLERShuflerBundle:Flux')
+        ->getPodcast();
+        
+        $flux = $this->formatFlux($rss);
+        
+        return $this->render('SHUFLERShuflerBundle:Flux:podcast.html.twig', array(
+            'infos' => $flux['infos'],
+            'jsonKeys' => json_encode($flux['jsonKeys'])
+        ));
+    }
 
     /**
      * format Flux to display
@@ -76,7 +122,7 @@ class FluxController extends Controller
         $infos = [];
         $jsonKeys = [];
         foreach ($rss as $flux) {
-            if ($flux->getName() == 'Liberation') {
+            if ($flux->getType() === 1 && $flux->getName() == 'Liberation') {
                 $libe[$flux->getId()]['flux'] = $flux->getContenu();
                 $libe[$flux->getId()]['name'] = $flux->getName();
                 $libe[$flux->getId()]['pic'] = $flux->getPic();
@@ -85,12 +131,16 @@ class FluxController extends Controller
                 $jsonKeys[] = $flux->getId();
                 $contenu = $flux->getContenu();
                 $infos[$flux->getId()]['name'] = $flux->getName();
-                if ($flux->getLogo() != null) {
+                if ($flux->getType() === 1 && $flux->getLogo() != null) {
                     $infos[$flux->getId()]['pic'] = $flux->getPic();
-                } else {
+                } else if ($flux->getType() === 1){
                     $infos[$flux->getId()]['pic'] = null;
                 }
-                ;
+                if ($flux->getType() === 2 && $flux->getChannel() != null) {
+                    $infos[$flux->getId()]['channel_logo'] = $flux->getChannelLogo();
+                } else if ($flux->getType() === 2){
+                    $infos[$flux->getId()]['channel_logo'] = null;
+                }
                 $infos[$flux->getId()]['pages'] = ceil(count($contenu) / 6);
             }
         }
@@ -101,62 +151,6 @@ class FluxController extends Controller
         $result['jsonKeys'] = $jsonKeys;
         
         return $result;
-    }
-
-    /**
-     * Get All Flows Podcast.
-     *
-     * @param Request $request
-     *            request of the Flow
-     *            
-     * @return Response Ajax or Rendering template
-     */
-    public function podcastAction(Request $request)
-    {
-        $infos = array();
-        
-        if ($request->isXmlHttpRequest()) {
-            $pod = $request->query->get('pod');
-            
-            $rss = $this->getDoctrine()
-                ->getManager()
-                ->getRepository('SHUFLERShuflerBundle:Flux')
-                ->getFlux($pod);
-            $page = $request->query->get('page');
-            $debut = ($page - 1) * 6;
-            
-            $contenu = $rss->getContenu();
-            for ($i = $debut; $i < $debut + 6; $i ++) {
-                $infos[] = $contenu[$i];
-            }
-            
-            return new Response(json_encode($infos));
-        }
-        
-        $rss = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('SHUFLERShuflerBundle:Flux')
-            ->getPodcast();
-        
-        $jsonKeys = array();
-        
-        foreach ($rss as $key) {
-            $infos[$key->getId()]['id'] = $key->getId();
-            $jsonKeys[] = $key->getId();
-            $infos[$key->getId()]['contenu'] = $key->getContenu();
-            $infos[$key->getId()]['name'] = $key->getName();
-            if ($key->getLogo() != null) {
-                $infos[$key->getId()]['pic'] = $key->getPic();
-            } else {
-                $infos[$key->getId()]['pic'] = null;
-            }
-            $infos[$key->getId()]['pages'] = ceil(count($infos[$key->getId()]['contenu']) / 6);
-        }
-        
-        return $this->render('SHUFLERShuflerBundle:Flux:podcast.html.twig', array(
-            'infos' => $infos,
-            'jsonKeys' => json_encode($jsonKeys)
-        ));
     }
 
     /**
@@ -228,7 +222,6 @@ class FluxController extends Controller
     /**
      * UNUSED Insee test
      *
-     *
      * @param Request $request            
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -279,7 +272,6 @@ class FluxController extends Controller
     }
 
     /**
-     *
      * Edit Flow.
      *
      * @param Request $request
@@ -335,10 +327,52 @@ class FluxController extends Controller
     }
 
     /**
+     * Edit Channel of Flux
+     *
+     * @param Request $request            
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function channelEditAction(Request $request)
+    {
+               
+        $channel = new ChannelFlux();
+        
+        $form = $this->createForm(ChannelFluxType::Class, $channel, array(
+            'action' => $this->generateUrl('shufler_flux_new_channel'),
+            'method' => 'POST'
+        ));
+        
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $data = $form->getData();
+            $em->persist($data);
+            $em->flush();
+            
+            $response = new Response(json_encode([
+                'success' => true,
+                'id' => $data->getId(),
+                'name' => $data->getName()
+            ]));
+            
+            $response->headers->set('Content-Type', 'application/json');
+            
+            return $response;
+        }
+        
+        return $this->render('SHUFLERShuflerBundle:Flux:channelEdit.html.twig', array(
+            'form' => $form->createView()
+        ));
+    }
+
+    /**
      * Delete Video
      *
      * @param Flux $flux            
      * @return \Symfony\Component\HttpFoundation\RedirectResponse @Security("has_role('ROLE_AUTEUR')")
+     *        
+     *         @Security("has_role('ROLE_AUTEUR')")
      */
     public function deleteAction(Flux $flux)
     {
@@ -360,6 +394,8 @@ class FluxController extends Controller
      *
      * @param unknown $id            
      * @return \Symfony\Component\HttpFoundation\RedirectResponse @Security("has_role('ROLE_AUTEUR')")
+     *        
+     *         @Security("has_role('ROLE_AUTEUR')")
      */
     public function deleteLogoAction($id)
     {

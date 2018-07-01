@@ -5,7 +5,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use phpDocumentor\Reflection\Types\Integer;
 
-
 /**
  * Flux
  *
@@ -21,7 +20,7 @@ class Flux
         2 => 'podcast',
         3 => 'radio'
     );
-    
+
     const RADIO_TYPE = array(
         1 => 'généraliste',
         2 => 'rock',
@@ -33,30 +32,26 @@ class Flux
         8 => 'classique',
         9 => 'electro',
         10 => 'bossa nova',
-        99 => 'autre'        
+        99 => 'autre'
     );
-    
+
     /**
      *
-     * @var integer
-     * 
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @var integer @ORM\Column(name="id", type="integer")
+     *      @ORM\Id
+     *      @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
      *
-     * @var string
-     * @ORM\Column(name="name", type="string", length=255)
+     * @var string @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
     /**
      *
-     * @var string
-     * @ORM\Column(name="url", type="string", length=255)
+     * @var string @ORM\Column(name="url", type="string", length=255)
      */
     private $url;
 
@@ -68,22 +63,25 @@ class Flux
 
     /**
      *
-     * @var Integer
-     * @ORM\Column(name="type", type="smallint")
+     * @var Integer @ORM\Column(name="type", type="smallint")
      */
     private $type;
 
     /**
      *
-     * @var Integer
-     * @ORM\Column(name="mood", type="smallint", nullable=true)
+     * @var Integer @ORM\Column(name="mood", type="smallint", nullable=true)
      */
     private $mood;
 
     /**
+     * @ORM\ManyToOne(targetEntity="ChannelFlux", cascade={"persist"})
+     * @ORM\JoinColumn(name="channel_flux_id", referencedColumnName="id")
+     */
+    private $channel;
+
+    /**
      *
-     * @var \DateTime
-     * @ORM\Column(name="dateInsert", type="datetime")
+     * @var \DateTime @ORM\Column(name="dateInsert", type="datetime")
      */
     private $dateInsert;
 
@@ -205,11 +203,27 @@ class Flux
         return $this->dateInsert;
     }
 
+    /**
+     * Get Logo of Flux
+     *
+     * @return string
+     */
     public function getPic()
     {
-        return $this->getLogo()->getUploadDir() . '/' . $this->getLogo()->getId() . '.' . $this->getLogo()->getExt();
+        return Image::UPLOAD_DIR . '/' . $this->getLogo()->getId() . '.' . $this->getLogo()->getExt();
     }
 
+   /**
+   * Get Logo of Channel
+   * 
+   * @return NULL|string
+   */
+    public function getChannelLogo()
+    {
+        if (!$this->getChannel()->getImage()) return null;
+        return Image::UPLOAD_CHANNEL_DIR. '/' . $this->getChannel()->getImage()->getId() . '.' . $this->getChannel()->getImage()->getExt();
+    }
+    
     /**
      * Set type
      *
@@ -235,11 +249,10 @@ class Flux
     }
 
     /**
-     * Set mood
      *
      * @param integer $mood            
      *
-     * @return Flux
+     * @return \SHUFLER\ShuflerBundle\Entity\Flux
      */
     public function setMood($mood)
     {
@@ -259,7 +272,6 @@ class Flux
     }
 
     /**
-     * @ORM\PostLoad
      *
      * @return \SimpleXMLElement
      *
@@ -273,6 +285,8 @@ class Flux
         } else {
             $this->contenu = @simplexml_load_file($this->url)->{'entry'};
         }
+        
+        return $this->contenu;
     }
 
     /**
@@ -283,5 +297,27 @@ class Flux
     public function getContenu()
     {
         return $this->contenu;
+    }
+
+    /**
+     * Get channel
+     *
+     * @return \SHUFLER\ShuflerBundle\Entity\ChannelFlux
+     */
+    public function getChannel()
+    {
+        return $this->channel;
+    }
+
+    /**
+     *
+     * @param ChannelFlux $channel            
+     *
+     * @return \SHUFLER\ShuflerBundle\Entity\Flux
+     */
+    public function setChannel(ChannelFlux $channel)
+    {
+        $this->channel = $channel;
+        return $this;
     }
 }

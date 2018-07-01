@@ -8,11 +8,10 @@
 	{% for key,flux in infos %}	
 		<div class="bande-flux col col-sm-6 col-md-4">
 			<div class="titre">
-				{% if flux.pic is defined and flux.pic is not null %}
-				<img src="{{  asset(flux.pic) }}" height=100px />
-				{% else %}
-				<h2 class="flux-titre">{{ flux.name }}</h2>
+				{% if flux.channel_logo is defined and flux.channel_logo is not null %}
+				<img class="channel" src="{{  asset(flux.channel_logo) }}" height=50px />
 				{% endif %}
+				<h2 class="flux-titre">{{ flux.name }}</h2>
 				<a class="btn-toggle" href="#" onclick="return false;"><span class="glyphicon glyphicon-plus"></span></a>
 				{% if is_granted('ROLE_ADMIN') %}
 				&nbsp;<a href="{{ path('shufler_flux_edit',{'id':key}) }}"><span class="glyphicon glyphicon-edit"></span></a>
@@ -55,12 +54,12 @@
 			);
 		}
 		
-		function bindData(pod,data) {
+		function bindData(pod, data) {
 			var obj = JSON.parse(data);
 			$('#podSum' + pod).html('<ul></ul>');
 			$('#podCont' + pod).html('');
 			for(var i=0; i<obj.length; i++){
-				var contentSum='<li><strong><a href="' + obj[i].link + '" target="_blank">' + obj[i].title + '</a></strong> - <small>' + obj[i].pubDate + '</small></li>'; 
+				var contentSum = '<li><strong><a href="' + obj[i].link + '" target="_blank">' + obj[i].title + '</a></strong> - <small>' + obj[i].pubDate + '</small></li>'; 
 	 		    $('#podSum' + pod + ' ul').append(contentSum);
 
 	 		    var contentCont='<div class="info col-md-12"><small class="date">'+obj[i].pubDate+'</small>'
@@ -78,8 +77,10 @@
 		}
 		
 		$(document).on('click', '.play', function() {
+			if($(this).hasClass('processed')) return;	
 			var audio = '<audio controls="controls" autoplay class="col-xs-12 col-sm-12 col-md-12"><source src="' + $(this).data("url") +'" type="' + $(this).data("type") + '">Votre navigateur ne supporte pas l\'élément <code>audio</code>.</audio>';
 			$(this).html(audio);
+			$(this).addClass('processed');
 		});
 	</script>
 {% endblock %}
