@@ -8,6 +8,7 @@ use SHUFLER\ShuflerBundle\Entity\Flux;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class FluxType extends AbstractType
 {
@@ -20,18 +21,24 @@ class FluxType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name', TextType::Class)
-        ->add('url', TextType::Class)
+            ->add('url', TextType::Class)
             ->add('type', ChoiceType::Class, array(
             'required' => true,
             'placeholder' => 'Choose a Type',
             'choices' => array_flip(Flux::FLUX_TYPE)
         ))
-        ->add('mood', ChoiceType::Class, array(
+            ->add('mood', ChoiceType::Class, array(
             'required' => false,
             'placeholder' => 'Choose a Mood',
             'choices' => array_flip(Flux::RADIO_TYPE)
         ))
             ->add('logo', ImageType::Class, array(
+            'required' => false
+        ))
+            ->add('channel', EntityType::Class, array(
+            'class' => 'SHUFLERShuflerBundle:ChannelFlux',
+            'choice_label' => 'name',
+            'placeholder' => 'Choose a channel',
             'required' => false
         ))
             ->add('save', SubmitType::Class);

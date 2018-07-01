@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0517f77289b612ff1681507c90b88f3d",
+    "content-hash": "13002c55540a853ee91c891e5534c8f8",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1012,12 +1012,12 @@
             "version": "1.3.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/endroid/Twitter.git",
+                "url": "https://github.com/endroid/twitter.git",
                 "reference": "d28a097bf920917ea0aefe7c22df23ed5229ff01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/endroid/Twitter/zipball/d28a097bf920917ea0aefe7c22df23ed5229ff01",
+                "url": "https://api.github.com/repos/endroid/twitter/zipball/d28a097bf920917ea0aefe7c22df23ed5229ff01",
                 "reference": "d28a097bf920917ea0aefe7c22df23ed5229ff01",
                 "shasum": ""
             },

@@ -16,6 +16,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Image
 {
 
+    const UPLOAD_DIR = 'uploads/img';
+    
+    const UPLOAD_CHANNEL_DIR = self::UPLOAD_DIR . '/channel';
+    
     /**
      *
      * @var integer
@@ -83,7 +87,6 @@ class Image
         $this->file = $file;
         
         // On vérifie si on avait déjà un fichier pour cette entité
-        
         if (null !== $this->ext) {
             
             // On sauvegarde l'extension du fichier pour le supprimer plus tard
@@ -119,23 +122,26 @@ class Image
      */
     public function upload()
     {
-        
-        // Si jamais il n'y a pas de fichier (champ facultatif)
         if (null === $this->file) {
             return;
         }
+
+        $dossier = $this->getUploadRootDir();
         
         // Si on avait un ancien fichier, on le supprime
         if (null !== $this->tempFilename) {
             
-            $oldFile = $this->getUploadRootDir() . '/' . $this->id . '.' . $this->tempFilename;
+            $oldFile = $dossier . '/' . $this->id . '.' . $this->tempFilename;
             if (file_exists($oldFile)) {
                 unlink($oldFile);
             }
         }
-        
+
+        if(!is_dir($dossier)){
+            mkdir($dossier);
+        }
         // On déplace le fichier envoyé dans le répertoire de notre choix
-        $this->file->move($this->getUploadRootDir(), $this->id . '.' . $this->ext);
+        $this->file->move($dossier, $this->id . '.' . $this->ext);
     }
 
     /**
@@ -165,18 +171,14 @@ class Image
         }
     }
 
-    public function getUploadDir()
-    {
-        // On retourne le chemin relatif vers l'image pour un navigateur (relatif au répertoire /web donc)
-        return 'uploads/img';
-    }
-
     protected function getUploadRootDir()
     
     {
-        
-        // On retourne le chemin relatif vers l'image pour notre code PHP
-        return __DIR__ . '/../../../../web/' . $this->getUploadDir();
+        return __DIR__ . '/../../../../web/' . self::UPLOAD_DIR;
+    }
+      
+    protected function getUploadChannelRootDir()
+    {
+        return __DIR__ . '/../../../../web/' . self::UPLOAD_CHANNEL_DIR;
     }
 }
-

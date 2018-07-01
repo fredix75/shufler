@@ -191,4 +191,3 @@ class Link
         return $this->dateInsert;
     }
 }
-

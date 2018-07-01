@@ -1,13 +1,15 @@
 /var/
-!app/cache/.gitkeep
 /app/config/parameters.yml
 /app/parameters.yml
-!app/logs/.gitkeep
 /app/phpunit.xml
 /bin/
+/Scripts/
 /composer.phar
 /vendor/
 /web/bundles/
+/web/upload/
+/web/uploads/
+/old/
 /src/.metadata/*
 /.settings/*
 /web/config.php

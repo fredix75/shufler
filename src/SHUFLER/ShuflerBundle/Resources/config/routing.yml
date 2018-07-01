@@ -104,6 +104,10 @@ shufler_flux_deleteLogo:
     defaults: {_controller: SHUFLERShuflerBundle:Flux:deleteLogo}
     requirements:
         id: \d*
+        
+shufler_flux_new_channel:
+    path: /channelEdit
+    defaults: {_controller: SHUFLERShuflerBundle:Flux:channelEdit}
 
 shufler_tweeter:
     path: /tweeter
