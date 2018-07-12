@@ -58,12 +58,19 @@
 					{{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
 				</div>
 			{{ form_errors(form.type) }}
-			<div id="mood">
+			<div id="mood_radio">
 				{{ form_label(form.mood, 'Mood'|trans, {'label_attr': {'class': 'col-sm-1 control-label'}}) }}
 					<div class="col-sm-3 col-md-2">
 						{{ form_widget(form.mood, {'attr': {'class': 'form-control'}}) }}
 					</div>
 				{{ form_errors(form.mood) }}
+			</div>
+			<div id="category_link">
+				{{ form_label(form.category_link, 'Category'|trans, {'label_attr': {'class': 'col-sm-1 control-label'}}) }}
+					<div class="col-sm-3 col-md-2">
+						{{ form_widget(form.category_link, {'attr': {'class': 'form-control'}}) }}
+					</div>
+				{{ form_errors(form.category_link) }}
 			</div>
 		</div>
 		<div id="channelFlux">
@@ -118,32 +125,44 @@
 	{{ parent() }}
 	<script>
 		$(function(){
-			if($('#shufler_shuflerbundle_flux_edit_type').val()!=3){
-				$('#mood').hide();
+			if($('#shufler_shuflerbundle_flux_edit_type').val() != 3) {
+				$('#mood_radio').hide();
 			}
-			if($('#shufler_shuflerbundle_flux_edit_type').val()!=2){
+			if($('#shufler_shuflerbundle_flux_edit_type').val() != 2 ) {
 				$('#channelFlux').hide();
-			} else {
+			}
+			if($('#shufler_shuflerbundle_flux_edit_type').val() != 4 ) {
+				$('#category_link').hide();
+			}
+			if($('#shufler_shuflerbundle_flux_edit_type').val() != 1 ) {
 				$('#logo').hide();
 			}
 			
 		});
 	
 		$('#shufler_shuflerbundle_flux_edit_type').on('change',function() {
-			if($('#shufler_shuflerbundle_flux_edit_type').val()==3) {
-				$('#mood').show();
+			if($('#shufler_shuflerbundle_flux_edit_type').val() == 3) {
+				$('#mood_radio').show();
+				$('#category_link').hide();
 				$('#logo').hide();
 				$('#channelFlux').hide();
-			} else if($('#shufler_shuflerbundle_flux_edit_type').val()==2) {
+			} else if($('#shufler_shuflerbundle_flux_edit_type').val() == 2) {
 				$('#logo').hide();
-				$('#mood').hide();
+				$('#mood_radio').hide();
+				$('#category_link').hide();
 				$('#channelFlux').show();
-			} else {
+			} else if($('#shufler_shuflerbundle_flux_edit_type').val() == 4) {
+				$('#mood_radio').hide();
+				$('#category_link').show();
+				$('#logo').hide();
 				$('#channelFlux').hide();
-				$('#mood').hide();
+			}else {
+				$('#channelFlux').hide();
+				$('#mood_radio').hide();
+				$('#category_link').hide();
 				$('#logo').show();
 				$('#shufler_shuflerbundle_flux_edit_mood option[value=-1]').prop('selected', true);
-			}
+			} 
 		});
 		
 		function sendForm(form, callback) {

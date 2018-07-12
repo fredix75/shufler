@@ -32,6 +32,11 @@ class FluxType extends AbstractType
             'placeholder' => 'Choose a Mood',
             'choices' => array_flip(Flux::RADIO_TYPE)
         ))
+        ->add('category_link', ChoiceType::Class, array(
+            'required' => false,
+            'placeholder' => 'Choose a Category',
+            'choices' => array_flip(Flux::LINK_TYPE)
+        ))
             ->add('logo', ImageType::Class, array(
             'required' => false
         ))

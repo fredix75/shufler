@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * ChannelFlux
  *
  * @ORM\Table(name="channel_flux")
- * @ORM\Entity(repositoryClass="SHUFLER\ShuflerBundle\Repository\ChannelFluxRepository")
+ * @ORM\Entity(repositoryClass="SHUFLER\ShuflerBundle\Entity\ChannelFluxRepository")
  */
 class ChannelFlux
 {

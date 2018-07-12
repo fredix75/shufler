@@ -41,7 +41,7 @@ class Flux
         102 => 'artistes',
         103 => 'BD',
         104 => 'Blogs',
-        105 => 'Emmissions',
+        105 => 'Emissions',
         106 => 'Humour',
         107 => 'Jeux',
         108 => 'Liens divers',
@@ -267,6 +267,7 @@ class Flux
     }
 
     /**
+     * Set Mood
      *
      * @param integer $mood            
      *
@@ -287,6 +288,28 @@ class Flux
     public function getMood()
     {
         return $this->mood;
+    }
+    
+    /**
+     * Set Category
+     *
+     * @param integer $mood
+     *
+     * @return \SHUFLER\ShuflerBundle\Entity\Flux
+     */
+    public function setCategoryLink($mood)
+    {
+        return $this->setMood($mood);
+    }
+    
+    /**
+     * Get Category
+     *
+     * @return integer
+     */
+    public function getCategoryLink()
+    {
+        return $this->getMood();
     }
 
     /**
