@@ -9,6 +9,7 @@ use SHUFLER\ShuflerBundle\Form\FluxType;
 use Symfony\Component\HttpFoundation\Response;
 use SHUFLER\ShuflerBundle\Entity\ChannelFlux;
 use SHUFLER\ShuflerBundle\Form\ChannelFluxType;
+use Symfony\Component\Validator\Constraints\Length;
 
 class FluxController extends Controller
 {
@@ -46,6 +47,7 @@ class FluxController extends Controller
                     $infos[] = $contenu[$i];
                 }
             }
+            //$infos['pages'] = ceil(count($contenu) / 6);
             
             return new Response(json_encode($infos));
         }
@@ -61,7 +63,6 @@ class FluxController extends Controller
         
         return $this->render('SHUFLERShuflerBundle:Flux:rss.html.twig', array(
             'infos' => $flux['infos'],
-            'libe' => $flux['libe'],
             'jsonKeys' => json_encode($flux['jsonKeys'])
         ));
     }
@@ -89,6 +90,7 @@ class FluxController extends Controller
             $debut = ($page - 1) * 6;
             
             $contenu = $rss->loadContent();
+            $infos['pages'] = ceil(count($contenu) / 6);
             
             for ($i = $debut; $i < $debut + 6; $i ++) {
                 $infos[] = $contenu[$i];
@@ -118,18 +120,11 @@ class FluxController extends Controller
      */
     private function formatFlux($rss)
     {
-        $libe = [];
         $infos = [];
         $jsonKeys = [];
         foreach ($rss as $flux) {
-            if ($flux->getType() === 1 && $flux->getName() == 'Liberation') {
-                $libe[$flux->getId()]['flux'] = $flux->getContenu();
-                $libe[$flux->getId()]['name'] = $flux->getName();
-                $libe[$flux->getId()]['pic'] = $flux->getPic();
-            } else {
                 $infos[$flux->getId()]['id'] = $flux->getId();
                 $jsonKeys[] = $flux->getId();
-                $contenu = $flux->getContenu();
                 $infos[$flux->getId()]['name'] = $flux->getName();
                 if ($flux->getType() === 1 && $flux->getLogo() != null) {
                     $infos[$flux->getId()]['pic'] = $flux->getPic();
@@ -141,12 +136,11 @@ class FluxController extends Controller
                 } else if ($flux->getType() === 2){
                     $infos[$flux->getId()]['channel_logo'] = null;
                 }
-                $infos[$flux->getId()]['pages'] = ceil(count($contenu) / 6);
-            }
+                $infos[$flux->getId()]['pages'] = 12;
+            
         }
         
         $result = [];
-        $result['libe'] = $libe;
         $result['infos'] = $infos;
         $result['jsonKeys'] = $jsonKeys;
         
@@ -174,6 +168,29 @@ class FluxController extends Controller
             'radios' => $radios
         ));
     }
+    
+    /**
+     * Get List of Links
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @Security("has_role('ROLE_AUTEUR')")
+     */
+    public function linksAction()
+    {
+        $links = $this->getDoctrine()
+        ->getManager()
+        ->getRepository('SHUFLERShuflerBundle:Flux')
+        ->getLinks();
+        
+        $categories = Flux::LINK_TYPE;
+        
+        return $this->render('SHUFLERShuflerBundle:Flux:links.html.twig', array(
+            'links' => $links,
+            'categories' => $categories
+        ));
+    }
+    
 
     /**
      * Get Tweets API Tweeter
@@ -331,6 +348,8 @@ class FluxController extends Controller
      *
      * @param Request $request            
      * @return \Symfony\Component\HttpFoundation\Response
+     * 
+     * @Security("has_role('ROLE_AUTEUR')")
      */
     public function channelEditAction(Request $request)
     {
@@ -370,7 +389,7 @@ class FluxController extends Controller
      * Delete Video
      *
      * @param Flux $flux            
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse @Security("has_role('ROLE_AUTEUR')")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      *        
      *         @Security("has_role('ROLE_AUTEUR')")
      */
@@ -393,7 +412,7 @@ class FluxController extends Controller
      * Delete Logo
      *
      * @param unknown $id            
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse @Security("has_role('ROLE_AUTEUR')")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      *        
      *         @Security("has_role('ROLE_AUTEUR')")
      */

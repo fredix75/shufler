@@ -24,7 +24,6 @@ class AppKernel extends Kernel
             new JMS\I18nRoutingBundle\JMSI18nRoutingBundle(),
             new Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
-            new Genemu\Bundle\FormBundle\GenemuFormBundle(),
             new Endroid\Twitter\Bundle\EndroidTwitterBundle()
         );
         

@@ -105,3 +105,24 @@ h2.flux-titre {
 	padding: 5px;
 	border-radius: 5px;
 }
+
+.link {
+    
+}
+
+.link li {
+    list-style: none;
+    margin: 15px 0px;
+}
+
+.link li a {
+    width: 100%;
+    background-color: white;
+    padding: .5em;
+    color: black;
+}
+
+.link li a:hover {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.4);
+}

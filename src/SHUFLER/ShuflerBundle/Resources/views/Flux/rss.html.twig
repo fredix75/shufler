@@ -11,38 +11,7 @@
 
 {% block body %}
 	<h1>Quoi de neuf dans le Monde?</h1>
-		{% for key,flux in libe %}			
-		<div class="bande-flux col col-sm-6 col-md-4">
-			<div class="titre">
-				<img src="{{  asset(flux.pic) }}" alt="{{ flux.name }}" height=100px />
-				<a class="btn-toggle" href="#" onclick="return false;"><span class="glyphicon glyphicon-plus"></span></a>
-				{% if is_granted('ROLE_ADMIN') %}
-				&nbsp;<a href="{{ path('shufler_flux_edit',{'id':key }) }}"><span class="glyphicon glyphicon-edit"></span></a>
-				{% endif %}
-			</div>
-			<div class="flux-content" style="display:none;">
-				{% for info in flux.flux|slice(0, 6) %}
-				<div class="info col-md-12">
-					<small class="date">{{ info.updated|dateFlux }}</small>
-					<h2><a href="{{ info.link.0.attributes.href }}" target="_blank" >{{ info.title }}</a></h2>
-					{% if info.link.1.attributes.href is defined %}
-						<img src="{{ info.link.1.attributes.href|imageSubs }}" width="100%"/>
-					{% endif %}
-					<p>{{ info.summary }}</p>
-				</div>
-				{% endfor %}
-			</div>
-			<div class="flux-summary">
-				<ul>
-				{% for info in flux.flux|slice(0, 6) %}
-					<li><strong><a href="{{ info.link.0.attributes.href }}" target="_blank" >{{ info.title }}</a></strong> - <small>{{ info.updated|dateFlux }}</small></li>
-				{% endfor %}
-				</ul>
-			</div>
-		</div>
-		{% endfor %}
-		
-		
+				
 		{% for key,flux in infos %}	
 		<div class="bande-flux col col-sm-6 col-md-4">
 			<div class="titre">
@@ -61,12 +30,11 @@
 				<ul></ul>
 			</div>
 			<div id="fluxPag{{ flux.id }}" class="bloc-pages">
-				<a class="fluxPaginator prev" href="#" data-id="{{ flux.id }}" data-page="" data-nbpages="{{ flux.pages}}" style="visibility:hidden" onclick="return false;"><span class="glyphicon glyphicon-backward"></span></a>
+				<a class="fluxPaginator prev" href="#" data-id="{{ flux.id }}" data-page="" data-nbpages="" style="visibility:hidden" onclick="return false;"><span class="glyphicon glyphicon-backward"></span></a>
 				&nbsp;
-				<span class="noPage">1</span>/{{ flux.pages}}
-				{% if flux.pages>1 %}
-				&nbsp;<a class="fluxPaginator next" href="#" data-id="{{ flux.id }}" data-page="2" data-nbpages="{{ flux.pages}}" onclick="return false;"><span class="glyphicon glyphicon-forward"></span></a>
-				{% endif %}
+				<span class="noPage">1</span>/<span id="nbPages{{ flux.id }}"></span>			
+				&nbsp;<a class="fluxPaginator next" href="#" data-id="{{ flux.id }}" data-page="2" data-nbpages="" onclick="return false;"><span class="glyphicon glyphicon-forward"></span></a>
+				
 			</div>
 		</div>
 		{% endfor %}
@@ -78,13 +46,14 @@
 	<script>
 		$(function(){
 		   var keys={{ jsonKeys }};
-		   var imgLoad='<img src="http://www.owlhatworld.com/wp-content/uploads/2015/12/38.gif" width="100%" />';
+		   var imgLoad='<img src="{{ asset('bundles/shuflershufler/img/dribbble-menu-cards.gif') }}" width="100%" />';
+				console.log('dsggsg');
 			$.each(keys, function( index, value ) {
-			   $('#podSum'+value).html(imgLoad);
-				getData(value, 1);
+			    $('#podSum'+value).html(imgLoad);
+			    getData(value, 1);
 			});
 		});
-	
+
 		$('.fluxPaginator').click(newPage);
 
 		function getData(pod, page){
@@ -97,32 +66,52 @@
 		}
 		
 		function bindData(pod,data){
+			console.log('sdggggg');
+			console.log(pod);
 			var obj = JSON.parse(data);
-			$('#podSum'+pod).html('<ul></ul>');
-			$('#podCont'+pod).html('');
-			for(var i=0;i<obj.length;i++){
-				var contentSum='<li><strong><a href="'+obj[i].link+'" target="_blank">'+obj[i].title+'</a></strong> - <small>'+obj[i].pubDate+'</small></li>'; 
-	 		    $('#podSum'+pod+' ul').append(contentSum);
+			$('#podSum' + pod).html('<ul></ul>');
+			$('#podCont' + pod).html('');
 
-	 		    var contentCont='<div class="info col-md-12"><small class="date">'+obj[i].pubDate+'</small>'
-					+'<h2><a href="'+obj[i].link+'" target="_blank" >'+obj[i].title+'</a></h2>';
+			for(var i=0; i<(obj.length); i++){
+				if(!obj[i]) continue;
+				if(pod === 2) {
 
-				if(typeof obj[i].enclosure !== 'undefined'){
-					contentCont+='<img src="'+obj[i].enclosure["@attributes"].url+'" />';
+					var contentSum = '<li><strong><a href="' + obj[i].link[0].attributes.href + '" target="_blank" >' + obj[i].title + '</a></strong> - <small>' + obj[i].updated + '</small></li>';
+					
+					var contentCont ='<div class="info col-md-12"><small class="date">' + obj[i].updated + '</small>'
+							+ '<h2><a href="' + obj[i].link.0.attributes.href + '" target="_blank" >' + obj[i].title + '</a></h2>';
+					
+					if(obj[i].link.1.attributes.href !== ''){
+						contentCont += '<img src="' + obj[i].link.1.attributes.href +'" width="100%"/>';
+					
+					}
+					if(obj[i].summary != null) {
+						contentCont += '<p>' + info.summary + '</p>'; 
+					}
+					contentCont += '</div>';
+				} else {
+					var contentSum = '<li><strong><a href="'+ obj[i].link +'" target="_blank">' + obj[i].title + '</a></strong> - <small>' + obj[i].pubDate + '</small></li>'; 
+					$('#podSum' + pod + ' ul').append(contentSum);
+
+					var contentCont='<div class="info col-md-12"><small class="date">' + obj[i].pubDate + '</small>'
+						+ '<h2><a href="' + obj[i].link + '" target="_blank" >' + obj[i].title + '</a></h2>';
+
+					if(typeof obj[i].enclosure !== 'undefined'){
+						contentCont += '<img src="' + obj[i].enclosure["@attributes"].url + '" />';
+					}
+					if(obj[i].description != null){
+						contentCont += '<p>' + obj[i].description + '</p>';
+					}
+					contentCont += '</div>';				
 				}
-				if(obj[i].description != null){
-					contentCont +='<p>'+obj[i].description+'</p>';
-				}
-				contentCont +='</div>';
-				$('#podCont'+pod).append(contentCont);
+				
+				$('#podCont' + pod).append(contentCont);
 			}
 
 			$('.info img').removeAttr('width');
 			$('.info img').removeAttr('height');
 			$('.info iframe').removeAttr('width');
 			$('.info iframe').removeAttr('height');
-		}
-
-			
+		}			
 	</script>
 {% endblock %}

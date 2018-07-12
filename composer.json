@@ -9,8 +9,8 @@
 		}
 	},
 	"require" : {
-		"php" : ">=5.3.9",
-		"symfony/symfony": "~3.0",
+		"php" : ">=5.5.9",
+		"symfony/symfony": "3.4.*",
 		"doctrine/orm" : "^2.4.8",
 		"doctrine/doctrine-bundle" : "~1.4",
 		"symfony/assetic-bundle" : "~2.3",
@@ -24,13 +24,12 @@
 		"vimeo/vimeo-api" : "~1.2",
 		"twig/extensions" : "~1.3",
 		"paragonie/random_compat": "1.2.*",
-		"jms/i18n-routing-bundle" : "dev-master",
+		"jms/i18n-routing-bundle" : "2.0.x",
 		"coresphere/console-bundle" : "dev-master",
 		"friendsofsymfony/rest-bundle" : "dev-master",
 		"nelmio/api-doc-bundle" : "~2.8",
-		"jms/serializer-bundle" : "dev-master",
+		"jms/serializer-bundle" : "^2.0",
 		"lexik/jwt-authentication-bundle" : "dev-master",
-		"genemu/form-bundle" : "^3.0@dev",
 		"endroid/twitter" : "^1.3",
 		"monolog/monolog": "^1.23"
 	},

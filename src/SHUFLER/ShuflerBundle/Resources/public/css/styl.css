@@ -319,27 +319,6 @@ footer p {
 	margin-left: 20px;
 }
 
-.link {
-	
-}
-
-.link li {
-	list-style: none;
-	margin: 15px 0px;
-}
-
-.link li a {
-	width: 100%;
-	background-color: white;
-	padding: .5em;
-	color: black;
-}
-
-.link li a:hover {
-	color: white;
-	background-color: rgba(255, 255, 255, 0.4);
-}
-
 footer {
 	border-top: 1px solid #FFFFFF;
 	color: white;
@@ -354,16 +333,16 @@ footer {
 	font-size: 2em;
 }
 
-#login_tab .row, #register_tab .row, #edit_profile_tab .row, #change_password .row {
+#login_tab .row, #register_tab .row, #edit_profile_tab .row, #edit_password_tab .row {
 	margin: 20px 0;
 }
 
-#login_tab label, #register_tab label, #edit_profile_tab label, #change_password label {
+#login_tab label, #register_tab label, #edit_profile_tab label, #edit_password_tab label {
 	font-size: 80%;
 	text-align: right;
 }
 
-#login_tab .submit, #register_tab .submit, #edit_profile_tab .submit, #change_password .submit {
+#login_tab .submit, #register_tab .submit, #edit_profile_tab .submit, #edit_password_tab .submit {
 	text-align: center;
 	margin-bottom: 20px;
 }

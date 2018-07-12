@@ -1,0 +1,25 @@
+
+{% extends "SHUFLERShuflerBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} Home{% endblock %}
+
+{% block stylesheets %}
+	{{  parent() }}
+	<link rel="stylesheet" type="text/css" href="{{ asset('bundles/shuflershufler/css/flux-styl.css') }}">
+{% endblock %}
+
+{% block body %}
+	<h1>Liens</h1>
+	{% for index, categ in categories %}
+		<div class="link col col-sm-6 col-md-4">
+			<h2 class="flux-titre">{{ categ }}</h2>
+			<ul>	
+				{% for link in links %}
+					{% if link.mood == index %}
+						<li>{% if is_granted('ROLE_ADMIN') %}<a href="{{ path('shufler_flux_edit',{'id':link.id }) }}"><span class="glyphicon glyphicon-edit"></span></a>{% endif %}<a href="http://{{link.url }}" target=_blank>{{ link.name }}</a></li>
+					{% endif %}
+				{% endfor %}
+			</ul>
+		</div>
+	{% endfor %}
+{% endblock %}

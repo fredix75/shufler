@@ -61,7 +61,7 @@ shufler_mail:
 
 shufler_links:
     path: /links
-    defaults: {_controller: SHUFLERShuflerBundle:Other:links}
+    defaults: {_controller: SHUFLERShuflerBundle:Flux:links}
 
 shufler_searchAjax:
     path: /searchAjax

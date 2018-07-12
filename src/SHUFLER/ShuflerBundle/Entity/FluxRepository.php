@@ -77,4 +77,42 @@ class FluxRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
     }
+    
+    /**
+     * Get Links
+     * 
+     * @return array
+     */
+    function getLinks()
+    {
+        $links = $this->_em->createQueryBuilder()
+        ->select('a')
+        ->where('a.type= :type')
+        ->setParameter('type', 4)
+        ->from('SHUFLERShuflerBundle:Flux', 'a')
+        ->orderBy('a.category', 'ASC')
+        ->orderBy('a.name', 'ASC')
+        ->getQuery()
+        ->getResult();
+        
+        return $links;
+    }
+    
+    
+    /**
+     * Get Category Links
+     * 
+     * @return array
+     */
+    function getCategories()
+    {
+        $categories = $this->_em->createQueryBuilder()
+        ->select('distinct a.category')
+        ->from('SHUFLERShuflerBundle:Flux', 'a')
+        ->orderBy('a.category', 'ASC')
+        ->getQuery()
+        ->getResult();
+        
+        return $categories;
+    }
 }

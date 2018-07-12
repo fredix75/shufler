@@ -13,7 +13,6 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * Video
  *
  * @ORM\Entity(repositoryClass="SHUFLER\ShuflerBundle\Entity\VideoRepository")
- * @ORM\HasLifecycleCallbacks()
  *
  * @ExclusionPolicy("all")
  */

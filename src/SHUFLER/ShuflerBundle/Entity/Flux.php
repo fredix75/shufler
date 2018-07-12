@@ -18,7 +18,8 @@ class Flux
     const FLUX_TYPE = array(
         1 => 'rss',
         2 => 'podcast',
-        3 => 'radio'
+        3 => 'radio',
+        4 => 'lien'
     );
 
     const RADIO_TYPE = array(
@@ -35,6 +36,23 @@ class Flux
         99 => 'autre'
     );
 
+    const LINK_TYPE = array(
+        101 => 'animation',
+        102 => 'artistes',
+        103 => 'BD',
+        104 => 'Blogs',
+        105 => 'Emmissions',
+        106 => 'Humour',
+        107 => 'Jeux',
+        108 => 'Liens divers',
+        109 => 'Outils',
+        110 => 'Presse',
+        111 => 'Radios',
+        112 => 'Tumbler',
+        113 => 'Web dev',
+        114 => 'Webdocs',
+    );
+    
     /**
      *
      * @var integer @ORM\Column(name="id", type="integer")
