@@ -16,7 +16,7 @@
 		<div class="bande-flux col col-sm-6 col-md-4">
 			<div class="titre">
 				{% if flux.pic is defined and flux.pic is not null %}
-				<img src="{{  asset(flux.pic) }}" height=100px alt="{{ flux.name }}" style="max-width:100%;"/>
+				<img src="{{  asset(flux.pic) }}" height=100px alt="{{ flux.name }}" style="max-width:100%;" alt="{{ flux.name }}-logo" />
 				{% else %}
 				<h2 class="flux-titre">{{ flux.name }}</h2>
 				{% endif %}
@@ -43,11 +43,10 @@
 {% block javascripts %}
 	{{ parent() }}
 	<script type="text/javascript" src="{{ asset('bundles/shuflershufler/js/flux.js') }}"></script>
-	<script>
+	<script type="text/javascript">
 		$(function(){
 		   var keys={{ jsonKeys }};
-		   var imgLoad='<img src="{{ asset('bundles/shuflershufler/img/dribbble-menu-cards.gif') }}" width="100%" />';
-				console.log('dsggsg');
+		   var imgLoad='<img src="{{ asset('bundles/shuflershufler/img/dribbble-menu-cards.gif') }}" width="100%" alt="loading image"/>';
 			$.each(keys, function( index, value ) {
 			    $('#podSum'+value).html(imgLoad);
 			    getData(value, 1);
@@ -58,53 +57,52 @@
 
 		function getData(pod, page){
 		   $.get('{{ path('shufler_rss') }}',
-				  {pod: pod, page: page},
-				  function(data){
-					   bindData(pod,data);
-		   			}
+				{pod: pod, page: page},
+				function(data){
+					bindData(pod,data);
+		   		}
 			);
 		}
 		
 		function bindData(pod,data){
-			console.log('sdggggg');
-			console.log(pod);
-			var obj = JSON.parse(data);
+
 			$('#podSum' + pod).html('<ul></ul>');
 			$('#podCont' + pod).html('');
-
+			var obj = JSON.parse(data);
+					
 			for(var i=0; i<(obj.length); i++){
 				if(!obj[i]) continue;
-				if(pod === 2) {
-
-					var contentSum = '<li><strong><a href="' + obj[i].link[0].attributes.href + '" target="_blank" >' + obj[i].title + '</a></strong> - <small>' + obj[i].updated + '</small></li>';
+				if(pod == 2) {
 					
-					var contentCont ='<div class="info col-md-12"><small class="date">' + obj[i].updated + '</small>'
-							+ '<h2><a href="' + obj[i].link.0.attributes.href + '" target="_blank" >' + obj[i].title + '</a></h2>';
+					var contentSum = '<li><strong><a href="' + obj[i].link[0]['@attributes'].href + '" target="_blank" >' + obj[i].title + '</a></strong> - <small>' + obj[i].updated + '</small></li>';
+										
+					var contentCont ='<div class="info col-md-12"><small class="date">' + obj[i].updated + '</small><h2><a href="'
+						+ obj[i].link[0]['@attributes'].href + '" target="_blank" >' + obj[i].title + '</a></h2>';
 					
-					if(obj[i].link.1.attributes.href !== ''){
-						contentCont += '<img src="' + obj[i].link.1.attributes.href +'" width="100%"/>';
-					
+					if(obj[i].link[0]['@attributes'].href !== ''){
+						contentCont += '<img src="' + obj[i].link[0]['@attributes'].href + '" width="100%" alt="' + obj[i].title +'"/>';
 					}
-					if(obj[i].summary != null) {
-						contentCont += '<p>' + info.summary + '</p>'; 
+					if(obj[i].summary != null && typeof obj[i].summary != "object") {
+						contentCont += '<p>' + obj[i].summary + '</p>'; 
 					}
 					contentCont += '</div>';
+					
 				} else {
+							
 					var contentSum = '<li><strong><a href="'+ obj[i].link +'" target="_blank">' + obj[i].title + '</a></strong> - <small>' + obj[i].pubDate + '</small></li>'; 
-					$('#podSum' + pod + ' ul').append(contentSum);
 
 					var contentCont='<div class="info col-md-12"><small class="date">' + obj[i].pubDate + '</small>'
 						+ '<h2><a href="' + obj[i].link + '" target="_blank" >' + obj[i].title + '</a></h2>';
 
 					if(typeof obj[i].enclosure !== 'undefined'){
-						contentCont += '<img src="' + obj[i].enclosure["@attributes"].url + '" />';
+						contentCont += '<img src="' + obj[i].enclosure["@attributes"].url + '" alt="' + obj[i].title +'" />';
 					}
 					if(obj[i].description != null){
 						contentCont += '<p>' + obj[i].description + '</p>';
 					}
 					contentCont += '</div>';				
 				}
-				
+				$('#podSum' + pod + ' ul').append(contentSum);
 				$('#podCont' + pod).append(contentCont);
 			}
 

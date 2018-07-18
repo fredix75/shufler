@@ -35,7 +35,18 @@ class ChannelFlux
      * @ORM\OneToOne(targetEntity="SHUFLER\ShuflerBundle\Entity\Image", cascade={"persist"})
      */
     private $image;
-           
+    
+    /**
+     *
+     * @var \DateTime @ORM\Column(name="dateInsert", type="datetime")
+     */
+    private $dateInsert;
+    
+    public function __construct()
+    {
+        $this->dateInsert = new \Datetime();
+    }
+    
     public function __toString()
     {
         return $this->name;
@@ -88,15 +99,25 @@ class ChannelFlux
 
         return $this;
     }
-
+    
     /**
-     * Get image
+     * Get Image
      *
-     * @return \SHUFLER\ShuflerBundle\Entity\Image
+     * @return string
      */
     public function getImage()
     {
         return $this->image;
+    }
+
+    /**
+     * Get Logo
+     *
+     * @return string
+     */
+    public function getLogo()
+    {
+        return Image::UPLOAD_DIR. '/' . $this->getImage()->getId() . '.' . $this->getImage()->getExt();
     }
 
 

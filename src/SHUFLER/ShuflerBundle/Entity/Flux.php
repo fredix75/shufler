@@ -230,18 +230,7 @@ class Flux
     {
         return Image::UPLOAD_DIR . '/' . $this->getLogo()->getId() . '.' . $this->getLogo()->getExt();
     }
-
-   /**
-   * Get Logo of Channel
-   * 
-   * @return NULL|string
-   */
-    public function getChannelLogo()
-    {
-        if (!$this->getChannel()->getImage()) return null;
-        return Image::UPLOAD_CHANNEL_DIR. '/' . $this->getChannel()->getImage()->getId() . '.' . $this->getChannel()->getImage()->getExt();
-    }
-    
+   
     /**
      * Set type
      *
@@ -319,7 +308,8 @@ class Flux
      */
     public function loadContent()
     {
-        if ($this->name != 'Liberation') {
+        if ($this->name !== 'Liberation') {
+            
             if (@simplexml_load_file($this->url)->{'channel'}->{'item'}) {
                 $this->contenu = @simplexml_load_file($this->url)->{'channel'}->{'item'};
             }

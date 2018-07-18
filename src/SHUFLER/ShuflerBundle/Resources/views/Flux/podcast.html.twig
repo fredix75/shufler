@@ -9,7 +9,7 @@
 		<div class="bande-flux col col-sm-6 col-md-4">
 			<div class="titre">
 				{% if flux.channel_logo is defined and flux.channel_logo is not null %}
-				<img class="channel" src="{{  asset(flux.channel_logo) }}" height=50px />
+				<img class="channel" src="{{  asset(flux.channel_logo) }}" height=50px alt="{{ flux.channel_name }}" />
 				{% endif %}
 				<h2 class="flux-titre">{{ flux.name }}</h2>
 				<a class="btn-toggle" href="#" onclick="return false;"><span class="glyphicon glyphicon-plus"></span></a>
@@ -38,7 +38,7 @@
 	<script>
 		$(function() {
 			var keys = {{ jsonKeys }};
-			var imgLoad = '<img src="http://www.owlhatworld.com/wp-content/uploads/2015/12/38.gif" width="100%" />';
+			var imgLoad = '<img src="{{ asset('bundles/shuflershufler/img/dribbble-menu-cards.gif') }}" width="100%" alt="loading"/>';
 			$.each(keys, function(index, value) {
 				$('#podSum' + value).html(imgLoad) ;
 				getData(value, 1);
@@ -58,9 +58,12 @@
 			var obj = JSON.parse(data);
 			$('#podSum' + pod).html('<ul></ul>');
 			$('#podCont' + pod).html('');
-			for(var i=0; i<obj.length; i++){
+
+			for(var i=0; i<6; i++){
+				console.log('ds');
 				var contentSum = '<li><strong><a href="' + obj[i].link + '" target="_blank">' + obj[i].title + '</a></strong> - <small>' + obj[i].pubDate + '</small></li>'; 
-	 		    $('#podSum' + pod + ' ul').append(contentSum);
+
+				$('#podSum' + pod + ' ul').append(contentSum);
 
 	 		    var contentCont='<div class="info col-md-12"><small class="date">'+obj[i].pubDate+'</small>'
 					+'<h2><a href="' + obj[i].link + '" target="_blank" >' + obj[i].title + '</a></h2>';

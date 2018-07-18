@@ -47,8 +47,11 @@
 		</div>
 		<div class="form-group">
 			{{ form_label(form.url, 'Url'|trans, {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-				<div class="col-sm-6 col-md-6">
+				<div class="col-sm-5 col-md-5">
 					{{ form_widget(form.url, {'attr': {'class': 'form-control'}}) }}
+				</div>
+				<div class="col-sm-1 col-md-1">
+					<a id="openLink" class="btn-default" href="" target="_blank" style="font-size:150%;padding:5px;border-radius:20px;"><span class="glyphicon glyphicon-search"></span></a>
 				</div>
 			{{ form_errors(form.url) }}
 		</div>
@@ -211,6 +214,17 @@
 					$('#channel_modal').find('.modal-body').html(response);
 				}
 			});
+		});
+		
+		$('#openLink').on('click', function(e){
+			var link = $('#shufler_shuflerbundle_flux_edit_url').val();
+
+			if(link != '') {
+				$(this).attr('href', 'http://' + link);
+			} else {
+				console.log('gd');
+				e.preventDefault();
+			}
 		});
 	});
 

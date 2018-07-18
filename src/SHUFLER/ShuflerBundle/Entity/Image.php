@@ -18,8 +18,6 @@ class Image
 
     const UPLOAD_DIR = 'uploads/img';
     
-    const UPLOAD_CHANNEL_DIR = self::UPLOAD_DIR . '/channel';
-    
     /**
      *
      * @var integer
@@ -43,6 +41,17 @@ class Image
 
     private $tempFilename;
 
+    /**
+     *
+     * @var \DateTime @ORM\Column(name="dateInsert", type="datetime")
+     */
+    private $dateInsert;
+       
+    public function __construct()
+    {
+        $this->dateInsert = new \Datetime();
+    }
+    
     /**
      * Get id
      *
@@ -148,10 +157,7 @@ class Image
      * @ORM\PreRemove()
      */
     public function preRemoveUpload()
-    
     {
-        
-        // On sauvegarde temporairement le nom du fichier, car il dépend de l'id
         $this->tempFilename = $this->getUploadRootDir() . '/' . $this->id . '.' . $this->ext;
     }
 
@@ -174,11 +180,8 @@ class Image
     protected function getUploadRootDir()
     
     {
+       
         return __DIR__ . '/../../../../web/' . self::UPLOAD_DIR;
-    }
+     }
       
-    protected function getUploadChannelRootDir()
-    {
-        return __DIR__ . '/../../../../web/' . self::UPLOAD_CHANNEL_DIR;
-    }
 }

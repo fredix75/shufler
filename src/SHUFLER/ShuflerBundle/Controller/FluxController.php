@@ -48,7 +48,7 @@ class FluxController extends Controller
                 }
             }
             //$infos['pages'] = ceil(count($contenu) / 6);
-            
+
             return new Response(json_encode($infos));
         }
         
@@ -90,6 +90,7 @@ class FluxController extends Controller
             $debut = ($page - 1) * 6;
             
             $contenu = $rss->loadContent();
+           
             $infos['pages'] = ceil(count($contenu) / 6);
             
             for ($i = $debut; $i < $debut + 6; $i ++) {
@@ -104,8 +105,10 @@ class FluxController extends Controller
         ->getRepository('SHUFLERShuflerBundle:Flux')
         ->getPodcast();
         
-        $flux = $this->formatFlux($rss);
         
+        $flux = $this->formatFlux($rss);
+
+        $infos['pages'] = 12;
         return $this->render('SHUFLERShuflerBundle:Flux:podcast.html.twig', array(
             'infos' => $flux['infos'],
             'jsonKeys' => json_encode($flux['jsonKeys'])
@@ -132,9 +135,11 @@ class FluxController extends Controller
                     $infos[$flux->getId()]['pic'] = null;
                 }
                 if ($flux->getType() === 2 && $flux->getChannel() != null) {
-                    $infos[$flux->getId()]['channel_logo'] = $flux->getChannelLogo();
+                    $infos[$flux->getId()]['channel_logo'] = $flux->getChannel()->getLogo();
+                    $infos[$flux->getId()]['channel_name'] = $flux->getChannel()->getName();
                 } else if ($flux->getType() === 2){
                     $infos[$flux->getId()]['channel_logo'] = null;
+                    $infos[$flux->getId()]['channel_name'] = null;
                 }
                 $infos[$flux->getId()]['pages'] = 12;
             
@@ -299,7 +304,7 @@ class FluxController extends Controller
      * @return Rendering template
      *        
      *        
-     *         @Security("has_role('ROLE_AUTEUR')")
+     *  @Security("has_role('ROLE_AUTEUR')")
      */
     public function fluxEditAction(Request $request, $id)
     {
@@ -391,7 +396,7 @@ class FluxController extends Controller
      * @param Flux $flux            
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      *        
-     *         @Security("has_role('ROLE_AUTEUR')")
+     *  @Security("has_role('ROLE_AUTEUR')")
      */
     public function deleteAction(Flux $flux)
     {
@@ -414,7 +419,7 @@ class FluxController extends Controller
      * @param unknown $id            
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      *        
-     *         @Security("has_role('ROLE_AUTEUR')")
+     *  @Security("has_role('ROLE_AUTEUR')")
      */
     public function deleteLogoAction($id)
     {
