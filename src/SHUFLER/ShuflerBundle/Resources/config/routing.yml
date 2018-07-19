@@ -105,7 +105,7 @@ shufler_flux_deleteLogo:
     requirements:
         id: \d*
         
-shufler_flux_new_channel:
+shufler_flux_edit_channel:
     path: /channelEdit
     defaults: {_controller: SHUFLERShuflerBundle:Flux:channelEdit}
 

@@ -61,14 +61,14 @@
 					{{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
 				</div>
 			{{ form_errors(form.type) }}
-			<div id="mood_radio">
+			<div id="mood_radio" class="hidden">
 				{{ form_label(form.mood, 'Mood'|trans, {'label_attr': {'class': 'col-sm-1 control-label'}}) }}
 					<div class="col-sm-3 col-md-2">
 						{{ form_widget(form.mood, {'attr': {'class': 'form-control'}}) }}
 					</div>
 				{{ form_errors(form.mood) }}
 			</div>
-			<div id="category_link">
+			<div id="category_link" class="hidden">
 				{{ form_label(form.category_link, 'Category'|trans, {'label_attr': {'class': 'col-sm-1 control-label'}}) }}
 					<div class="col-sm-3 col-md-2">
 						{{ form_widget(form.category_link, {'attr': {'class': 'form-control'}}) }}
@@ -76,16 +76,17 @@
 				{{ form_errors(form.category_link) }}
 			</div>
 		</div>
-		<div id="channelFlux">
+		<div id="channelFlux" class="hidden">
 			<div class="form-group">
 				{{ form_label(form.channel, 'Chaine'|trans, {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
 					<div class="col-sm-2 col-md-2">
 						{{ form_widget(form.channel, {'attr': {'class': 'form-control'}}) }}
 					</div>
 				{{ form_errors(form.channel) }}
-			</div>	
+			</div>
+			<a id="channel_edit_link" data-channel="0">Editer ce channel</a>
 		</div>
-		<div class="form-group" id="logo">
+		<div class="form-group hidden" id="logo">
 			{{ form_label(form.logo, 'Logo'|trans, {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
 				<div class="col-sm-1 col-md-1">
 					{{ form_widget(form.logo) }}
@@ -112,9 +113,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="new_role-label">Add new Channel</h4>
             </div>
-            <div class="modal-body">
-                {{ render(controller('SHUFLERShuflerBundle:Flux:channelEdit')) }}
-            </div>
+            <div class="modal-body"><img src="{{ asset('bundles/shuflershufler/img/loading.gif')}}" width="100%" /></div>
             <div class="modal-footer">
                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 			   <button type="button" class="btn btn-primary" id="save_channel">Save</button>
@@ -128,44 +127,60 @@
 	{{ parent() }}
 	<script>
 		$(function(){
-			if($('#shufler_shuflerbundle_flux_edit_type').val() != 3) {
-				$('#mood_radio').hide();
+			var type = $('#shufler_shuflerbundle_flux_edit_type').val();
+			if(type == 1 ) {
+				$('#logo').removeClass('hidden');
+			} else if(type == 2 ) {
+				$('#channelFlux').removeClass('hidden');
+				if($('#shufler_shuflerbundle_flux_edit_channel').val() !== 'undefined' ) {
+					displayChannelEditLink($('#shufler_shuflerbundle_flux_edit_channel').val());
+				}
+			} else if(type == 3) {
+				$('#mood_radio').removeClass('hidden');
+			} else if(type == 4 ) {
+				$('#category_link').removeClass('hidden');
 			}
-			if($('#shufler_shuflerbundle_flux_edit_type').val() != 2 ) {
-				$('#channelFlux').hide();
-			}
-			if($('#shufler_shuflerbundle_flux_edit_type').val() != 4 ) {
-				$('#category_link').hide();
-			}
-			if($('#shufler_shuflerbundle_flux_edit_type').val() != 1 ) {
-				$('#logo').hide();
-			}
+			
+			$('select[id$=shufler_shuflerbundle_flux_edit_channel]') 
+				.append($('<option>', {value : 'new', text: 'Add new Channel'}))
+				.on('change', function () {
+					if ($( "select[id$=shufler_shuflerbundle_flux_edit_channel] option:selected").val() === 'new') {				
+						$('#channel_modal').modal('show');
+						displayChannelEdit(0);
+					}
+			});
 			
 		});
 	
 		$('#shufler_shuflerbundle_flux_edit_type').on('change',function() {
-			if($('#shufler_shuflerbundle_flux_edit_type').val() == 3) {
-				$('#mood_radio').show();
-				$('#category_link').hide();
-				$('#logo').hide();
-				$('#channelFlux').hide();
-			} else if($('#shufler_shuflerbundle_flux_edit_type').val() == 2) {
-				$('#logo').hide();
-				$('#mood_radio').hide();
-				$('#category_link').hide();
-				$('#channelFlux').show();
-			} else if($('#shufler_shuflerbundle_flux_edit_type').val() == 4) {
-				$('#mood_radio').hide();
-				$('#category_link').show();
-				$('#logo').hide();
-				$('#channelFlux').hide();
+			var type = $('#shufler_shuflerbundle_flux_edit_type').val();
+			if( type == 3) {
+				$('#mood_radio').removeClass('hidden');
+				$('#category_link').addClass('hidden');
+				$('#logo').addClass('hidden');
+				$('#channelFlux').addClass('hidden');
+			} else if(type == 2) {
+				$('#logo').addClass('hidden');
+				$('#mood_radio').addClass('hidden');
+				$('#category_link').addClass('hidden');
+				$('#channelFlux').removeClass('hidden');;
+			} else if(type == 4) {
+				$('#mood_radio').addClass('hidden');
+				$('#category_link').removeClass('hidden');
+				$('#logo').addClass('hidden');
+				$('#channelFlux').addClass('hidden');
 			}else {
-				$('#channelFlux').hide();
-				$('#mood_radio').hide();
-				$('#category_link').hide();
-				$('#logo').show();
+				$('#channelFlux').addClass('hidden');
+				$('#mood_radio').addClass('hidden');
+				$('#category_link').addClass('hidden');
+				$('#logo').removeClass('hidden');
 				$('#shufler_shuflerbundle_flux_edit_mood option[value=-1]').prop('selected', true);
 			} 
+		});
+		
+		$('#shufler_shuflerbundle_flux_edit_channel').on('change',function() {
+			displayChannelEditLink($('#shufler_shuflerbundle_flux_edit_channel').val());
+			
 		});
 		
 		function sendForm(form, callback) {
@@ -173,7 +188,6 @@
 				
 			var values = new FormData();
 			$.each( form[0].elements, function(i, field) {
-				//grab all form data
 				values[field.name] = field.value;
 			});
 						
@@ -190,17 +204,6 @@
 				success     : function(result) {callback( result ); }
 			});	
 		}
-
-		$(function() {
-		   $('select[id$=shufler_shuflerbundle_flux_edit_channel]') 
-			.append($('<option>', {value : 'new', text: 'Add new Channel'}))
-			.on('change', function () {
-
-			if ($( "select[id$=shufler_shuflerbundle_flux_edit_channel] option:selected").val() === 'new') {
-				$('#channel_modal').modal('show');
-			}
-		});
-
 		
 		$('#save_channel').on('click', function( e ){
 			e.preventDefault();
@@ -209,7 +212,8 @@
 					$('select[id$=shufler_shuflerbundle_flux_edit_channel]')
 					.prepend($('<option>', {value : response.id, text: response.name}))
 					.val(response.id);
-					$('#channel_modal').modal('hide');
+					disableModal();
+					displayChannelEditLink(response.id);
 				} else {
 					$('#channel_modal').find('.modal-body').html(response);
 				}
@@ -218,15 +222,54 @@
 		
 		$('#openLink').on('click', function(e){
 			var link = $('#shufler_shuflerbundle_flux_edit_url').val();
-
 			if(link != '') {
 				$(this).attr('href', 'http://' + link);
 			} else {
-				console.log('gd');
 				e.preventDefault();
 			}
 		});
-	});
+		
+		$('#channel_edit_link').on('click', function() {
+			$('#channel_modal').modal('show');
+			var key = $(this).data('channel');
+			displayChannelEdit(key);
+		});
+		
+		$('#channel_modal').on("hidden.bs.modal", function () {
+			disableModal();
+		});
 
+
+	function displayChannelEditLink(key){
+		if(key != 'new') {
+			$('#channel_edit_link').show();
+			$('#channel_edit_link').data('channel', key);
+		} else {
+			$('#channel_edit_link').hide();
+		}
+	}
+	
+	function displayChannelEdit(key) {
+		$.ajax({
+			type    : 'get',
+			url     : "{{ path('shufler_flux_edit_channel') }}",
+			dataType: 'html',
+			encode	: true,
+			data	: {id: key},
+			success : function(response) {
+				$('#channel_modal').find('.modal-body').html(response);
+			},
+			error	: function(e) {
+				console.log('Erreur Channel edit');
+				console.log(e);
+			}
+		});	
+	}
+	
+	function disableModal() {
+		$('#channel_modal').modal('hide');
+		$('#channel_modal').find('.modal-body').html('<img src="{{ asset('bundles/shuflershufler/img/loading.gif')}}" width="100%" />');
+	}
+		
 	</script>
 {% endblock %}
