@@ -361,8 +361,25 @@ class FluxController extends Controller
                
         $channel = new ChannelFlux();
         
+        $id =  $request->get('id');
+        
+        if ($id != 0) {
+            try {
+                $channel = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('SHUFLERShuflerBundle:ChannelFlux')
+                ->find($id);
+                
+            } catch (\Exception $e) {
+                $this->get('session')
+                ->getFlashBag()
+                ->add('danger', $e->getMessage());
+                return $this->redirect($this->generateUrl('shufler_flux_edit'));
+            }
+        }
+
         $form = $this->createForm(ChannelFluxType::Class, $channel, array(
-            'action' => $this->generateUrl('shufler_flux_new_channel'),
+            'action' => $this->generateUrl('shufler_flux_edit_channel') . '?id=' . $id ,
             'method' => 'POST'
         ));
         
@@ -370,14 +387,13 @@ class FluxController extends Controller
         
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $data = $form->getData();
-            $em->persist($data);
+            $em->persist($channel);
             $em->flush();
             
             $response = new Response(json_encode([
                 'success' => true,
-                'id' => $data->getId(),
-                'name' => $data->getName()
+                'id' => $channel->getId(),
+                'name' => $channel->getName()
             ]));
             
             $response->headers->set('Content-Type', 'application/json');
@@ -386,7 +402,8 @@ class FluxController extends Controller
         }
         
         return $this->render('SHUFLERShuflerBundle:Flux:channelEdit.html.twig', array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'channel' => $channel
         ));
     }
 
