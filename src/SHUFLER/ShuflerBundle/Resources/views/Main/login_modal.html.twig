@@ -6,16 +6,30 @@
 				<h4 class="modal-title" id="userModalLabel">Hello!</h4>
 			</div>
 			<ul class="nav nav-tabs" id="myTab">
-			  <li id="onglet_login" class="active"><a data-toggle="tab" href="#login_tab">Login</a></li>
-			  <li id="onglet_register"><a data-toggle="tab" href="#register_tab">Inscription</a></li>
+			{% if app.user %}
+			    <li id="onglet_edit_profile" class="active"><a data-toggle="tab" href="#edit_profile_tab">Profile</a></li>
+			    <li id="onglet_edit_password"><a data-toggle="tab" href="#edit_password_tab">Password</a></li>
+			{% else %}
+			    <li id="onglet_login" class="active"><a data-toggle="tab" href="#login_tab">Login</a></li>
+			    <li id="onglet_register"><a data-toggle="tab" href="#register_tab">Inscription</a></li>
+			{% endif %}
 			</ul>
 			<div class="tab-content" id="myTabContent">
+			{% if app.user %}
+				<div id="edit_profile_tab" class="tab-pane fade active in">
+			   		{{ render(controller("FOSUserBundle:Profile:edit")) }}
+				</div>
+				<div id="edit_password_tab" class="tab-pane fade">
+			   		{{ render(controller("FOSUserBundle:ChangePassword:changePassword")) }}
+				</div>
+			{% else %}
 				<div id="login_tab" class="tab-pane fade active in">
 			   		{{ render(controller("FOSUserBundle:Security:login")) }}
 				</div>
 			  	<div id="register_tab" class="tab-pane fade">
 			   		{{ render(controller("FOSUserBundle:Registration:register")) }}
 			  	</div>
+			{% endif %}	
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->

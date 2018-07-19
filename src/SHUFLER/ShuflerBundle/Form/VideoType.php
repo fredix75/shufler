@@ -37,25 +37,21 @@ class VideoType extends AbstractType
             ->add('periode', ChoiceType::class, array(
             'required' => true,
             'placeholder' => 'Choose a period',
-            'choices' => array_flip(Video::PERIOD_LIST),
-            'choices_as_values' => true
+            'choices' => array_flip(Video::PERIOD_LIST)
         ))
             ->add('categorie', ChoiceType::class, array(
             'required' => true,
             'placeholder' => 'Choose a category',
-            'choices' => array_flip(Video::CATEGORY_LIST),
-            'choices_as_values' => true
+            'choices' => array_flip(Video::CATEGORY_LIST)
         ))
             ->add('genre', ChoiceType::class, array(
             'required' => false,
             'placeholder' => 'Choose a style',
-            'choices' => array_flip(Video::GENRE_LIST),
-            'choices_as_values' => true
+            'choices' => array_flip(Video::GENRE_LIST)
         ))
             ->add('priorite', ChoiceType::class, array(
             'required' => true,
-            'choices' => Video::PRIORITY_LIST,
-            'choices_as_values' => true
+            'choices' => Video::PRIORITY_LIST
         ))
             ->add('moods', EntityType::Class, array(
             'class' => 'SHUFLERShuflerBundle:Mood',

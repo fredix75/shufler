@@ -6,7 +6,12 @@
 			<attribute name="composer" value="source"/>
 		</attributes>
 	</buildpathentry>
-	<buildpathentry kind="src" path="vendor/composer">
+	<buildpathentry excluding="ca-bundle/" kind="src" path="vendor/composer">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/composer/ca-bundle/src">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
 		</attributes>
@@ -16,7 +21,7 @@
 			<attribute name="composer" value="vendor"/>
 		</attributes>
 	</buildpathentry>
-	<buildpathentry kind="src" path="vendor/doctrine/annotations/lib">
+	<buildpathentry kind="src" path="vendor/doctrine/annotations/lib/Doctrine/Common/Annotations">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
 		</attributes>
@@ -86,6 +91,11 @@
 			<attribute name="composer" value="vendor"/>
 		</attributes>
 	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/fig/link-util/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
 	<buildpathentry kind="src" path="vendor/friendsofsymfony/rest-bundle">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
@@ -102,11 +112,6 @@
 		</attributes>
 	</buildpathentry>
 	<buildpathentry kind="src" path="vendor/incenteev/composer-parameter-handler">
-		<attributes>
-			<attribute name="composer" value="vendor"/>
-		</attributes>
-	</buildpathentry>
-	<buildpathentry kind="src" path="vendor/ircmaxell/password-compat/lib">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
 		</attributes>
@@ -146,7 +151,7 @@
 			<attribute name="composer" value="vendor"/>
 		</attributes>
 	</buildpathentry>
-	<buildpathentry kind="src" path="vendor/kriswallsmith/buzz/lib">
+	<buildpathentry kind="src" path="vendor/kriswallsmith/buzz/lib/Buzz">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
 		</attributes>
@@ -246,7 +251,27 @@
 			<attribute name="composer" value="vendor"/>
 		</attributes>
 	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/psr/cache/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/psr/container/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/psr/link/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
 	<buildpathentry kind="src" path="vendor/psr/log/Psr/Log">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/psr/simple-cache/src">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
 		</attributes>
@@ -336,21 +361,6 @@
 			<attribute name="composer" value="vendor"/>
 		</attributes>
 	</buildpathentry>
-	<buildpathentry excluding="Resources/stubs/" kind="src" path="vendor/symfony/polyfill-php54">
-		<attributes>
-			<attribute name="composer" value="vendor"/>
-		</attributes>
-	</buildpathentry>
-	<buildpathentry kind="src" path="vendor/symfony/polyfill-php54/Resources/stubs">
-		<attributes>
-			<attribute name="composer" value="vendor"/>
-		</attributes>
-	</buildpathentry>
-	<buildpathentry kind="src" path="vendor/symfony/polyfill-php55">
-		<attributes>
-			<attribute name="composer" value="vendor"/>
-		</attributes>
-	</buildpathentry>
 	<buildpathentry kind="src" path="vendor/symfony/polyfill-php56">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
@@ -371,11 +381,6 @@
 			<attribute name="composer" value="vendor"/>
 		</attributes>
 	</buildpathentry>
-	<buildpathentry kind="src" path="vendor/symfony/security-acl">
-		<attributes>
-			<attribute name="composer" value="vendor"/>
-		</attributes>
-	</buildpathentry>
 	<buildpathentry kind="src" path="vendor/symfony/swiftmailer-bundle">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
@@ -392,11 +397,6 @@
 		</attributes>
 	</buildpathentry>
 	<buildpathentry kind="src" path="vendor/symfony/symfony/src/Symfony/Bridge/ProxyManager">
-		<attributes>
-			<attribute name="composer" value="vendor"/>
-		</attributes>
-	</buildpathentry>
-	<buildpathentry kind="src" path="vendor/symfony/symfony/src/Symfony/Bridge/Swiftmailer">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
 		</attributes>

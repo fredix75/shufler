@@ -52,7 +52,7 @@
 						<img src="{{ vignette.link }}" height=180px />
 					</a>
 				</div></div>
-				<div class="col-sm-6 col-md-6" style="border-top:1px dotted black;border-right:1px dotted black;height:180px;overflow:hidden;">
+				<div class="description col-sm-6 col-md-6">
 					<strong>{{ vignette.name }}</strong>';
 				{% if is_granted('ROLE_AUTEUR') %}
 					<div id="{{ vignette.url }}" class="link_edit"><a href="#" onclick="return false;"><span class="glyphicon glyphicon-edit"></span></a></div>
@@ -114,25 +114,25 @@
 	{% endif %}
 
 
-		function createVignette(snippet,url,duration,stat){
-			vignette='<div class="col-sm-12"><div class="col-sm-6 col-md-6"><div class="media topcol embed-responsive-16by9" style="margin-bottom:30px;"><a class="lienvideo" href="';
-			vignette=vignette+url;
-			vignette=vignette+'" onclick="return false;"><img src="';
-			vignette=vignette+snippet.thumbnails.medium.url;
-			vignette=vignette+'" height=180px />';
-			vignette=vignette+'<div class="media-body">';
-			vignette=vignette+duration;
-			vignette=vignette+'</div>';
-			vignette=vignette+'</a></div></div>';
-			vignette=vignette+'<div class="col-sm-6 col-md-6" style="border-top:1px dotted black;border-right:1px dotted black;height:180px;overflow:hidden;">';
-			vignette=vignette+'<strong>'+snippet.title+'</strong>';
+		function createVignette(snippet, url, duration, stat){
+			vignette = '<div class="col-sm-12"><div class="col-sm-6 col-md-6"><div class="media topcol embed-responsive-16by9" style="margin-bottom:30px;"><a class="lienvideo" href="';
+			vignette = vignette + url;
+			vignette = vignette + '" onclick="return false;"><img src="';
+			vignette = vignette + snippet.thumbnails.medium.url;
+			vignette = vignette + '" height=180px />';
+			vignette = vignette + '<div class="media-body">';
+			vignette = vignette + duration;
+			vignette = vignette + '</div>';
+			vignette = vignette + '</a></div></div>';
+			vignette = vignette + '<div class="description col-sm-6 col-md-6">';
+			vignette = vignette + '<strong>' + snippet.title + '</strong>';
 			{% if is_granted('ROLE_AUTEUR') %}
-				vignette=vignette+'<div id="'+url+'" class="link_edit"><a href="#" onclick="return false;"><span class="glyphicon glyphicon-edit"></span></a></div>';
+				vignette = vignette + '<div id="' + url + '" class="link_edit"><a href="#" onclick="return false;"><span class="glyphicon glyphicon-edit"></span></a></div>';
 			{% endif %}
-			vignette=vignette+'<br/><br/>'+snippet.channelTitle;
+			vignette = vignette + '<br/><br/>' + snippet.channelTitle;
 			var options = { year: "numeric", month: "long", day: "numeric"};
-			vignette=vignette+'<br/><br/><span class="badge">'+new Date(snippet.publishedAt).toLocaleDateString('fr-FR',options)+'</span>';
-			vignette=vignette+'<br/>'+stat+' views</div></div>';
+			vignette = vignette + '<br/><br/><span class="badge">' + new Date(snippet.publishedAt).toLocaleDateString('fr-FR',options) + '</span>';
+			vignette = vignette + '<br/>' + stat + ' views</div></div>';
 			return vignette;
 		}
 

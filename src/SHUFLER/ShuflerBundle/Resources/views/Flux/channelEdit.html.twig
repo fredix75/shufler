@@ -1,0 +1,19 @@
+{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+	{# Les erreurs générales du formulaire. #}
+	{{ form_errors(form) }}
+
+		<div class="form-group">
+			{{ form_label(form.name, 'Name'|trans, {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+				<div class="col-sm-6 col-md-6">
+					{{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+				</div>
+			{{ form_errors(form.name) }}
+		</div>
+		<div class="form-group">
+			{{ form_label(form.image, 'Logo'|trans, {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+				<div class="col-sm-6 col-md-6">
+					{{ form_widget(form.image) }}
+				</div>
+			{{ form_errors(form.image) }}
+		</div>
+{{ form_end(form) }}

@@ -33,15 +33,16 @@ security:
             pattern: ^/
             anonymous: true
             provider: main
+            logout_on_user_change: true
             form_login:
-                login_path: security_forbidden
+                login_path: fos_user_security_login
                 check_path: fos_user_security_check
                 success_handler: shufler.security.authentication_handler
             logout:
                 path: fos_user_security_logout
                 target: /
             remember_me:
-                secret: %secret%
+                secret: "%secret%"
 
     access_control:
         - { path: ^/view, roles: ROLE_ADMIN }

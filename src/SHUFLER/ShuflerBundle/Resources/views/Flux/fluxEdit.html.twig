@@ -47,8 +47,11 @@
 		</div>
 		<div class="form-group">
 			{{ form_label(form.url, 'Url'|trans, {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-				<div class="col-sm-6 col-md-6">
+				<div class="col-sm-5 col-md-5">
 					{{ form_widget(form.url, {'attr': {'class': 'form-control'}}) }}
+				</div>
+				<div class="col-sm-1 col-md-1">
+					<a id="openLink" class="btn-default" href="" target="_blank" style="font-size:150%;padding:5px;border-radius:20px;"><span class="glyphicon glyphicon-search"></span></a>
 				</div>
 			{{ form_errors(form.url) }}
 		</div>
@@ -58,15 +61,31 @@
 					{{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
 				</div>
 			{{ form_errors(form.type) }}
-			<div id="mood">
+			<div id="mood_radio">
 				{{ form_label(form.mood, 'Mood'|trans, {'label_attr': {'class': 'col-sm-1 control-label'}}) }}
 					<div class="col-sm-3 col-md-2">
 						{{ form_widget(form.mood, {'attr': {'class': 'form-control'}}) }}
 					</div>
 				{{ form_errors(form.mood) }}
 			</div>
+			<div id="category_link">
+				{{ form_label(form.category_link, 'Category'|trans, {'label_attr': {'class': 'col-sm-1 control-label'}}) }}
+					<div class="col-sm-3 col-md-2">
+						{{ form_widget(form.category_link, {'attr': {'class': 'form-control'}}) }}
+					</div>
+				{{ form_errors(form.category_link) }}
+			</div>
 		</div>
-		<div class="form-group">
+		<div id="channelFlux">
+			<div class="form-group">
+				{{ form_label(form.channel, 'Chaine'|trans, {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+					<div class="col-sm-2 col-md-2">
+						{{ form_widget(form.channel, {'attr': {'class': 'form-control'}}) }}
+					</div>
+				{{ form_errors(form.channel) }}
+			</div>	
+		</div>
+		<div class="form-group" id="logo">
 			{{ form_label(form.logo, 'Logo'|trans, {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
 				<div class="col-sm-1 col-md-1">
 					{{ form_widget(form.logo) }}
@@ -83,25 +102,131 @@
 	 {% if flux.id is defined and flux.id !=0 %}
 		<a class="btn btn-danger" href="{{ path('shufler_flux_delete',{'id':flux.id}) }}" onclick="return confirm('{{ 'Are You sure ?'|trans}}');"><span class="glyphicon glyphicon-remove-sign"></span>&nbsp;{{ 'Delete Flow'|trans }}</a>
 	 {% endif %}
-	 </div>		
+	 </div>	
+
+<!-- Modal -->
+<div class="modal fade" id="channel_modal" role="dialog" aria-labelledby="channel_modal-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="new_role-label">Add new Channel</h4>
+            </div>
+            <div class="modal-body">
+                {{ render(controller('SHUFLERShuflerBundle:Flux:channelEdit')) }}
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			   <button type="button" class="btn btn-primary" id="save_channel">Save</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->	 
 {% endblock %}
 
 {% block javascripts %}
 	{{ parent() }}
 	<script>
 		$(function(){
-			if($('#shufler_shuflerbundle_flux_edit_type').val()!=3){
-				$('#mood').hide();
+			if($('#shufler_shuflerbundle_flux_edit_type').val() != 3) {
+				$('#mood_radio').hide();
 			}
+			if($('#shufler_shuflerbundle_flux_edit_type').val() != 2 ) {
+				$('#channelFlux').hide();
+			}
+			if($('#shufler_shuflerbundle_flux_edit_type').val() != 4 ) {
+				$('#category_link').hide();
+			}
+			if($('#shufler_shuflerbundle_flux_edit_type').val() != 1 ) {
+				$('#logo').hide();
+			}
+			
 		});
 	
-		$('#shufler_shuflerbundle_flux_edit_type').on('change',function(){
-			if($('#shufler_shuflerbundle_flux_edit_type').val()==3){
-				$('#mood').show();
-			}else{
+		$('#shufler_shuflerbundle_flux_edit_type').on('change',function() {
+			if($('#shufler_shuflerbundle_flux_edit_type').val() == 3) {
+				$('#mood_radio').show();
+				$('#category_link').hide();
+				$('#logo').hide();
+				$('#channelFlux').hide();
+			} else if($('#shufler_shuflerbundle_flux_edit_type').val() == 2) {
+				$('#logo').hide();
+				$('#mood_radio').hide();
+				$('#category_link').hide();
+				$('#channelFlux').show();
+			} else if($('#shufler_shuflerbundle_flux_edit_type').val() == 4) {
+				$('#mood_radio').hide();
+				$('#category_link').show();
+				$('#logo').hide();
+				$('#channelFlux').hide();
+			}else {
+				$('#channelFlux').hide();
+				$('#mood_radio').hide();
+				$('#category_link').hide();
+				$('#logo').show();
 				$('#shufler_shuflerbundle_flux_edit_mood option[value=-1]').prop('selected', true);
-				$('#mood').hide();
+			} 
+		});
+		
+		function sendForm(form, callback) {
+			// Get all form values
+				
+			var values = new FormData();
+			$.each( form[0].elements, function(i, field) {
+				//grab all form data
+				values[field.name] = field.value;
+			});
+						
+			// Post form
+			$.ajax({
+				type        : form.attr( 'method' ),
+				url         : form.attr( 'action' ),
+				dataType	: 'json', // what type of data do we expect back from the server
+				encode		: true,
+			    data		: new FormData($('form[name="shufler_shuflerbundle_channelflux_edit"]')[0]),
+				processData: false,
+				contentType: false,
+				cache: false,
+				success     : function(result) {callback( result ); }
+			});	
+		}
+
+		$(function() {
+		   $('select[id$=shufler_shuflerbundle_flux_edit_channel]') 
+			.append($('<option>', {value : 'new', text: 'Add new Channel'}))
+			.on('change', function () {
+
+			if ($( "select[id$=shufler_shuflerbundle_flux_edit_channel] option:selected").val() === 'new') {
+				$('#channel_modal').modal('show');
 			}
 		});
+
+		
+		$('#save_channel').on('click', function( e ){
+			e.preventDefault();
+			sendForm($('#channel_modal').find('form'), function( response, data ){
+				if (typeof response == "object") {
+					$('select[id$=shufler_shuflerbundle_flux_edit_channel]')
+					.prepend($('<option>', {value : response.id, text: response.name}))
+					.val(response.id);
+					$('#channel_modal').modal('hide');
+				} else {
+					$('#channel_modal').find('.modal-body').html(response);
+				}
+			});
+		});
+		
+		$('#openLink').on('click', function(e){
+			var link = $('#shufler_shuflerbundle_flux_edit_url').val();
+
+			if(link != '') {
+				$(this).attr('href', 'http://' + link);
+			} else {
+				console.log('gd');
+				e.preventDefault();
+			}
+		});
+	});
+
 	</script>
 {% endblock %}

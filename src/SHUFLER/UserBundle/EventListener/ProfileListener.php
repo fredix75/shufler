@@ -12,7 +12,7 @@ use FOS\UserBundle\Form\Type\RegistrationFormType;
 /**
  * Ajax listener on FOS UserBundle registration
  */
-class RegistrationListener implements EventSubscriberInterface
+class ProfileListener implements EventSubscriberInterface
 {
 
     private $router;
@@ -30,45 +30,22 @@ class RegistrationListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            FOSUserEvents::REGISTRATION_SUCCESS => 'onRegistrationSuccess',
-            FOSUserEvents::REGISTRATION_FAILURE => 'onRegistrationFailure'
+            FOSUserEvents::PROFILE_EDIT_SUCCESS => 'onProfileSuccess'
         );
     }
 
     /**
-     * onRegistrationSuccess
+     * onProfileSuccess
      *
      * @param FormEvent $event            
      */
-    public function onRegistrationSuccess(FormEvent $event)
+    public function onProfileSuccess(FormEvent $event)
     {
-        $request = $this->requestStack->getCurrentRequest();
-        
-        if ($request->isXmlHttpRequest()) {
-            $success = true;
-        } else {
-            $success = false;
-        }
         $response = new Response(json_encode(array(
-            'success' => $success
+            'success' => true
         )));
         
         $response->headers->set('Content-Type', 'application/json');
-        $event->setResponse($response);
-    }
-    /**
-     * onRegistrationFailure
-     *
-     *  == Marche pas ==
-     * 
-     * @param FormEvent $event
-     */
-    public function onRegistrationFailure(FormEvent $event)
-    {                
-        $response = new Response(json_encode(array(
-            'success' => false,
-        )));
-
         $event->setResponse($response);
     }
 }

@@ -65,7 +65,7 @@ class VideoRepository extends \Doctrine\ORM\EntityRepository
      * @param number $maxperpage            
      * @return \Doctrine\ORM\Tools\Pagination\Paginator
      */
-    function searchVideos($search, $page = 1, $maxperpage = 12)
+    function searchVideos($search, $page = 1, $maxperpage = Video::MAX_LIST)
     {
         $q = $this->_em->createQueryBuilder()
             ->select('a')
@@ -144,7 +144,7 @@ class VideoRepository extends \Doctrine\ORM\EntityRepository
      * @param number $maxperpage
      * @return \Doctrine\ORM\Tools\Pagination\Paginator
      */
-    public function getListByCategorie($categorie, $page = 1, $maxperpage = 12)
+    public function getListByCategorie($categorie, $page = 1, $maxperpage = Video::MAX_LIST)
     {
         $q = $this->_em->createQueryBuilder()
             ->select('a')
@@ -189,7 +189,7 @@ class VideoRepository extends \Doctrine\ORM\EntityRepository
      * @param number $maxperpage
      * @return \Doctrine\ORM\Tools\Pagination\Paginator
      */
-    public function getListByPeriode($periode, $page = 1, $maxperpage = 12)
+    public function getListByPeriode($periode, $page = 1, $maxperpage = Video::MAX_LIST)
     {
         $q = $this->_em->createQueryBuilder()
             ->select('a')

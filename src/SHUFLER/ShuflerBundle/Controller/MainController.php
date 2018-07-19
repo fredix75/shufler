@@ -37,13 +37,12 @@ class MainController extends Controller
                 ->getRepository('SHUFLERShuflerBundle:Video')
                 ->searchAjax($search);
             $suggestions = array();
+            $suggestions['suggestions'] = array();
             if ($videos) {
                 foreach ($videos as $video) {
                     $suggestions['suggestions'][] = $video;
                 }
-            } else {
-                $suggestions['suggestions'] = array();
-            }
+            } 
             
             return new JsonResponse(json_encode($suggestions));
         }

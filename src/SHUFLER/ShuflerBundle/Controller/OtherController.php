@@ -13,29 +13,20 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class OtherController extends Controller
 {
 
-    /**
-     * Get List of Links
-     * 
-     * @return \Symfony\Component\HttpFoundation\Response
-     * 
-     * @Security("has_role('ROLE_AUTEUR')")
-     */
-    public function linksAction()
-    {
-        $links = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('SHUFLERShuflerBundle:Link')
-            ->getLinks();
-        $categories = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('SHUFLERShuflerBundle:Link')
-            ->getCategories();
-        return $this->render('SHUFLERShuflerBundle:Other:links.html.twig', array(
-            'links' => $links,
-            'categories' => $categories
-        ));
-    }
 
+    /**
+     * Get Categories
+     * 
+     * @return array
+     */
+    private function getCategoriesLinks() {
+        return $this->getDoctrine()
+        ->getManager()
+        ->getRepository('SHUFLERShuflerBundle:Link')
+        ->getCategories();
+    }
+    
+    
     /**
      * Search API
      * 

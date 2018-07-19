@@ -5,7 +5,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use phpDocumentor\Reflection\Types\Integer;
 
-
 /**
  * Flux
  *
@@ -19,9 +18,10 @@ class Flux
     const FLUX_TYPE = array(
         1 => 'rss',
         2 => 'podcast',
-        3 => 'radio'
+        3 => 'radio',
+        4 => 'lien'
     );
-    
+
     const RADIO_TYPE = array(
         1 => 'généraliste',
         2 => 'rock',
@@ -33,30 +33,43 @@ class Flux
         8 => 'classique',
         9 => 'electro',
         10 => 'bossa nova',
-        99 => 'autre'        
+        99 => 'autre'
+    );
+
+    const LINK_TYPE = array(
+        101 => 'animation',
+        102 => 'artistes',
+        103 => 'BD',
+        104 => 'Blogs',
+        105 => 'Emissions',
+        106 => 'Humour',
+        107 => 'Jeux',
+        108 => 'Liens divers',
+        109 => 'Outils',
+        110 => 'Presse',
+        111 => 'Radios',
+        112 => 'Tumbler',
+        113 => 'Web dev',
+        114 => 'Webdocs',
     );
     
     /**
      *
-     * @var integer
-     * 
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @var integer @ORM\Column(name="id", type="integer")
+     *      @ORM\Id
+     *      @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
      *
-     * @var string
-     * @ORM\Column(name="name", type="string", length=255)
+     * @var string @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
     /**
      *
-     * @var string
-     * @ORM\Column(name="url", type="string", length=255)
+     * @var string @ORM\Column(name="url", type="string", length=255)
      */
     private $url;
 
@@ -68,22 +81,25 @@ class Flux
 
     /**
      *
-     * @var Integer
-     * @ORM\Column(name="type", type="smallint")
+     * @var Integer @ORM\Column(name="type", type="smallint")
      */
     private $type;
 
     /**
      *
-     * @var Integer
-     * @ORM\Column(name="mood", type="smallint", nullable=true)
+     * @var Integer @ORM\Column(name="mood", type="smallint", nullable=true)
      */
     private $mood;
 
     /**
+     * @ORM\ManyToOne(targetEntity="ChannelFlux", cascade={"persist"})
+     * @ORM\JoinColumn(name="channel_flux_id", referencedColumnName="id")
+     */
+    private $channel;
+
+    /**
      *
-     * @var \DateTime
-     * @ORM\Column(name="dateInsert", type="datetime")
+     * @var \DateTime @ORM\Column(name="dateInsert", type="datetime")
      */
     private $dateInsert;
 
@@ -205,11 +221,16 @@ class Flux
         return $this->dateInsert;
     }
 
+    /**
+     * Get Logo of Flux
+     *
+     * @return string
+     */
     public function getPic()
     {
-        return $this->getLogo()->getUploadDir() . '/' . $this->getLogo()->getId() . '.' . $this->getLogo()->getExt();
+        return Image::UPLOAD_DIR . '/' . $this->getLogo()->getId() . '.' . $this->getLogo()->getExt();
     }
-
+   
     /**
      * Set type
      *
@@ -235,11 +256,11 @@ class Flux
     }
 
     /**
-     * Set mood
+     * Set Mood
      *
      * @param integer $mood            
      *
-     * @return Flux
+     * @return \SHUFLER\ShuflerBundle\Entity\Flux
      */
     public function setMood($mood)
     {
@@ -257,22 +278,46 @@ class Flux
     {
         return $this->mood;
     }
+    
+    /**
+     * Set Category
+     *
+     * @param integer $mood
+     *
+     * @return \SHUFLER\ShuflerBundle\Entity\Flux
+     */
+    public function setCategoryLink($mood)
+    {
+        return $this->setMood($mood);
+    }
+    
+    /**
+     * Get Category
+     *
+     * @return integer
+     */
+    public function getCategoryLink()
+    {
+        return $this->getMood();
+    }
 
     /**
-     * @ORM\PostLoad
      *
      * @return \SimpleXMLElement
      *
      */
     public function loadContent()
     {
-        if ($this->name != 'Liberation') {
+        if ($this->name !== 'Liberation') {
+            
             if (@simplexml_load_file($this->url)->{'channel'}->{'item'}) {
                 $this->contenu = @simplexml_load_file($this->url)->{'channel'}->{'item'};
             }
         } else {
             $this->contenu = @simplexml_load_file($this->url)->{'entry'};
         }
+        
+        return $this->contenu;
     }
 
     /**
@@ -283,5 +328,27 @@ class Flux
     public function getContenu()
     {
         return $this->contenu;
+    }
+
+    /**
+     * Get channel
+     *
+     * @return \SHUFLER\ShuflerBundle\Entity\ChannelFlux
+     */
+    public function getChannel()
+    {
+        return $this->channel;
+    }
+
+    /**
+     *
+     * @param ChannelFlux $channel            
+     *
+     * @return \SHUFLER\ShuflerBundle\Entity\Flux
+     */
+    public function setChannel(ChannelFlux $channel)
+    {
+        $this->channel = $channel;
+        return $this;
     }
 }
