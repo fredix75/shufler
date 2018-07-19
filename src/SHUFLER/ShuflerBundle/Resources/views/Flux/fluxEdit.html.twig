@@ -51,7 +51,7 @@
 					{{ form_widget(form.url, {'attr': {'class': 'form-control'}}) }}
 				</div>
 				<div class="col-sm-1 col-md-1">
-					<a id="openLink" class="btn-default" href="" target="_blank" style="font-size:150%;padding:5px;border-radius:20px;"><span class="glyphicon glyphicon-search"></span></a>
+					<a id="openLink" class="btn-default" href="" target="_blank" title="Edit this Channel" style="font-size:150%;padding:5px;border-radius:20px;"><span class="glyphicon glyphicon-search"></span></a>
 				</div>
 			{{ form_errors(form.url) }}
 		</div>
@@ -79,31 +79,34 @@
 		<div id="channelFlux" class="hidden">
 			<div class="form-group">
 				{{ form_label(form.channel, 'Chaine'|trans, {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-					<div class="col-sm-2 col-md-2">
+					<div class="col-xs-10 col-sm-5 col-md-5">
 						{{ form_widget(form.channel, {'attr': {'class': 'form-control'}}) }}
+					</div>
+					<div class ="col-xs-2 col-sm-1 ol-md-1">
+						<a id="channel_edit_link" data-channel="0" href="" title="Edit this Channel"><span class="glyphicon glyphicon-edit" style="font-size:150%;padding:5px;border-radius:20px;"></span></a>
 					</div>
 				{{ form_errors(form.channel) }}
 			</div>
-			<a id="channel_edit_link" data-channel="0">Editer ce channel</a>
 		</div>
 		<div class="form-group hidden" id="logo">
 			{{ form_label(form.logo, 'Logo'|trans, {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-				<div class="col-sm-1 col-md-1">
+				<div class="col-xs-6 col-sm-4 col-md-4">
 					{{ form_widget(form.logo) }}
+				</div>
+				<div class="col-xs-6 col-sm-2 col-md-2">
+				{% if flux.id is defined and flux.logo.id is defined %}
+					<img src="{{ asset( 'uploads/img/' ~ flux.logo.id ~ '.' ~ flux.logo.ext ) }}" width="200px" /> <a href="{{ path('shufler_flux_deleteLogo',{'id':flux.logo.id}) }}" onclick="return confirm('{{ 'Are You sure ?'|trans}}');" title="Delete this Logo"><span class="glyphicon glyphicon-remove-sign"></span></a>
+				{% endif %}
 				</div>
 			{{ form_errors(form.logo) }}
 		</div>
-
+	 </div>	
   	 {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}, 'label':'Save'|trans}) }}
 	 {{ form_end(form) }}
-	 	 {% if flux.id is defined and flux.logo.id is defined %}
-	 	 	{{ flux.logo.id ~ '.' ~ flux.logo.ext }}
-	 	 	<a href="{{ path('shufler_flux_deleteLogo',{'id':flux.logo.id}) }}" onclick="return confirm('{{ 'Are You sure ?'|trans}}');"><span class="glyphicon glyphicon-remove-sign"></span></a>
-	 	 {% endif %}
 	 {% if flux.id is defined and flux.id !=0 %}
 		<a class="btn btn-danger" href="{{ path('shufler_flux_delete',{'id':flux.id}) }}" onclick="return confirm('{{ 'Are You sure ?'|trans}}');"><span class="glyphicon glyphicon-remove-sign"></span>&nbsp;{{ 'Delete Flow'|trans }}</a>
 	 {% endif %}
-	 </div>	
+
 
 <!-- Modal -->
 <div class="modal fade" id="channel_modal" role="dialog" aria-labelledby="channel_modal-label" aria-hidden="true">
@@ -111,7 +114,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="new_role-label">Add new Channel</h4>
+                <h4 class="modal-title" id="new_role-label">Edit Channel</h4>
             </div>
             <div class="modal-body"><img src="{{ asset('bundles/shuflershufler/img/loading.gif')}}" width="100%" /></div>
             <div class="modal-footer">
@@ -126,8 +129,12 @@
 {% block javascripts %}
 	{{ parent() }}
 	<script>
-		$(function(){
+	
+		// +++++++++++ ON DOC READY ++++++++++++++++++++++++++++++++++++++++++++
+	
+		$(function() {
 			var type = $('#shufler_shuflerbundle_flux_edit_type').val();
+			
 			if(type == 1 ) {
 				$('#logo').removeClass('hidden');
 			} else if(type == 2 ) {
@@ -150,7 +157,15 @@
 					}
 			});
 			
+		   $(window).keydown(function (event) {
+				if (event.keyCode == 13 && $("#channel_modal").is(':visible')) {
+					event.preventDefault();
+					return false;
+				}
+			});		
 		});
+	
+		// +++++++++++ EVENTS ++++++++++++++++++++++++++++
 	
 		$('#shufler_shuflerbundle_flux_edit_type').on('change',function() {
 			var type = $('#shufler_shuflerbundle_flux_edit_type').val();
@@ -177,35 +192,12 @@
 				$('#shufler_shuflerbundle_flux_edit_mood option[value=-1]').prop('selected', true);
 			} 
 		});
-		
+				
 		$('#shufler_shuflerbundle_flux_edit_channel').on('change',function() {
 			displayChannelEditLink($('#shufler_shuflerbundle_flux_edit_channel').val());
-			
 		});
-		
-		function sendForm(form, callback) {
-			// Get all form values
 				
-			var values = new FormData();
-			$.each( form[0].elements, function(i, field) {
-				values[field.name] = field.value;
-			});
-						
-			// Post form
-			$.ajax({
-				type        : form.attr( 'method' ),
-				url         : form.attr( 'action' ),
-				dataType	: 'json', // what type of data do we expect back from the server
-				encode		: true,
-			    data		: new FormData($('form[name="shufler_shuflerbundle_channelflux_edit"]')[0]),
-				processData: false,
-				contentType: false,
-				cache: false,
-				success     : function(result) {callback( result ); }
-			});	
-		}
-		
-		$('#save_channel').on('click', function( e ){
+		$('#save_channel').on('click', function(e) {
 			e.preventDefault();
 			sendForm($('#channel_modal').find('form'), function( response, data ){
 				if (typeof response == "object") {
@@ -220,7 +212,7 @@
 			});
 		});
 		
-		$('#openLink').on('click', function(e){
+		$('#openLink').on('click', function(e) {
 			var link = $('#shufler_shuflerbundle_flux_edit_url').val();
 			if(link != '') {
 				$(this).attr('href', 'http://' + link);
@@ -229,16 +221,18 @@
 			}
 		});
 		
-		$('#channel_edit_link').on('click', function() {
+		$('#channel_edit_link').on('click', function(e) {
 			$('#channel_modal').modal('show');
 			var key = $(this).data('channel');
 			displayChannelEdit(key);
+			e.preventDefault();
 		});
 		
 		$('#channel_modal').on("hidden.bs.modal", function () {
 			disableModal();
 		});
 
+	// +++++++++++ FUNCTIONS ++++++++++++++++++++++++++++		
 
 	function displayChannelEditLink(key){
 		if(key != 'new') {
@@ -252,7 +246,7 @@
 	function displayChannelEdit(key) {
 		$.ajax({
 			type    : 'get',
-			url     : "{{ path('shufler_flux_edit_channel') }}",
+			url     : "{{ path('shufler_edit_channel') }}",
 			dataType: 'html',
 			encode	: true,
 			data	: {id: key},
@@ -263,12 +257,43 @@
 				console.log('Erreur Channel edit');
 				console.log(e);
 			}
-		});	
+		});
+
+		return;
+	}
+	
+	function sendForm(form, callback) {
+				
+		var values = new FormData();
+		$.each( form[0].elements, function(i, field) {
+			values[field.name] = field.value;
+		});
+						
+		$.ajax({
+			type        : form.attr( 'method' ),
+			url         : form.attr( 'action' ),
+			dataType	: 'json', // what type of data do we expect back from the server
+			encode		: true,
+		    data		: new FormData($('form[name="shufler_shuflerbundle_channelflux_edit"]')[0]),
+			processData: false,
+			contentType: false,
+			cache: false,
+			success     : function(result) {
+				callback( result );
+			},
+			error 		: function(e) {
+				console.log('Big Problème pour enregistrer ce channel !');
+				console.log(e);
+			}
+		});
+		
+		return;		
 	}
 	
 	function disableModal() {
 		$('#channel_modal').modal('hide');
 		$('#channel_modal').find('.modal-body').html('<img src="{{ asset('bundles/shuflershufler/img/loading.gif')}}" width="100%" />');
+		return;
 	}
 		
 	</script>

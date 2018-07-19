@@ -16,10 +16,25 @@
 			<ul>	
 				{% for link in links %}
 					{% if link.mood == index %}
-						<li>{% if is_granted('ROLE_ADMIN') %}<a href="{{ path('shufler_flux_edit',{'id':link.id }) }}"><span class="glyphicon glyphicon-edit"></span></a>{% endif %}<a href="http://{{link.url }}" target=_blank>{{ link.name }}</a></li>
+						<li>{% if is_granted('ROLE_ADMIN') %}<a href="{{ path('shufler_flux_edit',{'id':link.id }) }}" class="hidden" ><span class="glyphicon glyphicon-edit"></span></a>{% endif %}<a href="http://{{link.url }}" target=_blank>{{ link.name }}</a></li>
 					{% endif %}
 				{% endfor %}
 			</ul>
 		</div>
 	{% endfor %}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+
+	$('.link ul li')
+		.hover(function(){
+			$(this).children('a:first').removeClass('hidden');
+		}).mouseout(function(){
+			$(this).children('a:first').addClass('hidden');
+		});
+
+
+</script>
 {% endblock %}

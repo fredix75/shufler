@@ -7,9 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use SHUFLER\ShuflerBundle\Entity\Flux;
 use SHUFLER\ShuflerBundle\Form\FluxType;
 use Symfony\Component\HttpFoundation\Response;
-use SHUFLER\ShuflerBundle\Entity\ChannelFlux;
-use SHUFLER\ShuflerBundle\Form\ChannelFluxType;
-use Symfony\Component\Validator\Constraints\Length;
+
 
 class FluxController extends Controller
 {
@@ -348,65 +346,7 @@ class FluxController extends Controller
         ));
     }
 
-    /**
-     * Edit Channel of Flux
-     *
-     * @param Request $request            
-     * @return \Symfony\Component\HttpFoundation\Response
-     * 
-     * @Security("has_role('ROLE_AUTEUR')")
-     */
-    public function channelEditAction(Request $request)
-    {
-               
-        $channel = new ChannelFlux();
-        
-        $id =  $request->get('id');
-        
-        if ($id != 0) {
-            try {
-                $channel = $this->getDoctrine()
-                ->getManager()
-                ->getRepository('SHUFLERShuflerBundle:ChannelFlux')
-                ->find($id);
-                
-            } catch (\Exception $e) {
-                $this->get('session')
-                ->getFlashBag()
-                ->add('danger', $e->getMessage());
-                return $this->redirect($this->generateUrl('shufler_flux_edit'));
-            }
-        }
-
-        $form = $this->createForm(ChannelFluxType::Class, $channel, array(
-            'action' => $this->generateUrl('shufler_flux_edit_channel') . '?id=' . $id ,
-            'method' => 'POST'
-        ));
-        
-        $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($channel);
-            $em->flush();
-            
-            $response = new Response(json_encode([
-                'success' => true,
-                'id' => $channel->getId(),
-                'name' => $channel->getName()
-            ]));
-            
-            $response->headers->set('Content-Type', 'application/json');
-            
-            return $response;
-        }
-        
-        return $this->render('SHUFLERShuflerBundle:Flux:channelEdit.html.twig', array(
-            'form' => $form->createView(),
-            'channel' => $channel
-        ));
-    }
-
+    
     /**
      * Delete Video
      *
