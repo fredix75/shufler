@@ -16,7 +16,7 @@
 		<div class="bande-flux col col-sm-6 col-md-4">
 			<div class="titre">
 				{% if flux.pic is defined and flux.pic is not null %}
-				<img src="{{  asset(flux.pic) }}" height=100px alt="{{ flux.name }}" style="max-width:100%;" alt="{{ flux.name }}-logo" />
+				<img src="{{  asset('uploads/logos/' ~ flux.pic) }}" height=100px alt="{{ flux.name }}" style="max-width:100%;" alt="{{ flux.name }}-logo" />
 				{% else %}
 				<h2 class="flux-titre">{{ flux.name }}</h2>
 				{% endif %}

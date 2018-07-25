@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class FluxType extends AbstractType
 {
@@ -37,7 +38,7 @@ class FluxType extends AbstractType
             'placeholder' => 'Choose a Category',
             'choices' => array_flip(Flux::LINK_TYPE)
         ))
-            ->add('logo', ImageType::Class, array(
+         ->add('image', FileType::class, array(
             'required' => false
         ))
             ->add('channel', EntityType::Class, array(

@@ -14,7 +14,7 @@ class UtilExtension extends \Twig_Extension
             new \Twig_SimpleFilter('imageSubs', array(
                 $this,
                 'imageSubsFilter'
-            ))
+            )),
         );
     }
 
@@ -34,7 +34,7 @@ class UtilExtension extends \Twig_Extension
         $image = substr($url, 0, $pos);
         return $image;
     }
-
+    
     public function getName()
     {
         return 'util_extension';

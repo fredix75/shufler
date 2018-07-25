@@ -1,6 +1,6 @@
 shufler_homepage:
     path: /
-    defaults: { _controller: SHUFLERShuflerBundle:Video:index, _locale: "%locale%" }
+    defaults: { _controller: SHUFLERShuflerBundle:Video:index, _locale: %locale% }
 
 shufler_viewByCategorie:
     path: /{categorie}/{page}
@@ -103,8 +103,8 @@ shufler_flux_deleteLogo:
     path: /fluxDeleteLogo/{id}
     defaults: {_controller: SHUFLERShuflerBundle:Flux:deleteLogo}
     requirements:
-        id: \d*
-        
+      id: \d*
+
 shufler_edit_channel:
     path: /channelEdit
     defaults: {_controller: SHUFLERShuflerBundle:Other:channelEdit}

@@ -89,16 +89,16 @@
 			</div>
 		</div>
 		<div class="form-group hidden" id="logo">
-			{{ form_label(form.logo, 'Logo'|trans, {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+			{{ form_label(form.image, 'Logo'|trans, {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
 				<div class="col-xs-6 col-sm-4 col-md-4">
-					{{ form_widget(form.logo) }}
+					{{ form_widget(form.image) }}
 				</div>
 				<div class="col-xs-6 col-sm-2 col-md-2">
-				{% if flux.id is defined and flux.logo.id is defined %}
-					<img src="{{ asset( 'uploads/img/' ~ flux.logo.id ~ '.' ~ flux.logo.ext ) }}" width="200px" /> <a href="{{ path('shufler_flux_deleteLogo',{'id':flux.logo.id}) }}" onclick="return confirm('{{ 'Are You sure ?'|trans}}');" title="Delete this Logo"><span class="glyphicon glyphicon-remove-sign"></span></a>
+				{% if flux.id is defined and flux.oldImage is not null %}
+					<img src="{{ asset('uploads/logos/' ~ flux.oldImage) }}" width="200px" /> <a href="{{ path('shufler_flux_deleteLogo',{'id': flux.id}) }}" onclick="return confirm('{{ 'Are You sure ?'|trans}}');" title="Delete this Logo"><span class="glyphicon glyphicon-remove-sign"></span></a>
 				{% endif %}
 				</div>
-			{{ form_errors(form.logo) }}
+			{{ form_errors(form.image) }}
 		</div>
 	 </div>	
   	 {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}, 'label':'Save'|trans}) }}

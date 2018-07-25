@@ -4,6 +4,7 @@ namespace SHUFLER\ShuflerBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use phpDocumentor\Reflection\Types\Integer;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Flux
@@ -50,9 +51,9 @@ class Flux
         111 => 'Radios',
         112 => 'Tumbler',
         113 => 'Web dev',
-        114 => 'Webdocs',
+        114 => 'Webdocs'
     );
-    
+
     /**
      *
      * @var integer @ORM\Column(name="id", type="integer")
@@ -74,10 +75,16 @@ class Flux
     private $url;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SHUFLER\ShuflerBundle\Entity\Image", cascade={"persist","remove"})
-     * @Assert\Valid()
+     * @ORM\Column(name="image", type="string", length=255)
+     * @Assert\File(maxSize="200k", mimeTypes= {"image/jpeg", "image/png", "image/gif", "image/jpg"}, mimeTypesMessage = "Le fichier choisi ne correspond pas à un fichier valide")
      */
-    private $logo;
+    private $image;
+    
+    /**
+     * 
+     * @var old_image
+     */
+    private $old_image;
 
     /**
      *
@@ -174,29 +181,50 @@ class Flux
     }
 
     /**
-     * Set logo
+     * Set Image
      *
-     * @param string $logo            
+     * @param string $image            
      *
      * @return Flux
      */
-    public function setLogo(Image $logo = null)
+    public function setImage($image = null)
     {
-        $this->logo = $logo;
-        
+        if(!$this->old_image) {
+            $this->setOldImage($this->image);
+        }
+        $this->image = $image;
+       
         return $this;
     }
 
     /**
-     * Get logo
+     * Get image
      *
      * @return string
      */
-    public function getLogo()
+    public function getImage()
     {
-        return $this->logo;
+        return $this->image;
     }
 
+    /**
+     * 
+     * @param string $image
+     * @return Flux
+     */
+    public function setOldImage($image = null) {
+        $this->old_image = $image;
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return string
+     */
+    public function getOldImage() {
+        return $this->old_image;
+    }
+    
     /**
      * Set dateInsert
      *
@@ -221,16 +249,6 @@ class Flux
         return $this->dateInsert;
     }
 
-    /**
-     * Get Logo of Flux
-     *
-     * @return string
-     */
-    public function getPic()
-    {
-        return Image::UPLOAD_DIR . '/' . $this->getLogo()->getId() . '.' . $this->getLogo()->getExt();
-    }
-   
     /**
      * Set type
      *
@@ -278,11 +296,11 @@ class Flux
     {
         return $this->mood;
     }
-    
+
     /**
      * Set Category
      *
-     * @param integer $mood
+     * @param integer $mood            
      *
      * @return \SHUFLER\ShuflerBundle\Entity\Flux
      */
@@ -290,7 +308,7 @@ class Flux
     {
         return $this->setMood($mood);
     }
-    
+
     /**
      * Get Category
      *
@@ -350,5 +368,22 @@ class Flux
     {
         $this->channel = $channel;
         return $this;
+    }
+    
+    /**
+     * Delete Image
+     *
+     * @param string $image
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
+     *  @Security("has_role('ROLE_AUTEUR')")
+     */
+    public function deleteLogo($filePath=null)
+    {
+        if(file_exists($filePath)) {
+            unlink($filePath);
+            return true;
+        }
+        return;
     }
 }

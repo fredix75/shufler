@@ -117,7 +117,10 @@ class ChannelFlux
      */
     public function getLogo()
     {
-        return Image::UPLOAD_DIR. '/' . $this->getImage()->getId() . '.' . $this->getImage()->getExt();
+        if($this->getImage()) {
+            return Image::UPLOAD_DIR. '/' . $this->getImage()->getId() . '.' . $this->getImage()->getExt();
+        }
+        return null;
     }
 
 

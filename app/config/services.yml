@@ -4,13 +4,26 @@ parameters:
 #    parameter_name: value
 
 services:
+    _defaults:
+        autowire: true
+
     fos_user.doctrine_registry:
         alias: doctrine
         
     twig.extension.intl:
         class: Twig_Extensions_Extension_Intl
         tags:
-            - { name: twig.extension }    
+            - { name: twig.extension }
+
+    SHUFLER\ShuflerBundle\EventListener\LogoUploadListener:
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
+
+    SHUFLER\ShuflerBundle\Service\FileUploader:
+        arguments:
+            $targetDirectory: '%logo_directory%'
+
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]

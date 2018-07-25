@@ -9,6 +9,7 @@ parameters:
   pass_phrase: ThisTokenIsNotSoSecretChangeItPlease
   token_ttl: 86400
   youtube_key: AIzaSyBNgi3EddUNsFThnFQpPt3RR9kkuWmhHdo
+  logo_directory: '%kernel.project_dir%/web/uploads/logos'
 framework:
   translator:
     fallbacks:
