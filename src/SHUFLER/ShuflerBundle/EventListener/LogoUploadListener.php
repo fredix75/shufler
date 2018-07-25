@@ -63,8 +63,8 @@ class LogoUploadListener
         }
     }
     
-    private function deleteOldImage($fileName = '') {
-        if($fileName && file_exists($this->uploader->getTargetDirectory() . '/' . $fileName)) {
+    private function deleteOldImage($fileName) {
+        if(file_exists($this->uploader->getTargetDirectory() . '/' . $fileName)) {
             unlink($this->uploader->getTargetDirectory() . '/' . $fileName);
         }
     }
