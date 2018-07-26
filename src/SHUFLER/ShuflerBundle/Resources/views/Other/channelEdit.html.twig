@@ -11,9 +11,17 @@
 		</div>
 		<div class="form-group">
 			{{ form_label(form.image, 'Logo'|trans, {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-				<div class="col-sm-6 col-md-6">
+				<div class="col-xs-6 col-sm-6 col-md-6">
 					{{ form_widget(form.image) }}
+				</div>
+				<div class="col-xs-6 col-sm-5 col-md-6">
+				{% if channel.id is defined and channel.oldImage is not null %}
+					<img src="{{ asset('uploads/logos/' ~ channel.oldImage) }}" width="200px" /> <a href="{{ path('shufler_channel_deleteLogo',{'id': channel.id }) }}" onclick="return confirm('{{ 'Are You sure ?'|trans}}');" title="Delete this Logo"><span class="glyphicon glyphicon-remove-sign"></span></a>
+				{% endif %}
 				</div>
 			{{ form_errors(form.image) }}
 		</div>
+	 {% if channel.id is defined and channel.id !=0 %}
+		<a class="btn btn-danger" href="{{ path('shufler_channel_delete',{'id':channel.id}) }}" onclick="return confirm('{{ 'Are You sure ?'|trans}}');"><span class="glyphicon glyphicon-remove-sign"></span>&nbsp;{{ 'Delete Channel'|trans }}</a>
+	{% endif %}
 {{ form_end(form) }}

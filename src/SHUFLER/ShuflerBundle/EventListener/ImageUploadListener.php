@@ -6,10 +6,12 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Symfony\Component\HttpFoundation\File\File;
 use SHUFLER\ShuflerBundle\Entity\Flux;
+use SHUFLER\ShuflerBundle\Entity\ChannelFlux;
 use SHUFLER\ShuflerBundle\Service\FileUploader;
 
-class LogoUploadListener
+class ImageUploadListener
 {
+
     private $uploader;
 
     public function __construct(FileUploader $uploader)
@@ -20,52 +22,64 @@ class LogoUploadListener
     public function prePersist(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
-
+        
         $this->uploadFile($entity);
     }
 
     public function preUpdate(PreUpdateEventArgs $args)
     {
         $entity = $args->getEntity();
-
+        
         $this->uploadFile($entity);
     }
 
     private function uploadFile($entity)
     {
-        // upload only works for lux entities
-        if (!$entity instanceof Flux) {
+        // upload only works for Flux entities
+        if (! $entity instanceof Flux && ! $entity instanceof ChannelFlux) {
             return;
         }
-
+        
         $file = $entity->getImage();
-        // only upload new files
+
         $entity->setImage($entity->getOldImage());
         if ($file instanceof UploadedFile) {
             $fileName = $this->uploader->upload($file);
             $entity->setImage($fileName);
-            if($entity->getOldImage()) {
-                $this->deleteOldImage($entity->getOldImage());
+            if ($entity->getOldImage()) {
+                if(is_callable([$entity, 'deleteLogo'])){
+                    $entity->deleteLogo($this->uploader->getTargetDirectory() . '/' . $entity->getOldImage());
+                }
             }
         }
     }
-    
+
+    public function preRemove(LifecycleEventArgs $args)
+    {
+        
+        $entity = $args->getEntity();
+        if(is_callable([$entity, 'deleteLogo'])){
+            $entity->deleteLogo($this->uploader->getTargetDirectory() . '/' . $entity->getOldImage());
+        }
+    }
+
     public function postLoad(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
         
-        if (!$entity instanceof Flux) {
+        if (! $entity instanceof Flux && ! $entity instanceof ChannelFlux) {
             return;
         }
         if ($entity->getImage() != null) {
-            $fileName = $entity->getImage();
-            $entity->setImage(new File($this->uploader->getTargetDirectory().'/'.$fileName));
-        }
-    }
-    
-    private function deleteOldImage($fileName) {
-        if(file_exists($this->uploader->getTargetDirectory() . '/' . $fileName)) {
-            unlink($this->uploader->getTargetDirectory() . '/' . $fileName);
+            if(file_exists($this->uploader->getTargetDirectory() . '/' . $entity->getImage())) {
+                $fileName = $entity->getImage();
+                if (! $entity->getOldImage()) {
+                    $entity->setOldImage($entity->getImage());
+                }
+                $entity->setImage(new File($this->uploader->getTargetDirectory() . '/' . $fileName));
+            } else {
+                $entity->setImage();
+            }
         }
     }
 }

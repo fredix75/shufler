@@ -7,7 +7,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use SHUFLER\ShuflerBundle\Entity\Flux;
 use SHUFLER\ShuflerBundle\Form\FluxType;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\File\File;
 
 
 class FluxController extends Controller
@@ -128,13 +127,13 @@ class FluxController extends Controller
                 $infos[$flux->getId()]['id'] = $flux->getId();
                 $jsonKeys[] = $flux->getId();
                 $infos[$flux->getId()]['name'] = $flux->getName();
-                if ($flux->getType() === 1 && $flux->getImage() != null) {
-                    $infos[$flux->getId()]['pic'] = $flux->getImage();
+                if ($flux->getType() === 1 && $flux->getOldImage() != null) {
+                    $infos[$flux->getId()]['pic'] = $flux->getOldImage();
                 } else if ($flux->getType() === 1){
                     $infos[$flux->getId()]['pic'] = null;
                 }
                 if ($flux->getType() === 2 && $flux->getChannel() != null) {
-                    $infos[$flux->getId()]['channel_logo'] = $flux->getChannel()->getImage();
+                    $infos[$flux->getId()]['channel_logo'] = $flux->getChannel()->getOldImage() ? $flux->getChannel()->getOldImage() : null;
                     $infos[$flux->getId()]['channel_name'] = $flux->getChannel()->getName();
                 } else if ($flux->getType() === 2){
                     $infos[$flux->getId()]['channel_logo'] = null;
@@ -305,34 +304,9 @@ class FluxController extends Controller
      *        
      *  @Security("has_role('ROLE_AUTEUR')")
      */
-    public function fluxEditAction(Request $request, $id)
-    {
-        $flux = new Flux();
-        
-        if ($id != 0) {
-            try {
-                $flux = $this->getDoctrine()
-                    ->getManager()
-                    ->getRepository('SHUFLERShuflerBundle:Flux')
-                    ->getFlux($id);
-                    if($flux->getImage()) {
-                        if(file_exists($this->getParameter('logo_directory').'/'.$flux->getImage())) {
-                            $flux->setImage(
-                                new File($this->getParameter('logo_directory').'/'.$flux->getImage())
-                                );
-                        } else {
-                            $flux->setImage();
-                        }
-
-                    }
-
-            } catch (\Exception $e) {
-                $this->get('session')
-                    ->getFlashBag()
-                    ->add('danger', $e->getMessage());
-                return $this->redirect($this->generateUrl('shufler_rss'));
-            }
-        }
+    public function fluxEditAction(Request $request, Flux $flux = null)
+    {       
+        if(!$flux) $flux = new Flux();
         
         $form = $this->createForm(FluxType::Class, $flux);
         
@@ -372,9 +346,10 @@ class FluxController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         try {
+            $flux->deleteLogo($this->getParameter('logo_directory') . '/' . $flux->getOldImage());
             $em->remove($flux);
             $em->flush();
-            return $this->redirectToRoute('shufler_homepage');
+            return $this->redirectToRoute('shufler_rss');
         } catch (\Exception $e) {
             $this->get('session')
                 ->getFlashBag()
@@ -393,11 +368,11 @@ class FluxController extends Controller
      */
     public function deleteLogoAction(Flux $flux)
     {
-        try{
-            $flux->deleteLogo($this->getParameter('logo_directory') . '/' . $flux->getImage());
+        try{            
+            $flux->deleteLogo($this->getParameter('logo_directory') . '/' . $flux->getOldImage());
             $em = $this->getDoctrine()->getManager();
-            $flux->setImage();
             $flux->setOldImage();
+            $flux->setImage();
             $em->flush();
             
         } catch (\Exception $e) {

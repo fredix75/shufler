@@ -129,7 +129,7 @@ class OtherController extends Controller
                 $this->get('session')
                 ->getFlashBag()
                 ->add('danger', $e->getMessage());
-                return $this->redirect($this->generateUrl('shufler_flux_edit'));
+                return $this->redirectToRoute('shufler_flux_edit');
             }
         }
         
@@ -160,6 +160,62 @@ class OtherController extends Controller
             'form' => $form->createView(),
             'channel' => $channel
         ));
+    }
+    
+    /**
+     * Delete Video
+     *
+     * @param Flux $flux
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
+     *  @Security("has_role('ROLE_AUTEUR')")
+     */
+    public function deleteAction(ChannelFlux $channel)
+    {
+        $em = $this->getDoctrine()->getManager();
+        try {
+            $image = $channel->getOldImage();
+            $em->remove($channel);
+            $em->flush();
+            $channel->deleteLogo($this->getParameter('logo_directory') . '/' . $image);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            if ($e->getErrorCode() === 1451) {
+                $message =  "Ce channel est utilisé par d'autres podcasts. Opération impossible en l'état actuel de la situation.
+                    Contactez vos parents au plus vite car les choses peuent prendre une sale tournure mon gaillard.
+                    Que je ne vous y reprenne plus jamais.";
+            }
+            $this->get('session')
+            ->getFlashBag()
+            ->add('danger', $message);
+            return $this->redirectToRoute('shufler_podcast');
+        }
+    }
+    
+    /**
+     * Delete Image
+     *
+     * @param ChannelFlux $channel
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
+     *  @Security("has_role('ROLE_AUTEUR')")
+     */
+    public function deleteLogoAction(ChannelFlux $channel)
+    {
+        try{
+            $image = $channel->getOldImage();
+            $em = $this->getDoctrine()->getManager();
+            $channel->setOldImage();
+            $channel->setImage();
+            $em->flush();
+            $channel->deleteLogo($this->getParameter('logo_directory') . '/' . $image);
+        } catch (\Exception $e) {
+            $this->get('session')
+            ->getFlashBag()
+            ->add('danger', $e->getMessage());
+        }
+        
+        return $this->redirecToRoute('shufler_podcast');
     }
     
     /**

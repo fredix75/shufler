@@ -6,6 +6,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use SHUFLER\ShuflerBundle\Entity\ChannelFlux;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class ChannelFluxType extends AbstractType
 {
@@ -20,7 +21,7 @@ class ChannelFluxType extends AbstractType
         $builder->add('name', TextType::class, array(
             'required' => false
         ))
-            ->add('image', ImageType::Class, array(
+            ->add('image', FileType::Class, array(
             'required' => false
         ));
     }

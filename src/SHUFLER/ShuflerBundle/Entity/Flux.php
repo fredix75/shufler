@@ -4,7 +4,6 @@ namespace SHUFLER\ShuflerBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use phpDocumentor\Reflection\Types\Integer;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Flux
@@ -189,9 +188,6 @@ class Flux
      */
     public function setImage($image = null)
     {
-        if(!$this->old_image) {
-            $this->setOldImage($this->image);
-        }
         $this->image = $image;
        
         return $this;
@@ -373,10 +369,8 @@ class Flux
     /**
      * Delete Image
      *
-     * @param string $image
+     * @param string $filePath
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     *
-     *  @Security("has_role('ROLE_AUTEUR')")
      */
     public function deleteLogo($filePath=null)
     {

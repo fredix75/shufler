@@ -89,7 +89,7 @@ shufler_dailypod:
 
 shufler_flux_edit:
     path: /fluxEdit/{id}
-    defaults: {_controller: SHUFLERShuflerBundle:Flux:fluxEdit, id: 0}
+    defaults: {_controller: SHUFLERShuflerBundle:Flux:fluxEdit, id: null}
     requirements:
         id: \d*
 
@@ -102,6 +102,18 @@ shufler_flux_delete:
 shufler_flux_deleteLogo:
     path: /fluxDeleteLogo/{id}
     defaults: {_controller: SHUFLERShuflerBundle:Flux:deleteLogo}
+    requirements:
+      id: \d*
+      
+shufler_channel_delete:
+    path: /channelDelete/{id}
+    defaults: {_controller: SHUFLERShuflerBundle:Other:delete}
+    requirements:
+        id: \d*
+
+shufler_channel_deleteLogo:
+    path: /channelDeleteLogo/{id}
+    defaults: {_controller: SHUFLERShuflerBundle:Other:deleteLogo}
     requirements:
       id: \d*
 

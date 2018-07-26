@@ -15,10 +15,11 @@ services:
         tags:
             - { name: twig.extension }
 
-    SHUFLER\ShuflerBundle\EventListener\LogoUploadListener:
+    SHUFLER\ShuflerBundle\EventListener\ImageUploadListener:
         tags:
             - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: postLoad }
 
     SHUFLER\ShuflerBundle\Service\FileUploader:
         arguments:
