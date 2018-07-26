@@ -6,6 +6,11 @@
 {% block stylesheets %}
 	{{  parent() }}
 	<link rel="stylesheet" type="text/css" href="{{ asset('bundles/shuflershufler/css/flux-styl.css') }}">
+	<style>
+		.hid {
+			visibility:hidden;
+		}
+	</style>
 {% endblock %}
 
 {% block body %}
@@ -16,7 +21,7 @@
 			<ul>	
 				{% for link in links %}
 					{% if link.mood == index %}
-						<li>{% if is_granted('ROLE_ADMIN') %}<a href="{{ path('shufler_flux_edit',{'id':link.id }) }}" class="hidden" ><span class="glyphicon glyphicon-edit"></span></a>{% endif %}<a href="http://{{link.url }}" target=_blank>{{ link.name }}</a></li>
+						<li>{% if is_granted('ROLE_ADMIN') %}<a href="{{ path('shufler_flux_edit',{'id':link.id }) }}" class="hid" ><span class="glyphicon glyphicon-edit"></span></a>{% endif %}<a href="http://{{link.url }}" target=_blank>{{ link.name }}</a></li>
 					{% endif %}
 				{% endfor %}
 			</ul>
@@ -30,9 +35,9 @@
 
 	$('.link ul li')
 		.hover(function(){
-			$(this).children('a:first').removeClass('hidden');
+			$(this).children('a:first').removeClass('hid');
 		}).mouseout(function(){
-			$(this).children('a:first').addClass('hidden');
+			$(this).children('a:first').addClass('hid');
 		});
 
 

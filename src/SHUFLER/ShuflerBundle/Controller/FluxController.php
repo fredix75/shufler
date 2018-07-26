@@ -187,6 +187,7 @@ class FluxController extends Controller
         ->getLinks();
         
         $categories = Flux::LINK_TYPE;
+        $categories['']= 'Autres';
         
         return $this->render('SHUFLERShuflerBundle:Flux:links.html.twig', array(
             'links' => $links,

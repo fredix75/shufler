@@ -31,7 +31,7 @@ class ChannelFlux
     private $name;
 
     /**
-     * @ORM\Column(name="image", type="string", length=255)
+     * @ORM\Column(name="image", type="string", length=255, nullable=true)
      * @Assert\File(maxSize="200k", mimeTypes= {"image/jpeg", "image/png", "image/gif", "image/jpg"}, mimeTypesMessage = "Le fichier choisi ne correspond pas à un fichier valide")
      */
     private $image;

@@ -12,20 +12,6 @@ use SHUFLER\ShuflerBundle\Form\ChannelFluxType;
 
 class OtherController extends Controller
 {
-
-
-    /**
-     * Get Categories
-     * 
-     * @return array
-     */
-    private function getCategoriesLinks() {
-        return $this->getDoctrine()
-        ->getManager()
-        ->getRepository('SHUFLERShuflerBundle:Link')
-        ->getCategories();
-    }
-    
     
     /**
      * Search API
