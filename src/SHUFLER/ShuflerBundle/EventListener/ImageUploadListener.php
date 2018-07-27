@@ -56,8 +56,11 @@ class ImageUploadListener
 
     public function preRemove(LifecycleEventArgs $args)
     {
-        
         $entity = $args->getEntity();
+        
+        if (! $entity instanceof Flux && ! $entity instanceof ChannelFlux) {
+            return;
+        }
         if(is_callable([$entity, 'deleteLogo'])){
             $entity->deleteLogo($this->uploader->getTargetDirectory() . '/' . $entity->getOldImage());
         }

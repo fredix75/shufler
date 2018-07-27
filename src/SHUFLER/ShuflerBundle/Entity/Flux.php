@@ -98,7 +98,7 @@ class Flux
     private $mood;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ChannelFlux", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="ChannelFlux")
      * @ORM\JoinColumn(name="channel_flux_id", referencedColumnName="id")
      */
     private $channel;

@@ -201,6 +201,7 @@
 			e.preventDefault();
 			sendForm($('#channel_modal').find('form'), function( response, data ){
 				if (typeof response == "object") {
+					$('#shufler_shuflerbundle_flux_edit_channel option[value=' + response.id + ']').remove();
 					$('select[id$=shufler_shuflerbundle_flux_edit_channel]')
 					.prepend($('<option>', {value : response.id, text: response.name}))
 					.val(response.id);

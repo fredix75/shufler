@@ -201,7 +201,7 @@ class OtherController extends Controller
             ->add('danger', $e->getMessage());
         }
         
-        return $this->redirecToRoute('shufler_podcast');
+        return $this->redirectToRoute('shufler_podcast');
     }
     
     /**
