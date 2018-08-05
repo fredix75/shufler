@@ -22,6 +22,6 @@
 			{{ form_errors(form.image) }}
 		</div>
 	 {% if channel.id is defined and channel.id !=0 %}
-		<a class="btn btn-danger" href="{{ path('shufler_channel_delete',{'id':channel.id}) }}" onclick="return confirm('{{ 'Are You sure ?'|trans}}');"><span class="glyphicon glyphicon-remove-sign"></span>&nbsp;{{ 'Delete Channel'|trans }}</a>
+		<a class="btn btn-danger" href="{{ path('shufler_channel_delete',{'id':channel.id, 'id_flux':id_flux}) }}" onclick="return confirm('{{ 'Are You sure ?'|trans}}');"><span class="glyphicon glyphicon-remove-sign"></span>&nbsp;{{ 'Delete Channel'|trans }}</a>
 	{% endif %}
 {{ form_end(form) }}

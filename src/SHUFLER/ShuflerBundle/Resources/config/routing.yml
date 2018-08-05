@@ -106,8 +106,8 @@ shufler_flux_deleteLogo:
       id: \d*
       
 shufler_channel_delete:
-    path: /channelDelete/{id}
-    defaults: {_controller: SHUFLERShuflerBundle:Other:delete}
+    path: /channelDelete/{id}/{id_flux}
+    defaults: {_controller: SHUFLERShuflerBundle:Other:delete, id_flux: null}
     requirements:
         id: \d*
 
@@ -118,7 +118,7 @@ shufler_channel_deleteLogo:
       id: \d*
 
 shufler_edit_channel:
-    path: /channelEdit
+    path: /channelEdit/
     defaults: {_controller: SHUFLERShuflerBundle:Other:channelEdit}
 
 shufler_tweeter:

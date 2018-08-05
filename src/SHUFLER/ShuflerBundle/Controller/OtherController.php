@@ -103,6 +103,7 @@ class OtherController extends Controller
         $channel = new ChannelFlux();
         
         $id =  $request->get('id');
+        $id_flux =  $request->get('id_flux');
         
         if ($id != 0) {
             try {
@@ -144,7 +145,8 @@ class OtherController extends Controller
         
         return $this->render('SHUFLERShuflerBundle:Other:channelEdit.html.twig', array(
             'form' => $form->createView(),
-            'channel' => $channel
+            'channel' => $channel,
+            'id_flux' => $id_flux
         ));
     }
     
@@ -156,17 +158,22 @@ class OtherController extends Controller
      *
      *  @Security("has_role('ROLE_AUTEUR')")
      */
-    public function deleteAction(ChannelFlux $channel)
+    public function deleteAction(ChannelFlux $channel, $id_flux)
     {
         $em = $this->getDoctrine()->getManager();
         try {
+            if($id_flux != 0) {
+                $flux = $em->getRepository('SHUFLERShuflerBundle:Flux')
+                ->find($id_flux);
+                $flux->setChannel();
+            }
             $image = $channel->getOldImage();
             $em->remove($channel);
             $em->flush();
             $channel->deleteLogo($this->getParameter('logo_directory') . '/' . $image);
         } catch (\Exception $e) {
             $message = $e->getMessage();
-            if ($e->getErrorCode() === 1451) {
+            if (is_callable([$e, "getErrorCode"]) && $e->getErrorCode() === 1451) {
                 $message =  "Ce channel est utilisé par d'autres podcasts. Opération impossible en l'état actuel de la situation.
                     Contactez vos parents au plus vite car les choses peuent prendre une sale tournure mon gaillard.
                     Que je ne vous y reprenne plus jamais.";
@@ -176,6 +183,10 @@ class OtherController extends Controller
             ->add('danger', $message);
             return $this->redirectToRoute('shufler_podcast');
         }
+        
+        return $this->redirect($this->generateUrl('shufler_flux_edit', array(
+            'id' => $id_flux
+        )));
     }
     
     /**

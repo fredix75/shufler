@@ -360,7 +360,7 @@ class Flux
      *
      * @return \SHUFLER\ShuflerBundle\Entity\Flux
      */
-    public function setChannel(ChannelFlux $channel)
+    public function setChannel(ChannelFlux $channel = null)
     {
         $this->channel = $channel;
         return $this;

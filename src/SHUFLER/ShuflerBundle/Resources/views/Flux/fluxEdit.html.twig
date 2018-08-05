@@ -194,7 +194,7 @@
 		});
 				
 		$('#shufler_shuflerbundle_flux_edit_channel').on('change',function() {
-			displayChannelEditLink($('#shufler_shuflerbundle_flux_edit_channel').val());
+			displayChannelEditLink($('#shufler_shuflerbundle_flux_edit_channel').val(), {{ flux.id }} );
 		});
 				
 		$('#save_channel').on('click', function(e) {
@@ -206,7 +206,7 @@
 					.prepend($('<option>', {value : response.id, text: response.name}))
 					.val(response.id);
 					disableModal();
-					displayChannelEditLink(response.id);
+					displayChannelEditLink(response.id, {{ flux.id }} );
 				} else {
 					$('#channel_modal').find('.modal-body').html(response);
 				}
@@ -225,7 +225,7 @@
 		$('#channel_edit_link').on('click', function(e) {
 			$('#channel_modal').modal('show');
 			var key = $(this).data('channel');
-			displayChannelEdit(key);
+			displayChannelEdit(key, {{ flux.id }} );
 			e.preventDefault();
 		});
 		
@@ -235,22 +235,23 @@
 
 	// +++++++++++ FUNCTIONS ++++++++++++++++++++++++++++		
 
-	function displayChannelEditLink(key){
+	function displayChannelEditLink(key, id_flux){
 		if(key != 'new') {
 			$('#channel_edit_link').show();
 			$('#channel_edit_link').data('channel', key);
+			$('#channel_edit_link').data('flux', id_flux);
 		} else {
 			$('#channel_edit_link').hide();
 		}
 	}
 	
-	function displayChannelEdit(key) {
+	function displayChannelEdit(key, id_flux) {
 		$.ajax({
 			type    : 'get',
 			url     : "{{ path('shufler_edit_channel') }}",
 			dataType: 'html',
 			encode	: true,
-			data	: {id: key},
+			data	: {id: key, id_flux: id_flux},
 			success : function(response) {
 				$('#channel_modal').find('.modal-body').html(response);
 			},
