@@ -18,7 +18,8 @@ class MainController extends Controller
     {   
         return $this->render('SHUFLERShuflerBundle:Main:nav.html.twig', array(
             'categories' => Video::CATEGORY_LIST,
-            'periodes' => Video::PERIOD_LIST
+            'periodes' => Video::PERIOD_LIST,
+            'genres' => Video::GENRE_LIST,
         ));
     }
 

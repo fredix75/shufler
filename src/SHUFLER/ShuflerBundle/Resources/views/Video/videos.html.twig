@@ -20,8 +20,13 @@
 		{% include "SHUFLERShuflerBundle:Video:pagination.html.twig" %}	
 	</div>
 	{% else %}
-		{% if  app.request.attributes.get("_route")=='shufler_viewByCategorie' %}
-			<h1>{{ pagination.route_params.categorie|categorieDisplay|trans }}</h1>
+		{% if  app.request.attributes.get("_route")=='shufler_viewByCategorie' %} 
+			{% if  pagination.route_params.genre != 0 %}
+				<h1><a href="{{ path('shufler_viewByCategorie', {'categorie' : pagination.route_params.categorie, 'genre' : 0}) }}">{{ pagination.route_params.categorie|categorieDisplay|trans }}</a>
+				> {{ pagination.route_params.genre|genreDisplay|trans }}</h1>
+			{% else %}
+				<h1>{{ pagination.route_params.categorie|categorieDisplay|trans }}</h1>
+			{% endif %}
 		{% elseif  app.request.attributes.get("_route")=='shufler_viewByPeriode' %}
 			<h1>{{ pagination.route_params.periode }}</h1>
 		{% endif %}
@@ -36,8 +41,8 @@
 					{% if app.request.attributes.get("_route")!='shufler_viewByCategorie' %}
 						{{ video.categorie|categorieDisplay }}
 					{% else %}
-						{% if pagination.route_params.categorie==2 %}
-							{{ video.genre|genreDisplay }}
+						{% if pagination.route_params.categorie == 2 and pagination.route_params.genre == 0 %}
+							<a href = "{{ path('shufler_viewByCategorie', {'categorie' : pagination.route_params.categorie, 'genre' : video.genre}) }}">{{ video.genre|genreDisplay }}</a>
 						{% endif %}
 					{% endif %}
 					</div>
@@ -55,5 +60,7 @@
 {% block javascripts %}
 	{{ parent() }}
     <script type="text/javascript" src="{{ asset('bundles/shuflershufler/js/jquery.magnific-popup.js') }}"></script> 		
-	<script type="text/javascript" src="{{ asset('bundles/shuflershufler/js/main.js') }}"></script> 
+	<script type="text/javascript" src="{{ asset('bundles/shuflershufler/js/main.js') }}"></script>
+	<script>
+	</script>
 {% endblock %}	

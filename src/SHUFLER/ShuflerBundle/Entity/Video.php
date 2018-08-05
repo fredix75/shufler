@@ -52,7 +52,6 @@ class Video
     ];
 
     const GENRE_LIST = [
-        - 1 => 'autre',
         1 => 'Jazz/Blues',
         2 => 'Rock n\'Roll',
         3 => 'Rock/Pop',
@@ -68,7 +67,8 @@ class Video
         13 => 'Rock progressif/psyché',
         14 => 'Variétés / Pop',
         15 => 'Trip-Hop',
-        16 => 'Afrobeat'
+        16 => 'Afrobeat',
+        - 1 => 'autre',
     ];
 
     const PRIORITY_LIST = [

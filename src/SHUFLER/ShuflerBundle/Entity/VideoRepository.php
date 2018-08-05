@@ -144,7 +144,7 @@ class VideoRepository extends \Doctrine\ORM\EntityRepository
      * @param number $maxperpage
      * @return \Doctrine\ORM\Tools\Pagination\Paginator
      */
-    public function getListByCategorie($categorie, $page = 1, $maxperpage = Video::MAX_LIST)
+    public function getListByCategorie($categorie, $genre =null, $page = 1, $maxperpage = Video::MAX_LIST)
     {
         $q = $this->_em->createQueryBuilder()
             ->select('a')
@@ -156,6 +156,10 @@ class VideoRepository extends \Doctrine\ORM\EntityRepository
             ->orderBy('a.id', 'DESC')
             ->from('SHUFLERShuflerBundle:Video', 'a');
         
+            if($genre ) 
+                $q->andWhere('a.genre= :genre')
+                    ->setParameter('genre', $genre);
+            
         $q->setFirstResult(($page - 1) * $maxperpage)->setMaxResults($maxperpage);
         
         return new Paginator($q);

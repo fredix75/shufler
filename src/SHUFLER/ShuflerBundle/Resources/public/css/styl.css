@@ -34,9 +34,15 @@ h3 {
 	color: #FFFFCC;
 }
 
-a:hover {
-	text-decoration: none;
+a {
+	color: orange;
 }
+
+a:hover, a:active {
+	text-decoration: none;
+	color: #B27300;
+}
+
 
 a img {
 	-webkit-transition: all 1s ease; /* Safari and Chrome */

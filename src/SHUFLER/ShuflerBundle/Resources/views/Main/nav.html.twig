@@ -26,10 +26,20 @@
          </li> 
 	{%  if app.user %}
         <li class="dropdown"><a data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-list"></span>&nbsp;{{'Categories'|trans}}<b class="caret"></b></a>
-        	<ul class="dropdown-menu">
+        	<ul class="dropdown-menu multi-level">
             	{% for key,value in categories %}
-            	<li><a href="{{ path('shufler_viewByCategorie', {'categorie': key}) }}">{{ value|trans }}</a></li>
-            	{% endfor %}
+					{% if key == 2 %}
+					    <li class="dropdown-submenu"><a data-toggle="dropdown-submenu" href="{{ path('shufler_viewByCategorie', {'categorie': 2, 'genre': 0}) }}">{{'Music Moment'|trans}}<b class="caret"></b></a>
+							<ul class="dropdown-menu">
+							{% for key2,value2 in genres %}
+								<li><a href="{{ path('shufler_viewByCategorie', {'categorie': key, 'genre': key2}) }}">{{ value2|trans }}</a></li>
+							{% endfor %}
+							</ul>
+						</li>
+					{% else %}
+						<li><a href="{{ path('shufler_viewByCategorie', {'categorie': key, 'genre': 0}) }}">{{ value|trans }}</a></li>
+					{% endif %}
+				{% endfor %}
             </ul>
          </li> 
         <li class="dropdown"><a data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-time"></span>&nbsp;{{ 'Periods'|trans }}<b class="caret"></b></a>

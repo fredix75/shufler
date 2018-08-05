@@ -104,7 +104,7 @@ class VideoController extends Controller
      * @param unknown $page            
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function viewByCategorieAction(Request $request, $categorie, $page)
+    public function viewByCategorieAction(Request $request, $categorie, $genre=null, $page)
     {
         $videos_count = $this->getDoctrine()
             ->getManager()
@@ -121,7 +121,7 @@ class VideoController extends Controller
         $videos = $this->getDoctrine()
             ->getManager()
             ->getRepository('SHUFLERShuflerBundle:Video')
-            ->getListByCategorie($categorie, $page, Video::MAX_LIST);
+            ->getListByCategorie($categorie, $genre, $page, Video::MAX_LIST);
         
         return $this->render('SHUFLERShuflerBundle:Video:videos.html.twig', array(
             'videos' => $videos,

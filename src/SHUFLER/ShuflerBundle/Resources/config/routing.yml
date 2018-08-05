@@ -3,8 +3,8 @@ shufler_homepage:
     defaults: { _controller: SHUFLERShuflerBundle:Video:index, _locale: %locale% }
 
 shufler_viewByCategorie:
-    path: /{categorie}/{page}
-    defaults: {_controller: SHUFLERShuflerBundle:Video:viewByCategorie, page: 1}
+    path: /{categorie}/{genre}/{page}
+    defaults: {_controller: SHUFLERShuflerBundle:Video:viewByCategorie, genre: null, page: 1}
     requirements:
         categorie: 0|([1-9]?)
         page: \d*
