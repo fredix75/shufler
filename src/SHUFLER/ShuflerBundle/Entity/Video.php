@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 class Video
 {
 
-    const MAX_LIST = 12;
+    const MAX_LIST = 11;
 
     const MAX_LIST_COUCH = 99;
 

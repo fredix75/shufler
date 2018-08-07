@@ -16,22 +16,18 @@ class VideoRepository extends \Doctrine\ORM\EntityRepository
     /**
      * Get the paginated list of published videos
      *
-     * @param int $page            
+     * @param int $categorie
+     * @param int $genre
+     * @param int $periode            
      * @param int $maxperpage            
      * @param string $sortby            
      * @return Paginator
      */
-    public function getRandomVids()
+    public function getRandomVids($categorie = 0, $genre = 0, $periode = 0)
     {
-        $videos = $this->_em->createQueryBuilder()
-            ->select('a')
-            ->where('a.priorite= :priorite')
-            ->andWhere('a.published= true')
-            ->setParameter('priorite', 1)
-            ->orderBy('a.id', 'DESC')
-            ->from('SHUFLERShuflerBundle:Video', 'a')
-            ->getQuery()
-            ->getResult();
+        $q = $this->getVideosQuery($categorie, $genre, $periode);
+        
+        $videos = $q->getQuery()->getResult();
         
         shuffle($videos);
         
@@ -56,9 +52,9 @@ class VideoRepository extends \Doctrine\ORM\EntityRepository
         
         return $video;
     }
-    
+
     /**
-     * Get Paginated List of Result of Search 
+     * Get Paginated List of Result of Search
      *
      * @param unknown $search            
      * @param number $page            
@@ -93,8 +89,8 @@ class VideoRepository extends \Doctrine\ORM\EntityRepository
 
     /**
      * Autocomplete Search Videos Engine
-     * 
-     * @param unknown $search
+     *
+     * @param unknown $search            
      * @return unknown[]
      */
     function searchAjax($search)
@@ -137,73 +133,18 @@ class VideoRepository extends \Doctrine\ORM\EntityRepository
     }
 
     /**
-     * Get Paginated List of Vidéos by category
-     * 
-     * @param unknown $categorie
-     * @param number $page
-     * @param number $maxperpage
+     * Get Paginated List of Vidéos
+     *
+     * @param int $categorie
+     * @param int $genre
+     * @param int $periode
+     * @param number $page            
+     * @param number $maxperpage            
      * @return \Doctrine\ORM\Tools\Pagination\Paginator
      */
-    public function getListByCategorie($categorie, $genre =null, $page = 1, $maxperpage = Video::MAX_LIST)
+    public function getPaginatedVideos($categorie=null, $genre = null, $periode = null, $page = 1, $maxperpage = Video::MAX_LIST)
     {
-        $q = $this->_em->createQueryBuilder()
-            ->select('a')
-            ->where('a.categorie = :categorie')
-            ->setParameter('categorie', $categorie)
-            ->andWhere('a.priorite= :priorite')
-            ->setParameter('priorite', 1)
-            ->andWhere('a.published = true')
-            ->orderBy('a.id', 'DESC')
-            ->from('SHUFLERShuflerBundle:Video', 'a');
-        
-            if($genre ) 
-                $q->andWhere('a.genre= :genre')
-                    ->setParameter('genre', $genre);
-            
-        $q->setFirstResult(($page - 1) * $maxperpage)->setMaxResults($maxperpage);
-        
-        return new Paginator($q);
-    }
-
-    /**
-     * Get count Videos by cateory
-     * 
-     * @param unknown $categorie
-     * @return mixed|\Doctrine\DBAL\Driver\Statement|array|NULL
-     */
-    public function getCountByCategorie($categorie)
-    {
-        return $this->_em->createQueryBuilder('a')
-            ->select('COUNT(a)')
-            ->where('a.categorie= :categorie')
-            ->setParameter('categorie', $categorie)
-            ->andWhere('a.priorite= :priorite')
-            ->setParameter('priorite', 1)
-            ->andWhere('a.published = true')
-            ->from('SHUFLERShuflerBundle:Video', 'a')
-            ->getQuery()
-            ->getSingleScalarResult();
-    }
-
-    /**
-     * Get Paginated List of Videos by period
-     * 
-     * @param unknown $periode
-     * @param number $page
-     * @param number $maxperpage
-     * @return \Doctrine\ORM\Tools\Pagination\Paginator
-     */
-    public function getListByPeriode($periode, $page = 1, $maxperpage = Video::MAX_LIST)
-    {
-        $q = $this->_em->createQueryBuilder()
-            ->select('a')
-            ->where('a.periode = :periode')
-            ->setParameter('periode', $periode)
-            ->andWhere('a.priorite= :priorite')
-            ->setParameter('priorite', 1)
-            ->andWhere('a.published = true')
-            ->orderBy('a.id', 'DESC')
-            ->from('SHUFLERShuflerBundle:Video', 'a');
+        $q = $this->getVideosQuery($categorie, $genre, $periode);
         
         $q->setFirstResult(($page - 1) * $maxperpage)->setMaxResults($maxperpage);
         
@@ -211,22 +152,32 @@ class VideoRepository extends \Doctrine\ORM\EntityRepository
     }
 
     /**
-     * Get count Videos by period
      * 
-     * @param unknown $periode
-     * @return mixed|\Doctrine\DBAL\Driver\Statement|array|NULL
+     * create query to get videos
+     * 
+     * @param int $categorie
+     * @param int $genre
+     * @param string $periode
+     * 
+     * @return \Doctrine\ORM\QueryBuilder
      */
-    public function getCountByPeriode($periode)
+    private function getVideosQuery($categorie =null, $genre = null, $periode = null)
     {
-        return $this->_em->createQueryBuilder('a')
-            ->select('COUNT(a)')
-            ->where('a.periode= :periode')
-            ->setParameter('periode', $periode)
-            ->andWhere('a.priorite= :priorite')
+        $q = $this->_em->createQueryBuilder()
+            ->select('a')
+            ->where('a.priorite= :priorite')
             ->setParameter('priorite', 1)
             ->andWhere('a.published = true')
-            ->from('SHUFLERShuflerBundle:Video', 'a')
-            ->getQuery()
-            ->getSingleScalarResult();
+            ->orderBy('a.id', 'DESC')
+            ->from('SHUFLERShuflerBundle:Video', 'a');
+        
+        if ($categorie)
+            $q->andWhere('a.categorie= :categorie')->setParameter('categorie', $categorie);
+        if ($genre)
+            $q->andWhere('a.genre= :genre')->setParameter('genre', $genre);
+        if ($periode)
+            $q->andWhere('a.periode= :periode')->setParameter('periode', $periode);
+        
+        return $q; 
     }
 }

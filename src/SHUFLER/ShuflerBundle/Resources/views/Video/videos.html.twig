@@ -6,45 +6,70 @@
 
 {% block stylesheets %}
 	{{ parent() }}
+	<link rel="stylesheet" type="text/css" href="{{ asset('bundles/shuflershufler/css/video.css') }}">
     <link rel="stylesheet" href="{{ asset('bundles/shuflershufler/css/jquery.magnific-popup.css') }}">
-	<style>
-		.well .row{
-			float:right;margin-top:-40px;
-		}
-	</style>
 {% endblock %}
 
 {% block body %}
-	{% if search is defined %}
-	<div class="well">Recherche: <strong>{{ search }}</strong><br/><span class="badge">{{ videos_count }} vids</span>
-		{% include "SHUFLERShuflerBundle:Video:pagination.html.twig" %}	
-	</div>
-	{% else %}
-		{% if  app.request.attributes.get("_route")=='shufler_viewByCategorie' %} 
-			{% if  pagination.route_params.genre != 0 %}
-				<h1><a href="{{ path('shufler_viewByCategorie', {'categorie' : pagination.route_params.categorie, 'genre' : 0}) }}">{{ pagination.route_params.categorie|categorieDisplay|trans }}</a>
-				> {{ pagination.route_params.genre|genreDisplay|trans }}</h1>
-			{% else %}
-				<h1>{{ pagination.route_params.categorie|categorieDisplay|trans }}</h1>
-			{% endif %}
-		{% elseif  app.request.attributes.get("_route")=='shufler_viewByPeriode' %}
-			<h1>{{ pagination.route_params.periode }}</h1>
-		{% endif %}
-	{% endif %}
-
 	<div class="row">
 		<section class="col-sm-12 col-md-12" style="margin-top:10px;">
+			<div class="col-sm-6 col-md-3" style="">
+				{% if search is defined %}
+					<h1>{% if videos_count >0 %}Trouvé{% else %}Désolé{% endif %}</h1>
+					<div style="font-size:3em;text-align:right;color:orange;">{{ search }}<br/><span class="badge">{{ videos_count }} vids</span></div>
+				{% else %}			
+					<h1>{{ pagination.route_params.categorie|categorieDisplay|trans }}</h1>
+					<div class="row">
+						<div class="col col-xs-12 col-sm-6">
+								<span class="dropdown">
+									<a href="#" class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-chevron-down"></span> Choose a Category</a>
+									<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+									{% for index, value in categories %}
+										<li><a class="dropdown-item" href="{{ path('shufler_videos', {'categorie' : index , 'genre' : pagination.route_params.genre, 'periode' : pagination.route_params.periode}) }}">{{ value }}{% if index == pagination.route_params.categorie %}&nbsp;<span class="glyphicon glyphicon-ok"></span>{% endif %}</a></li>
+									{% endfor %}
+									</ul>
+								</span><br/>
+								{% if  pagination.route_params.categorie == 2 %}
+									<span class="dropdown">
+										<a href="" class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-chevron-down"></span> Choose a Style</a>
+										<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+										{% for index, value in genres %}
+											<li><a class="dropdown-item" href="{{ path('shufler_videos', {'categorie' : pagination.route_params.categorie, 'genre' : index, 'periode' : pagination.route_params.periode}) }}">{{ value }}{% if index == pagination.route_params.genre %}&nbsp;<span class="glyphicon glyphicon-ok"></span>{% endif %}</a></li>
+										{% endfor %}
+										</ul>
+									</span><br/>
+								{% endif %}
+								<span class="dropdown">
+									<a href="#" class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-chevron-down"></span> Choose a Period</a>
+									<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+									{% for index, value in periodes %}
+										<li><a class="dropdown-item" href="{{ path('shufler_videos', {'categorie' : pagination.route_params.categorie, 'genre' : pagination.route_params.genre, 'periode' : index}) }}">{{ value }}{% if index == pagination.route_params.periode %}&nbsp;<span class="glyphicon glyphicon-ok"></span>{% endif %}</a></li>
+									{% endfor %}
+									</ul>
+								</span><br/><br/>				
+								<a href="{{ path('shufler_couch', {'categorie' : pagination.route_params.categorie, 'genre' : pagination.route_params.genre, 'periode' : pagination.route_params.periode}) }}"><span class="glyphicon glyphicon-unchecked"></span> Go to Couch' Mode</a>
+							</div>
+						<div class="col col-xs-12 col-sm-6">
+							{% if  pagination.route_params.genre != 0 %}	
+								<div style="font-size:3em;text-align:right;color:#9dff00;">{{ pagination.route_params.genre|genreDisplay|trans }}</div>
+							{% endif %}
+							{% if pagination.route_params.periode != 0 %}
+								<div style="font-size:2em;text-align:right;color:#ffeb00;margin-top:1em;">{{ pagination.route_params.periode }}</div>
+							{% endif %}						
+						</div>
+					</div>
+				{% endif %}
+			</div>
 		{% for video in videos %}
 			<div class="col-sm-6 col-md-3" style="">
 				<div class="media topcol embed-responsive-16by9" style="margin-bottom:30px;">
 					<div class="categorie">
-					{% if app.request.attributes.get("_route")!='shufler_viewByCategorie' %}
-						{{ video.categorie|categorieDisplay }}
-					{% else %}
-						{% if pagination.route_params.categorie == 2 and pagination.route_params.genre == 0 %}
-							<a href = "{{ path('shufler_viewByCategorie', {'categorie' : pagination.route_params.categorie, 'genre' : video.genre}) }}">{{ video.genre|genreDisplay }}</a>
+						{% if pagination.route_params.categorie == 0 %}
+						<a href = "{{ path('shufler_videos', {'categorie' : video.categorie, 'genre' : pagination.route_params.categorie}) }}">{{ video.categorie|categorieDisplay }}
 						{% endif %}
-					{% endif %}
+						{% if pagination.route_params.categorie == 2 and pagination.route_params.genre == 0 %}
+							<a href = "{{ path('shufler_videos', {'categorie' : pagination.route_params.categorie, 'genre' : video.genre}) }}">{{ video.genre|genreDisplay }}</a>
+						{% endif %}
 					</div>
 					{% include("SHUFLERShuflerBundle:Video:video_inc.html.twig") %}
 				</div>	

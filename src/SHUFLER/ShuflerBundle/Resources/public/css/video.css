@@ -1,0 +1,170 @@
+a img {
+    -webkit-transition: all 1s ease; /* Safari and Chrome */
+    -moz-transition: all 1s ease; /* Firefox */
+    -o-transition: all 1s ease; /* IE 9 */
+    -ms-transition: all 1s ease; /* Opera */
+    transition: all 1s ease;
+    max-width: 100%;
+}
+
+a:hover img {
+    -webkit-transform: scale(1.25); /* Safari and Chrome */
+    -moz-transform: scale(1.25); /* Firefox */
+    -ms-transform: scale(1.25); /* IE 9 */
+    -o-transform: scale(1.25); /* Opera */
+    transform: scale(1.25);
+}
+
+.topcol {
+    border-radius: 12px;
+    border: 6px solid #000;
+}
+
+.topcom {
+    background-color: rgba(0, 0, 0, 1);
+    color: #ccff99;
+    width: 100%;
+    position: relative;
+    padding: 10px;
+    text-shadow: 1px 1px 2px rgba(36, 36, 36, 1);
+}
+
+.top-auteur {
+    font-size: 150%;
+    color: #FFFFCC;
+    font-weight: bold;
+}
+
+.topchapo {
+    color: white;
+    font-weight: bold;
+}
+
+.topcom h2 {
+    color: white;
+}
+
+.media-body {
+    position: relative;
+}
+
+.topcol .media-body {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 5px;
+    margin-top: -4em;
+    height: 4em;
+    z-index: 990;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    text-shadow: 1px 1px black;
+}
+
+.media-body h4 {
+    color: yellow;
+}
+
+.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover,
+    .pagination>.active>span:hover, .pagination>.active>a:focus,
+    .pagination>.active>span:focus {
+    background-color: black;
+    border-color: black;
+}
+
+.pagination>li>a, .pagination>li>span {
+    color: black;
+}
+
+.texte {
+    color: white;
+    font-size: 120%;
+    margin-top: 10px;
+    text-align: justify;
+    padding: 8px 20px;
+}
+
+.text-span {
+    font-size: 150%;
+    font-weight: bold;
+}
+
+.texte .btn {
+    background-color: rgba(120, 80, 50, 0.6);
+    color: white;
+    border: 0px solid #fff;
+}
+
+.texte .btn:hover {
+    background-color: rgba(255, 220, 220, 0.6);
+    color: white;
+    border: 0px solid #fff;
+}
+
+.date {
+    float: right;
+}
+
+.top-annee {
+    font-size: 125%;
+    color: white;
+}
+
+.annee_small {
+    color: orange;
+    font-weight: bold;
+}
+
+.categorie {
+    color: orange;
+    position: absolute;
+    text-align: right;
+    z-index: 991;
+    font-weight: bold;
+    font-size: 80%;
+    width: 85%;
+}
+
+.link_edit {
+    position: absolute;
+    text-align: right;
+    z-index: 991;
+    width: 95%;
+}
+
+.tooltip-inner {
+    font-size: 1.5em;
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 1px solid white;
+    border-radius: 3px;
+}
+
+.link_tooltip {
+    position: absolute;
+    text-align: left;
+    z-index: 991;
+    margin: 5 0 0 5;
+}
+
+.description {
+    height:190px;
+    overflow:hidden;
+    background-color: rgb(255, 255, 255, 0.6);
+    
+}
+
+#cartouche {
+    color: white;
+    padding: 20px 0px;
+    height: auto;
+    font-size: 2em;
+}
+
+#cartouche-bloc .btn{
+   background-color:black;
+   color:white;
+ }
+ 
+.well .row{
+  float:right;margin-top:-40px;
+}

@@ -104,59 +104,27 @@ class VideoController extends Controller
      * @param unknown $page            
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function viewByCategorieAction(Request $request, $categorie, $genre=null, $page)
-    {
-        $videos_count = $this->getDoctrine()
+    public function getVideosAction(Request $request, $categorie, $genre, $periode,  $page)
+    {   
+     $videos = $this->getDoctrine()
             ->getManager()
             ->getRepository('SHUFLERShuflerBundle:Video')
-            ->getCountByCategorie($categorie);
-        
+            ->getPaginatedVideos($categorie, $genre, $periode, $page, Video::MAX_LIST);
+     
+       $videos_count = count($videos);
+            
         $pagination = array(
             'page' => $page,
-            'route' => 'shufler_viewByCategorie',
+            'route' => 'shufler_videos',
             'pages_count' => ceil($videos_count / Video::MAX_LIST),
             'route_params' => $request->attributes->get('_route_params')
         );
         
-        $videos = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('SHUFLERShuflerBundle:Video')
-            ->getListByCategorie($categorie, $genre, $page, Video::MAX_LIST);
-        
         return $this->render('SHUFLERShuflerBundle:Video:videos.html.twig', array(
             'videos' => $videos,
-            'pagination' => $pagination
-        ));
-    }
-
-    /**
-     * Get Paginated List of Videos by period
-     *
-     * @param Request $request            
-     * @param unknown $periode            
-     * @param unknown $page            
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function viewByPeriodeAction(Request $request, $periode, $page)
-    {
-        $videos_count = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('SHUFLERShuflerBundle:Video')
-            ->getCountByPeriode($periode);
-        $pagination = array(
-            'page' => $page,
-            'route' => 'shufler_viewByPeriode',
-            'pages_count' => ceil($videos_count / Video::MAX_LIST),
-            'route_params' => $request->attributes->get('_route_params')
-        );
-        
-        $videos = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('SHUFLERShuflerBundle:Video')
-            ->getListByPeriode($periode, $page, Video::MAX_LIST);
-        
-        return $this->render('SHUFLERShuflerBundle:Video:videos.html.twig', array(
-            'videos' => $videos,
+            'categories' => [0 => 'ALL'] + Video::CATEGORY_LIST,
+            'genres' => [0 => 'ALL'] + Video::GENRE_LIST,
+            'periodes' => [0 => 'ALL'] + Video::PERIOD_LIST,
             'pagination' => $pagination
         ));
     }
@@ -306,12 +274,12 @@ class VideoController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function couchAction()
+    public function couchAction($categorie, $genre, $periode)
     {
         $videos = $this->getDoctrine()
             ->getManager()
             ->getRepository('SHUFLERShuflerBundle:Video')
-            ->getRandomVids();
+            ->getRandomVids($categorie, $genre, $periode);
 
         $playlist = array();
         $i = 0;

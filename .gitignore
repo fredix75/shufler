@@ -8,8 +8,8 @@
 /composer.phar
 /vendor/
 /web/bundles/
-/web/upload/
-/web/uploads/
+/web/uploads/*
+/web/css/*
 /old/
 /src/.metadata/*
 /.settings/*

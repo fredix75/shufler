@@ -4,6 +4,11 @@
 
 {% block title %}{{ parent() }} View{% endblock %}
 
+{% block stylesheets %}
+	{{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/shuflershufler/css/video.css') }}">
+{% endblock %}
+	
 {% block body %}
       {% for message in app.session.flashbag.get('notice') %}
         {{ message }}

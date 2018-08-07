@@ -48,7 +48,7 @@ class ShuflerExtension extends \Twig_Extension
      */
     public function categoryFilter($categorie)
     {
-        $categories = Video::CATEGORY_LIST;
+        $categories = [0 => 'ALL'] + Video::CATEGORY_LIST;
         
         return isset($categories[$categorie]) ? $categories[$categorie] : 'autre';
     }

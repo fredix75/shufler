@@ -9,24 +9,21 @@ use SHUFLER\ShuflerBundle\Entity\Video;
 
 class MainController extends Controller
 {
+
     /**
-     * Call Navigation Menu 
-     * 
+     * Call Navigation Menu
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function navigationAction()
-    {   
-        return $this->render('SHUFLERShuflerBundle:Main:nav.html.twig', array(
-            'categories' => Video::CATEGORY_LIST,
-            'periodes' => Video::PERIOD_LIST,
-            'genres' => Video::GENRE_LIST,
-        ));
+    {
+        return $this->render('SHUFLERShuflerBundle:Main:nav.html.twig');
     }
 
     /**
-     * Suggestions For Search Engine 
-     * 
-     * @param Request $request
+     * Suggestions For Search Engine
+     *
+     * @param Request $request            
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function searchAjaxAction(Request $request)
@@ -43,10 +40,9 @@ class MainController extends Controller
                 foreach ($videos as $video) {
                     $suggestions['suggestions'][] = $video;
                 }
-            } 
+            }
             
             return new JsonResponse(json_encode($suggestions));
         }
     }
-
 }

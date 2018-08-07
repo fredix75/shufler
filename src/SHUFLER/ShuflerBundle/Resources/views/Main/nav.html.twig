@@ -9,7 +9,7 @@
 <div class="collapse navbar-collapse">
 	<ul class="nav navbar-nav">
     	<li><a href="{{ path('shufler_homepage') }}"><span class="glyphicon glyphicon-refresh"></span>&nbsp;{{'Random'|trans}}</a> </li>
-    	<li><a href="{{ path('shufler_couch') }}"><span class="glyphicon glyphicon-road"></span>&nbsp;{{'TV Mode'|trans}}</a></li>
+    	<li><a href="{{ path('shufler_couch') }}"><span class="glyphicon glyphicon-road"></span>&nbsp;{{'Couch\' Mode'|trans}}</a></li>
     	<li class="dropdown"><a data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-tasks"></span>&nbsp;{{ 'Misc'|trans }}<b class="caret"></b></a>
         	<ul class="dropdown-menu">
 		    	<li><a href="{{ path('shufler_rss') }}"><span class="glyphicon glyphicon-globe"></span>&nbsp;{{'News'|trans}}</a></li>
@@ -25,30 +25,7 @@
             </ul>
          </li> 
 	{%  if app.user %}
-        <li class="dropdown"><a data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-list"></span>&nbsp;{{'Categories'|trans}}<b class="caret"></b></a>
-        	<ul class="dropdown-menu multi-level">
-            	{% for key,value in categories %}
-					{% if key == 2 %}
-					    <li class="dropdown-submenu"><a data-toggle="dropdown-submenu" href="{{ path('shufler_viewByCategorie', {'categorie': 2, 'genre': 0}) }}">{{'Music Moment'|trans}}<b class="caret"></b></a>
-							<ul class="dropdown-menu">
-							{% for key2,value2 in genres %}
-								<li><a href="{{ path('shufler_viewByCategorie', {'categorie': key, 'genre': key2}) }}">{{ value2|trans }}</a></li>
-							{% endfor %}
-							</ul>
-						</li>
-					{% else %}
-						<li><a href="{{ path('shufler_viewByCategorie', {'categorie': key, 'genre': 0}) }}">{{ value|trans }}</a></li>
-					{% endif %}
-				{% endfor %}
-            </ul>
-         </li> 
-        <li class="dropdown"><a data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-time"></span>&nbsp;{{ 'Periods'|trans }}<b class="caret"></b></a>
-        	<ul class="dropdown-menu">
-            	{% for key,value in periodes %}
-            	<li><a href="{{ path('shufler_viewByPeriode', {'periode': value}) }}">{{ value }}</a></li>
-            	{% endfor %}
-            </ul>
-         </li>
+    	<li><a href="{{ path('shufler_videos') }}"><span class="glyphicon glyphicon-film"></span>&nbsp;{{'Videos'|trans}}</a></li>
 		{% if is_granted('ROLE_ADMIN') %}
 		<li class="dropdown"><a data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-edit"></span>&nbsp;{{ 'Edit'|trans }}<b class="caret"></b></a>
         	<ul class="dropdown-menu">
