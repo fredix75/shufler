@@ -4,6 +4,7 @@ namespace SHUFLER\ShuflerBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use phpDocumentor\Reflection\Types\Integer;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Flux
@@ -11,6 +12,8 @@ use phpDocumentor\Reflection\Types\Integer;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="SHUFLER\ShuflerBundle\Entity\FluxRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(fields="name", message="Un Flux existe déja avec ce nom. Point trop n'en faut!")
+ * @UniqueEntity(fields="url", message="Ce Flux est déjà enregistré. Laisse tomber!")
  */
 class Flux
 {

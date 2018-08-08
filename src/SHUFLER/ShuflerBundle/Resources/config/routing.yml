@@ -1,127 +1,128 @@
 shufler_homepage:
     path: /
-    defaults: { _controller: SHUFLERShuflerBundle:Video:index, _locale: %locale% }
+    defaults: { _controller: "SHUFLERShuflerBundle:Video:index", _locale: "%locale%" }
 
 shufler_videos:
     path: /videos/{categorie}/{genre}/{periode}/{page}
-    defaults: {_controller: SHUFLERShuflerBundle:Video:getVideos, categorie: 0, genre: 0, periode: 0, page: 1}
+    defaults: {_controller: "SHUFLERShuflerBundle:Video:getVideos", categorie: 0, genre: 0, periode: 0, page: 1}
     requirements:
         page: \d*
 
+shufler_couch:
+    path: /couch/{categorie}/{genre}/{periode}
+    defaults: {_controller: "SHUFLERShuflerBundle:Video:couch", categorie : 0, genre : 0, periode: 0}
+
 shufler_video_edit:
     path: /VideoEdit/{id}
-    defaults: {_controller: SHUFLERShuflerBundle:Video:edit, id: 0}
+    defaults: {_controller: "SHUFLERShuflerBundle:Video:edit", id: 0}
     requirements:
         id: \d*
 
+shufler_trash:
+    path: /trash/{page}
+    defaults: {_controller: "SHUFLERShuflerBundle:Video:getTrash", page : 1 }
+    requirements:
+        page: \d*
+
 shufler_view:
     path: /view/{id}
-    defaults: {_controller: SHUFLERShuflerBundle:Video:view}
+    defaults: {_controller: "SHUFLERShuflerBundle:Video:view"}
     requirements:
         id: \d*
 
 shufler_search:
     path: /search/{page}
-    defaults: {_controller: SHUFLERShuflerBundle:Video:search, page: 1}
+    defaults: {_controller: "SHUFLERShuflerBundle:Video:search", page: 1}
     requirements:
         page: \d*
 
 shufler_video_delete:
     path: /delete/{id}
-    defaults: {_controller: SHUFLERShuflerBundle:Video:delete}
+    defaults: {_controller: "SHUFLERShuflerBundle:Video:delete"}
     requirements:
         id: \d*
 
-shufler_video_depublished:
-    path: /depublished/{id}
-    defaults: {_controller: SHUFLERShuflerBundle:Video:depublished}
+shufler_video_publish:
+    path: /publish/{id}/{publish}
+    defaults: {_controller: "SHUFLERShuflerBundle:Video:publish", publish: false}
     requirements:
         id: \d*
-
-shufler_video_published:
-    path: /published/{id}
-    defaults: {_controller: SHUFLERShuflerBundle:Video:published}
-    requirements:
-        id: \d*
-
-shufler_couch:
-    path: /couch/{categorie}/{genre}/{periode}
-    defaults: {_controller: SHUFLERShuflerBundle:Video:couch, categorie : 0, genre : 0, periode: 0}
+        publish: '^(true|false|1|0)$'
 
 shufler_mail:
     path: /mail
-    defaults: {_controller: SHUFLERShuflerBundle:Main:mail}
+    defaults: {_controller: "SHUFLERShuflerBundle:Main:mail"}
 
 shufler_links:
     path: /links
-    defaults: {_controller: SHUFLERShuflerBundle:Flux:links}
+    defaults: {_controller: "SHUFLERShuflerBundle:Flux:links"}
 
 shufler_searchAjax:
     path: /searchAjax
-    defaults: {_controller: SHUFLERShuflerBundle:Main:searchAjax}
+    defaults: {_controller: "SHUFLERShuflerBundle:Main:searchAjax"}
 
 shufler_apiyt:
     path: /apiyt
-    defaults: {_controller: SHUFLERShuflerBundle:Other:searchApi}
+    defaults: {_controller: "SHUFLERShuflerBundle:Other:searchApi"}
 
 shufler_rss:
     path: /rss
-    defaults: {_controller: SHUFLERShuflerBundle:Flux:rss}
+    defaults: {_controller: "SHUFLERShuflerBundle:Flux:rss"}
 
 shufler_podcast:
     path: /podcast
-    defaults: {_controller: SHUFLERShuflerBundle:Flux:podcast}
+    defaults: {_controller: "SHUFLERShuflerBundle:Flux:podcast"}
 
 shufler_radio:
     path: /radio
-    defaults: {_controller: SHUFLERShuflerBundle:Flux:radio}
+    defaults: {_controller: "SHUFLERShuflerBundle:Flux:radio"}
 
 shufler_dailypod:
     path: /dailypod
-    defaults: {_controller: SHUFLERShuflerBundle:Flux:dailyPod}
+    defaults: {_controller: "SHUFLERShuflerBundle:Flux:dailyPod"}
 
 shufler_flux_edit:
     path: /fluxEdit/{id}
-    defaults: {_controller: SHUFLERShuflerBundle:Flux:fluxEdit, id: null}
+    defaults: {_controller: "SHUFLERShuflerBundle:Flux:fluxEdit", id: null}
     requirements:
         id: \d*
 
 shufler_flux_delete:
     path: /fluxDelete/{id}
-    defaults: {_controller: SHUFLERShuflerBundle:Flux:delete}
+    defaults: {_controller: "SHUFLERShuflerBundle:Flux:delete"}
     requirements:
         id: \d*
 
 shufler_flux_deleteLogo:
     path: /fluxDeleteLogo/{id}
-    defaults: {_controller: SHUFLERShuflerBundle:Flux:deleteLogo}
+    defaults: {_controller: "SHUFLERShuflerBundle:Flux:deleteLogo"}
     requirements:
       id: \d*
       
 shufler_channel_delete:
     path: /channelDelete/{id}/{id_flux}
-    defaults: {_controller: SHUFLERShuflerBundle:Other:delete, id_flux: null}
+    defaults: {_controller: "SHUFLERShuflerBundle:Other:delete", id_flux: null}
     requirements:
         id: \d*
 
 shufler_channel_deleteLogo:
     path: /channelDeleteLogo/{id}
-    defaults: {_controller: SHUFLERShuflerBundle:Other:deleteLogo}
+    defaults: {_controller: "SHUFLERShuflerBundle:Other:deleteLogo"}
     requirements:
       id: \d*
 
 shufler_edit_channel:
     path: /channelEdit/
-    defaults: {_controller: SHUFLERShuflerBundle:Other:channelEdit}
+    defaults: {_controller: "SHUFLERShuflerBundle:Other:channelEdit"}
 
 shufler_tweeter:
     path: /tweeter
-    defaults: {_controller: SHUFLERShuflerBundle:Flux:tweeter}
+    defaults: {_controller: "SHUFLERShuflerBundle:Flux:tweeter"}
 
 shufler_insee:
     path: /insee
-    defaults: {_controller: SHUFLERShuflerBundle:Flux:insee}
+    defaults: {_controller: "SHUFLERShuflerBundle:Flux:insee"}
     
 shufler_test:
     path: /test
-    defaults: {_controller: SHUFLERShuflerBundle:Other:test}    
+    defaults: {_controller: "SHUFLERShuflerBundle:Other:test"}    

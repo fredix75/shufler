@@ -95,6 +95,7 @@ class VideoRepository extends \Doctrine\ORM\EntityRepository
      */
     function searchAjax($search)
     {
+
         $auteurs = $this->_em->createQueryBuilder()
             ->select('a.auteur')
             ->where('a.priorite= :priorite')
@@ -121,14 +122,15 @@ class VideoRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
         
-        $suggestions = array();
+        $suggestions = [];
+
         foreach ($auteurs as $auteur) {
-            $suggestions[] = $auteur['auteur'];
+            $suggestions[]= $auteur['auteur'];
         }
         foreach ($titres as $titre) {
             $suggestions[] = $titre['titre'];
         }
-        
+
         return $suggestions;
     }
 
@@ -151,6 +153,29 @@ class VideoRepository extends \Doctrine\ORM\EntityRepository
         return new Paginator($q);
     }
 
+    /**
+     * 
+     * @param number $page
+     * @param integer $maxperpage
+     * @return \Doctrine\ORM\Tools\Pagination\Paginator
+     */
+    public function getPaginatedTrash($page = 1, $maxperpage = Video::MAX_LIST)
+    {
+        $q = $this->_em->createQueryBuilder()
+        ->select('a')
+        ->where('a.priorite != :priorite')
+        ->setParameter('priorite', 1)
+        ->orWhere('a.published is null')
+        ->orderBy('a.published', 'DESC')
+        ->addOrderBy('a.priorite', 'ASC')
+        ->addOrderBy('a.id', 'DESC')
+        ->from('SHUFLERShuflerBundle:Video', 'a');
+        
+        $q->setFirstResult(($page - 1) * $maxperpage)->setMaxResults($maxperpage);
+        
+        return new Paginator($q);
+    }
+    
     /**
      * 
      * create query to get videos

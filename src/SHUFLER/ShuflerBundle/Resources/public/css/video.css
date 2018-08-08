@@ -153,6 +153,27 @@ a:hover img {
     
 }
 
+.page_videos_sous_titre {
+    font-size:3em;
+    text-align:right;
+    color:orange;
+    line-height: 1.1;
+}
+
+.page_videos_genre {
+    font-size:3em;
+    text-align:right;
+    color:#9dff00;
+    line-height: 1.1;
+}
+
+.page_videos_periode {
+    font-size:2em;
+    text-align:right;
+    color:#ffeb00;
+    margin-top:1em;
+}
+
 #cartouche {
     color: white;
     padding: 20px 0px;

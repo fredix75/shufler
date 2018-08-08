@@ -26,21 +26,18 @@ class VideoController extends Controller
         $anims = array();
         $musics = array();
         $etranges = array();
-                
+        
         $i = 0;
         foreach ($videos as $key => $video) {
             if (($video->getCategorie() == 1 || $video->getCategorie() == 9) && count($anims) < Video::INDEX_MAX_ANIM) {
                 array_push($anims, $video);
                 unset($videos[$key]);
-
             } elseif ($video->getCategorie() == 2 && count($musics) < Video::INDEX_MAX_MUSIC) {
                 array_push($musics, $video);
                 unset($videos[$key]);
-               
             } elseif (($video->getCategorie() == 3 || $video->getCategorie() == 4) && count($etranges) < Video::INDEX_MAX_AUTRES) {
                 array_push($etranges, $video);
                 unset($videos[$key]);
-                
             } else {
                 continue;
             }
@@ -104,15 +101,15 @@ class VideoController extends Controller
      * @param unknown $page            
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function getVideosAction(Request $request, $categorie, $genre, $periode,  $page)
-    {   
-     $videos = $this->getDoctrine()
+    public function getVideosAction(Request $request, $categorie, $genre, $periode, $page)
+    {
+        $videos = $this->getDoctrine()
             ->getManager()
             ->getRepository('SHUFLERShuflerBundle:Video')
             ->getPaginatedVideos($categorie, $genre, $periode, $page, Video::MAX_LIST);
-     
-       $videos_count = count($videos);
-            
+        
+        $videos_count = count($videos);
+        
         $pagination = array(
             'page' => $page,
             'route' => 'shufler_videos',
@@ -122,9 +119,15 @@ class VideoController extends Controller
         
         return $this->render('SHUFLERShuflerBundle:Video:videos.html.twig', array(
             'videos' => $videos,
-            'categories' => [0 => 'ALL'] + Video::CATEGORY_LIST,
-            'genres' => [0 => 'ALL'] + Video::GENRE_LIST,
-            'periodes' => [0 => 'ALL'] + Video::PERIOD_LIST,
+            'categories' => [
+                0 => 'ALL'
+            ] + Video::CATEGORY_LIST,
+            'genres' => [
+                0 => 'ALL'
+            ] + Video::GENRE_LIST,
+            'periodes' => [
+                0 => 'ALL'
+            ] + Video::PERIOD_LIST,
             'pagination' => $pagination
         ));
     }
@@ -225,33 +228,47 @@ class VideoController extends Controller
     }
 
     /**
-     * unpublish a video
+     * Publish / unpublish a Video
      *
      * @param Video $video            
+     * @param boolean $publish            
      * @return \Symfony\Component\HttpFoundation\RedirectResponse @Security("has_role('ROLE_AUTEUR')")
      */
-    public function depublishedAction(Video $video)
+    public function publishAction(Video $video, $publish = false)
     {
         $em = $this->getDoctrine()->getManager();
-        $video->setPublished(false);
+        $video->setPublished($publish);
         $em->persist($video);
         $em->flush();
         return $this->redirectToRoute('shufler_homepage');
     }
 
     /**
-     * Publish a Video
+     * Get Videos unpublished + trash
      *
-     * @param Video $video            
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse @Security("has_role('ROLE_AUTEUR')")
+     * @return \Symfony\Component\HttpFoundation\Response @Security("has_role('ROLE_ADMIN')")
      */
-    public function publishedAction(Video $video)
+    public function getTrashAction(Request $request, $page)
     {
-        $em = $this->getDoctrine()->getManager();
-        $video->setPublished(true);
-        $em->persist($video);
-        $em->flush();
-        return $this->redirectToRoute('shufler_homepage');
+        $videos = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('SHUFLERShuflerBundle:Video')
+            ->getPaginatedTrash($page, Video::MAX_LIST);
+        
+        $videos_count = count($videos);
+        
+        $pagination = array(
+            'page' => $page,
+            'route' => 'shufler_trash',
+            'pages_count' => ceil($videos_count / Video::MAX_LIST),
+            'route_params' => $request->attributes->get('_route_params')
+        );
+        
+        return $this->render('SHUFLERShuflerBundle:Video:videos.html.twig', array(
+            'videos' => $videos,
+            'trash' => true,
+            'pagination' => $pagination
+        ));
     }
 
     /**
@@ -259,7 +276,7 @@ class VideoController extends Controller
      * Delete a Video
      *
      * @param Video $video            
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse @Security("has_role('ROLE_AUTEUR')")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse @Security("has_role('ROLE_ADMIN')")
      */
     public function deleteAction(Video $video)
     {
@@ -280,25 +297,25 @@ class VideoController extends Controller
             ->getManager()
             ->getRepository('SHUFLERShuflerBundle:Video')
             ->getRandomVids($categorie, $genre, $periode);
-
+        
         $playlist = array();
         $i = 0;
-     
-        $shufler= $this->get('shufler.filtre_affichage');
+        
+        $shufler = $this->get('shufler.filtre_affichage');
         
         foreach ($videos as $video) {
-            $api = $shufler ->getPlatform($video->getLien());
+            $api = $shufler->getPlatform($video->getLien());
             
-            if($api === Video::YOUTUBE && $vid = $shufler ->getIdentifer($video->getLien(), $api)) {
-                array_push ($playlist, $vid);
-                $i++;
+            if ($api === Video::YOUTUBE && $vid = $shufler->getIdentifer($video->getLien(), $api)) {
+                array_push($playlist, $vid);
+                $i ++;
             }
-
-            if ($i >=Video::MAX_LIST_COUCH) {
+            
+            if ($i >= Video::MAX_LIST_COUCH) {
                 break;
             }
         }
-
+        
         return $this->render('SHUFLERShuflerBundle:Video:couch.html.twig', array(
             'videos' => $playlist
         ));

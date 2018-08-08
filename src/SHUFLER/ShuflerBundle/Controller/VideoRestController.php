@@ -4,13 +4,11 @@ namespace SHUFLER\ShuflerBundle\Controller;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
-use FOS\RestBundle\Util\Codes;
 use Nelmio\ApiDocBundle\Annotation as Doc;
 use SHUFLER\ShuflerBundle\Entity\Video;
 use SHUFLER\ShuflerBundle\Form\VideoType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class VideoRestController extends FOSRestController
 {

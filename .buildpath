@@ -106,11 +106,7 @@
 			<attribute name="composer" value="vendor"/>
 		</attributes>
 	</buildpathentry>
-	<buildpathentry kind="src" path="vendor/genemu/form-bundle">
-		<attributes>
-			<attribute name="composer" value="vendor"/>
-		</attributes>
-	</buildpathentry>
+
 	<buildpathentry kind="src" path="vendor/incenteev/composer-parameter-handler">
 		<attributes>
 			<attribute name="composer" value="vendor"/>

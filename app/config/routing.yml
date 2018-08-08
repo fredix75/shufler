@@ -8,7 +8,7 @@ shufler_language:
 
 shufler_user_update:
     path: /update
-    defaults: {_controller: SHUFLERUserBundle:User:update}
+    defaults: {_controller: "SHUFLERUserBundle:User:update"}
 
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"

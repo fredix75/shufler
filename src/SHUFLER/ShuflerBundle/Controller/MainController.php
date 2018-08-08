@@ -30,12 +30,15 @@ class MainController extends Controller
     {
         if ($request->isXmlHttpRequest()) {
             $search = $request->query->get('query');
+            
             $videos = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('SHUFLERShuflerBundle:Video')
                 ->searchAjax($search);
-            $suggestions = array();
-            $suggestions['suggestions'] = array();
+            
+            $suggestions = [];
+            $suggestions['suggestions'] = [];
+
             if ($videos) {
                 foreach ($videos as $video) {
                     $suggestions['suggestions'][] = $video;

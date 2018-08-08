@@ -4,6 +4,7 @@ namespace SHUFLER\ShuflerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * ChannelFlux
@@ -11,6 +12,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="channel_flux")
  * @ORM\Entity(repositoryClass="SHUFLER\ShuflerBundle\Entity\ChannelFluxRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(fields="name", message="Un Channel de Flux existe déja avec ce nom, faut quand même pas pousser!")
+ *
  */
 class ChannelFlux
 {

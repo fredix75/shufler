@@ -5,11 +5,13 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\Groups;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="SHUFLER\ShuflerBundle\Entity\MoodRepository")
  *
  * @ExclusionPolicy("all")
+ * @UniqueEntity(fields="name", message="On a déja un mood qui s'apelle comme ça.")
  */
 class Mood
 {

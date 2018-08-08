@@ -8,13 +8,15 @@ use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Video
  *
  * @ORM\Entity(repositoryClass="SHUFLER\ShuflerBundle\Entity\VideoRepository")
- *
  * @ExclusionPolicy("all")
+ * @UniqueEntity(fields={"titre", "auteur"}, message="Une vidéo existe déja avec un titre et un auteur semblables....")
+ * @UniqueEntity(fields="lien", message="Ce lien est déjà enregistré.")
  */
 class Video
 {
@@ -72,10 +74,10 @@ class Video
     ];
 
     const PRIORITY_LIST = [
-        1,
-        2,
-        3,
-        4
+        1 => 1,
+        2 => 2,
+        3 => 3,
+        4 => 4
     ];
 
     /**
@@ -90,6 +92,8 @@ class Video
     const YOUTUBE_EMBED = 'https://' . self::YOUTUBE_WWW . '/embed/';
 
     const YOUTUBE_WATCH = 'https://' . self::YOUTUBE_WWW . '/watch?v=';
+    
+    const YOUTUBE_SHARE = 'https://youtu.be/';
 
     /**
      * *********************************
@@ -359,6 +363,10 @@ class Video
             $this->lien = str_replace(self::YOUTUBE_WATCH, self::YOUTUBE_EMBED, $this->lien);
         }
         
+        if (strripos($this->lien, self::YOUTUBE_SHARE) !== false) {
+            $this->lien = str_replace(self::YOUTUBE_SHARE, self::YOUTUBE_EMBED, $this->lien);
+        }
+
         if (strripos($this->lien, self::VIMEO_STAFFPICKS) !== false) {
             $this->lien = str_replace(self::VIMEO_STAFFPICKS, self::VIMEO_VIDEO, $this->lien);
         }
