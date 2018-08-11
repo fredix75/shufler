@@ -36,6 +36,7 @@ class Flux
         8 => 'classique',
         9 => 'electro',
         10 => 'bossa nova',
+        11=>'informations',
         99 => 'autre'
     );
 

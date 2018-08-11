@@ -9,19 +9,10 @@
 
 {% block body %}
 	<div class="selector well">
-		<input type="checkbox" value="1" checked="checked"/>&nbsp;Généralistes&nbsp;&nbsp;
-		<input type="checkbox" value="11" checked="checked"/>&nbsp;Informations&nbsp;&nbsp;
-		<input type="checkbox" value="2" checked="checked"/>&nbsp;Rock&nbsp;&nbsp;
-		<input type="checkbox" value="3" checked="checked"/>&nbsp;Jazz&nbsp;&nbsp;
-		<input type="checkbox" value="4" checked="checked"/>&nbsp;Groove&nbsp;&nbsp;
-		<input type="checkbox" value="5" checked="checked"/>&nbsp;Reggae&nbsp;&nbsp;
-		<input type="checkbox" value="6" checked="checked"/>&nbsp;Disco&nbsp;&nbsp;
-		<input type="checkbox" value="7" checked="checked"/>&nbsp;Funk&nbsp;&nbsp;
-		<input type="checkbox" value="8" checked="checked"/>&nbsp;Classique&nbsp;&nbsp;
-		<input type="checkbox" value="9" checked="checked"/>&nbsp;Electro&nbsp;&nbsp;
-		<input type="checkbox" value="10" checked="checked"/>&nbsp;Bossa Nova&nbsp;&nbsp;<br/>
+		{% for key, genre in genres %} 
+			<input type="checkbox" value="{{ key }}" checked="checked"/>&nbsp;{{ genre }}&nbsp;&nbsp;
+		{% endfor %}
 		<a id="decoch" href="#">Tout décocher</a>&nbsp;|&nbsp;<a id="coch" href="#">Tout cocher</a>
-		
 	</div>
 	{% for key in radios %}
 		<div class="col col-md-6 mood{{ key.mood}}"> 

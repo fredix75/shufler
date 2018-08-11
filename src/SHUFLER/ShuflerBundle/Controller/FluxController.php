@@ -162,12 +162,15 @@ class FluxController extends Controller
     {
         error_reporting(0);
         
+        $genre_radios = Flux::RADIO_TYPE;
+        
         $radios = $this->getDoctrine()
             ->getManager()
             ->getRepository('SHUFLERShuflerBundle:Flux')
             ->getRadios();
         
         return $this->render('SHUFLERShuflerBundle:Flux:radios.html.twig', array(
+            'genres' => $genre_radios,
             'radios' => $radios
         ));
     }
@@ -345,18 +348,18 @@ class FluxController extends Controller
      */
     public function deleteAction(Flux $flux)
     {
+        $type_flux = $flux->getType(); 
         $em = $this->getDoctrine()->getManager();
         try {
             $flux->deleteLogo($this->getParameter('logo_directory') . '/' . $flux->getOldImage());
             $em->remove($flux);
             $em->flush();
-            return $this->redirectToRoute('shufler_rss');
         } catch (\Exception $e) {
             $this->get('session')
                 ->getFlashBag()
                 ->add('danger', $e->getMessage());
-            return $this->redirectToRoute('shufler_rss');
         }
+        return $this->getBack($type_flux);
     }
 
     /**
@@ -387,5 +390,17 @@ class FluxController extends Controller
         )));
     }
     
+    private function getBack($type_flux) {
+        switch($type_flux) {
+            case 1:
+                return $this->redirectToRoute('shufler_rss');
+            case 2:
+                return $this->redirectToRoute('shufler_podcast');
+            case 3:
+                return $this->redirectToRoute('shufler_radio');
+            case 4:
+                return $this->redirectToRoute('shufler_links');
+        }
+    }
 
 }
