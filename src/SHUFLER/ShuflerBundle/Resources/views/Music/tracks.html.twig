@@ -1,0 +1,55 @@
+{# src/SHUFLER/ShuflerBundle/Resources/views/Home/index.html.twig #}
+
+{% extends "SHUFLERShuflerBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} Music - Tracks{% endblock %}
+
+{% block stylesheets %}
+  {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/shuflershufler/css/jquery.magnific-popup.css') }}">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+	<style>
+		.container{
+			background-color:white;
+		}
+	</style>
+{% endblock %}
+
+{% block body %}
+  <div class="row">
+    <table id="container-tracks" class="display">
+	    <thead>
+			<tr>
+				{% for column in columns_dt %}
+					<th>{{ column }}</th>
+				{% endfor %}
+             </tr>
+        </thead>
+    </table>
+  </div>
+  {% endblock %}
+  
+  {% block javascripts %}
+    {{ parent() }}
+	  <script type="text/javascript" src="{{ asset('bundles/shuflershufler/js/jquery.magnific-popup.js') }}"></script>
+      <script type="text/javascript" src="{{ asset('bundles/shuflershufler/js/main.js') }}"></script>
+	  <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+	  <script>
+	  $(document).ready( function () {
+		$('#container-tracks').DataTable( {
+			processing: true,
+			serverSide: true,
+			select: true,
+			ajax: "{{ path('shufler_music_tracks_source') }}",
+            sAjaxDataProp: "data",
+			lengthMenu: [[100, 250, 500, 1000], [100, 250, 500, 1000]],
+            pageLength: 250,
+            columns:[
+				{% for column in columns_db %}
+				{"data": "{{ column }}", "width":"10px"},
+				{% endfor %}
+			]
+		});
+	  });
+	  </script>
+{% endblock %}

@@ -83,7 +83,6 @@
 			        url: '{{ path("fos_user_registration_register") }}',
 			        data: $('form').serialize()
 		        }).done(function(msg){
-				console.log(msg);
 		        	if(msg.success === true) {
 		        		document.location.reload();
 						return;
@@ -99,7 +98,6 @@
 			        url: '{{ path("fos_user_security_check") }}',
 			        data: $('form').serialize()
 		        }).done(function(msg){
-				    console.log(msg);
 		        	if(msg.success === true) {
 		        		document.location.reload();
 						return;

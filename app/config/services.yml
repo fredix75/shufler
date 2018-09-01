@@ -25,6 +25,11 @@ services:
         arguments:
             $targetDirectory: '%logo_directory%'
 
+    import.csvtoarray:
+        class: SHUFLER\ShuflerBundle\Service\ConvertCSVToArray
+        arguments:
+            $filePath: '%csv_path%'
+            
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]

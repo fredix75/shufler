@@ -97,7 +97,7 @@ shufler_flux_deleteLogo:
     path: /fluxDeleteLogo/{id}
     defaults: {_controller: "SHUFLERShuflerBundle:Flux:deleteLogo"}
     requirements:
-      id: \d*
+        id: \d*
       
 shufler_channel_delete:
     path: /channelDelete/{id}/{id_flux}
@@ -109,7 +109,7 @@ shufler_channel_deleteLogo:
     path: /channelDeleteLogo/{id}
     defaults: {_controller: "SHUFLERShuflerBundle:Other:deleteLogo"}
     requirements:
-      id: \d*
+        id: \d*
 
 shufler_edit_channel:
     path: /channelEdit/
@@ -118,6 +118,26 @@ shufler_edit_channel:
 shufler_tweeter:
     path: /tweeter
     defaults: {_controller: "SHUFLERShuflerBundle:Flux:tweeter"}
+
+shufler_music_tracks:
+    path: /music/tracks/
+    defaults: {_controller: "SHUFLERShuflerBundle:MusicTrack:getTracks"}
+
+shufler_music_tracks_source:
+    path: /tracks-data-source
+    defaults: {_controller: "SHUFLERShuflerBundle:MusicTrack:getTracksSource"}
+
+shufler_music_tracks_by_album:
+    path: /music/album/tracks
+    defaults: {_controller: "SHUFLERShuflerBundle:MusicTrack:getTracksByAlbum"}
+
+shufler_music_albums:
+    path: /music/albums/
+    defaults: {_controller: "SHUFLERShuflerBundle:MusicTrack:getAlbums"}
+
+shufler_music_albums_source:
+    path: /albums-data-source
+    defaults: {_controller: "SHUFLERShuflerBundle:MusicTrack:getAlbumsSource"}
 
 shufler_insee:
     path: /insee
