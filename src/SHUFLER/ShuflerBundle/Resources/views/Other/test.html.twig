@@ -1,25 +1,42 @@
+{# src/SHUFLER/ShuflerBundle/Resources/views/Home/index.html.twig #}
+
 {% extends "SHUFLERShuflerBundle::layout.html.twig" %}
 
-{% block title %}{{ parent() }} Zone Test{% endblock %}
+{% block title %}{{ parent() }} View{% endblock %}
 
 {% block stylesheets %}
-	{{  parent() }}
+	{{ parent() }}
+	<link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.2.0/css/ol.css" type="text/css">
 {% endblock %}
-
-{% block body %}	
-  <div class="row">
-		<section>
-		search
-		</section
-		<section class="col-sm-12 col-md-4 ">
-			{% for status in tweets %}
-				<blockquote class="twitter-tweet" data-lang="fr"><a href="https://twitter.com/x/status/{{ status }}"></a></blockquote>
-			{% endfor %}
+	
+{% block body %}
+	<div class="row">
+		<section class="col-sm-12 col-md-12">
+			<div id="map"></div>
 		</section>
 	</div>
 {% endblock %}
 
 {% block javascripts %}
-{{ parent() }}
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+	{{ parent() }}
+	<script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.2.0/build/ol.js"></script>
+	<script type="text/javascript">
+      import TileLayer from 'ol/layer/Tile.js';
+
+      var osm = new TileLayer({
+        source: new OSM()
+      });
+      var map = new ol.Map({
+        target: 'map',
+        layers: [
+          new ol.layer.Tile({
+            source: new ol.source.OSM()
+          })
+        ],
+        view: new ol.View({
+          center: ol.proj.fromLonLat([-1.553621,47.218371]),
+          zoom: 18
+        })
+      });
+    </script>
 {% endblock %}
