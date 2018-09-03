@@ -34,7 +34,12 @@
             </ul>
          </li>
 		 <li><a href="{{ path('shufler_trash') }}"><span class="glyphicon glyphicon-trash"></span>&nbsp;{{'Trash'|trans}}</a></li>
-		 <li><a href="{{ path('shufler_music_tracks') }}"><span class="glyphicon glyphicon-headphones"></span>&nbsp;{{'Music Tracks'|trans}}</a></li>
+		 <li class="dropdown"><a data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-headphones"></span>&nbsp;{{ 'Music'|trans }}<b class="caret"></b></a>
+        	<ul class="dropdown-menu">
+            	<li><a href="{{ path('shufler_music_tracks', {"mode" : "tracks"}) }}">&nbsp;{{ 'Tracks'|trans }}</a></li>
+            	<li><a href="{{ path('shufler_music_tracks', {"mode" : "albums"}) }}">&nbsp;{{ 'Albums'|trans }}</a></li>
+            </ul>
+         </li>
         {% endif %}
          <li class="dropdown"><a data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-flag"></span>&nbsp;{{ 'My account'|trans }}<b class="caret"></b></a>
         	<ul class="dropdown-menu">

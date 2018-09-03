@@ -8,7 +8,10 @@ parameters:
   public_key: '%kernel.root_dir%/var/jwt/public.pem'
   pass_phrase: ThisTokenIsNotSoSecretChangeItPlease
   token_ttl: 86400
+  youtube_api_url: https://www.googleapis.com/youtube/v3/videos
   youtube_key: AIzaSyBNgi3EddUNsFThnFQpPt3RR9kkuWmhHdo
+  lastfm_api_url: http://ws.audioscrobbler.com/2.0/
+  lastfm_key: 10fb79b666c60393833efb96b601bb73
   logo_directory: '%kernel.project_dir%/web/uploads/logos'
   csv_path: '%kernel.project_dir%/web/uploads/music.csv'
 framework:
@@ -39,7 +42,10 @@ twig:
   strict_variables: '%kernel.debug%'
   globals:
     webmaster: '%app_webmaster%'
+    youtube_api_url: '%youtube_api_url%'
     youtube_key: '%youtube_key%'
+    lastfm_api_url: '%lastfm_api_url%'
+    lastfm_key: '%lastfm_key%'
 assetic:
   debug: '%kernel.debug%'
   use_controller: false

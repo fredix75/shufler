@@ -1,0 +1,176 @@
+{# src/SHUFLER/ShuflerBundle/Resources/views/Home/index.html.twig #}
+
+{% extends "SHUFLERShuflerBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} Music - {{ display_mode }}{% endblock %}
+
+{% block stylesheets %}
+  {{ parent() }}
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+	<style>
+		.container{
+			background-color:white;
+			overflow: hidden
+		}
+		#modal-subcontent2 {
+			min-width: 300px;
+			padding: 0;
+		}
+		#modal-subcontent3 {
+			padding:20px;
+		}
+	</style>
+{% endblock %}
+
+{% block body %}
+  <div class="row">
+    <table id="container-{{ display_mode }}" class="display">
+	    <thead>
+			<tr>
+				{% for column in columns_dt %}
+					<th>{{ column }}</th>
+				{% endfor %}
+             </tr>
+        </thead>
+    </table>
+  </div>
+  <div class="modal fade" id="musicModal" tabindex="-1" role="dialog" aria-labelledby="musicModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="musicModalLabel"></h4>
+			</div>
+			<div class="row">
+				<div id="modal-subcontent" class="col col-md-6 col-sm-6"></div>
+				<div id="modal-subcontent2" class="col col-md-6 col-sm-6"></div>
+			</div>
+			<div class="row">
+				<div id="modal-subcontent3" class="col col-md-12 col-sm-12"></div>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+  {% endblock %}
+  
+  {% block javascripts %}
+    {{ parent() }}
+	  <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+	  <script>
+	  function getArtisteBio(artiste) {
+		$.ajax({
+			url: "{{ lastfm_api_url }}",
+			type: "GET",
+			data: "method=artist.getinfo&format=json&api_key={{ lastfm_key}}&artist=" + artiste,
+			dataType : 'json',
+			success : function(response, statut){
+				var image = '<img src="' + response.artist.image[5]["#text"] + '" />';
+				var text = "<p>" + response.artist.bio.content + "</p>";
+			
+				$('#modal-subcontent3').html(image + text);
+			},
+		});
+	  }
+	  $(document).ready( function () {
+
+		{% if display_mode == 'albums' %}
+			$('#container-albums').DataTable({
+				processing: true,
+				serverSide: true,
+				select: true,
+				ajax: "{{ path('shufler_music_tracks', {'mode' : display_mode }) }}",
+				sAjaxDataProp: "data",
+				lengthMenu: [[50, 100, 250, 500], [50, 100, 250, 500]],
+				pageLength: 50,
+				columns:[
+					{% for column in columns_db %}
+					{"data": "{{ column }}"},
+					{% endfor %}
+				],
+				columnsDefs:[
+					{% for column in columns_db %}
+					{"width":"10px"},
+					{% endfor %}
+				]
+			});
+		{% elseif display_mode == 'tracks' %}
+			$('#container-tracks').DataTable( {
+				processing: true,
+				serverSide: true,
+				select: true,
+				ajax: "{{ path('shufler_music_tracks', {'mode' : display_mode }) }}",
+				sAjaxDataProp: "data",
+				lengthMenu: [[100, 250, 500, 1000], [100, 250, 500, 1000]],
+				pageLength: 250,
+				columns:[
+					{% for column in columns_db %}
+					{"data": "{{ column }}", "width":"10px"},
+					{% endfor %}
+				]
+			});
+		{% endif %}
+	  });
+
+	  $(document).on("click", ".artiste_track", function(e){
+		$('#modal-subcontent').html("");
+		$('#modal-subcontent2').html("");
+		$('#modal-subcontent3').html("");
+		var artiste = $(this).data('artiste');
+		$('#musicModal > div > div > .modal-header h4').html(artiste);
+		getArtisteBio(artiste);
+	  });	  
+      
+	  $(document).on("click", ".album_tracks", function(e){
+		$('#modal-subcontent').html("");
+		$('#modal-subcontent2').html("");
+		$('#modal-subcontent3').html("");
+		var artiste = $(this).data('artiste');
+		var album = $(this).data('album');
+		$('#musicModal > div > div > .modal-header h4').html(artiste + "-" + album);
+		$.ajax({
+			url: "{{ path('shufler_music_tracks_by_album') }}",
+			type: "GET",
+			data: "artiste=" + artiste + "&album=" + album,
+			dataType : 'json',
+			success : function(response, statut){
+				var annee_flag_display = false;
+				var track_list = "<ul>";
+				response.data.forEach(function(element){
+					track_list += "<li>" + element.numero + " - <strong>" + element.titre + "</strong>";
+					if(element.auteur != artiste) {
+						track_list += " (" + element.auteur + ")";
+					}
+					if(element.annee != "") {
+						if(annee_flag_display === false) {
+							$('#musicModal > div > div > .modal-header h4').append(' (' + element.annee + ')');
+							annee_flag_display = true;
+						}
+						track_list += " - " + element.annee;
+					}
+					track_list += "</li>";
+				});
+				track_list += "</ul>";
+				$('#modal-subcontent').html(track_list);
+			},
+		});
+		if (artiste.toUpperCase() !== 'DIVERS') {
+			if (album.toUpperCase() !== 'DIVERS') {
+				$.ajax({
+					url: "{{ lastfm_api_url }}",
+					type: "GET",
+					data: "method=album.getinfo&format=json&artist=" + artiste + "&album=" + album + "&api_key={{ lastfm_key }}",
+					dataType : 'json',
+					success : function(response, statut){
+						var image = '<img src="' + response.album.image[5]["#text"] + '" />';
+						
+						$('#modal-subcontent2').html(image);
+					},
+				});
+			}
+			getArtisteBio(artiste);
+		}
+		e.preventDefault();
+	  });
+	  
+	  </script>
+{% endblock %}
