@@ -21,21 +21,17 @@
 	{{ parent() }}
 	<script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.2.0/build/ol.js"></script>
 	<script type="text/javascript">
-      import TileLayer from 'ol/layer/Tile.js';
 
-      var osm = new TileLayer({
-        source: new OSM()
-      });
       var map = new ol.Map({
         target: 'map',
-        layers: [
+		layers: [
           new ol.layer.Tile({
             source: new ol.source.OSM()
           })
         ],
         view: new ol.View({
-          center: ol.proj.fromLonLat([-1.553621,47.218371]),
-          zoom: 18
+          center: ol.proj.fromLonLat([43.2418,-11.6986]),
+          zoom: 10
         })
       });
     </script>
