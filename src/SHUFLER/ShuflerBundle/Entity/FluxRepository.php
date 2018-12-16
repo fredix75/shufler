@@ -77,6 +77,23 @@ class FluxRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * Get Playlists
+     *
+     * @return array
+     */
+    function getPlaylists()
+    {
+        return $this->_em->createQueryBuilder()
+        ->select('a')
+        ->where('a.type= :type')
+        ->setParameter('type', 5)
+        ->from('SHUFLERShuflerBundle:Flux', 'a')
+        ->orderBy('a.id', 'ASC')
+        ->getQuery()
+        ->getResult();
+    }
     
     /**
      * Get Links

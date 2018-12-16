@@ -22,7 +22,8 @@ class Flux
         1 => 'rss',
         2 => 'podcast',
         3 => 'radio',
-        4 => 'lien'
+        4 => 'lien',
+        5 => 'playlist'
     );
 
     const RADIO_TYPE = array(

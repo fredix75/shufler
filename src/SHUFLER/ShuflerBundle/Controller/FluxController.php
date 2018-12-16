@@ -198,6 +198,29 @@ class FluxController extends Controller
         ));
     }
     
+    /**
+     * Get All Flows playlists.
+     *
+     * @param Request $request
+     *            request of the Flow
+     *
+     * @return Response Ajax or Rendering template
+     */
+    public function playlistAction(Request $request)
+    {
+        error_reporting(0);
+                
+        $playlists = $this->getDoctrine()
+        ->getManager()
+        ->getRepository('SHUFLERShuflerBundle:Flux')
+        ->getPlaylists();
+        
+        return $this->render('SHUFLERShuflerBundle:Flux:playlists.html.twig', array(
+            'playlists' => $playlists
+        ));
+    }
+    
+    
 
     /**
      * Get Tweets API Tweeter

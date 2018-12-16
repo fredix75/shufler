@@ -77,6 +77,10 @@ shufler_radio:
     path: /radio
     defaults: {_controller: "SHUFLERShuflerBundle:Flux:radio"}
 
+shufler_playlist:
+    path: /playlist
+    defaults: {_controller: "SHUFLERShuflerBundle:Flux:playlist"}
+
 shufler_dailypod:
     path: /dailypod
     defaults: {_controller: "SHUFLERShuflerBundle:Flux:dailyPod"}
