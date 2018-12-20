@@ -103,6 +103,12 @@ class VideoController extends Controller
      */
     public function getVideosAction(Request $request, $categorie, $genre, $periode, $page)
     {
+
+        if($categorie != 2 ) {
+            $genre = null;
+            //@todo : fix that shit
+        }
+
         $videos = $this->getDoctrine()
             ->getManager()
             ->getRepository('SHUFLERShuflerBundle:Video')

@@ -4,7 +4,7 @@
 		<span class="icon-bar"></span>
 		<span class="icon-bar"></span>
 	</button>
-	<a class="navbar-brand" href="{{ path('shufler_homepage') }}"><img src="{{ asset('bundles/shuflershufler/img/logo_shufler.png') }}" width=100px /></a>
+	<a class="navbar-brand" href="{{ path('shufler_homepage') }}"><img src="{{ asset('bundles/shuflershufler/img/shufler_logo.png') }}" width=150px /></a>
 </div>
 <div class="collapse navbar-collapse">
 	<ul class="nav navbar-nav">
@@ -16,6 +16,7 @@
            {%  if app.user %}
                 <li><a href="{{ path('shufler_podcast') }}"><span class="glyphicon glyphicon-headphones"></span>&nbsp;{{'Podcasts'|trans}}</a></li>
                 <li><a href="{{ path('shufler_radio') }}"><span class="glyphicon glyphicon-flash"></span>&nbsp;{{'Radios'|trans}}</a></li>
+				<li><a href="{{ path('shufler_playlist') }}"><span class="glyphicon glyphicon-list"></span>&nbsp;{{'Playlists'|trans}}</a></li>
 				<li><a href="{{ path('shufler_tweeter') }}"><span class="glyphicon glyphicon-alert"></span>&nbsp;{{'Tweeter'}}</a></li>
            		{% if is_granted('ROLE_ADMIN') %}
    					<li><a href="{{ path('shufler_links') }}"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;{{ 'Links'|trans }}</a></li>

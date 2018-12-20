@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="SHUFLER\ShuflerBundle\Entity\FluxRepository")
  * @ORM\HasLifecycleCallbacks()
- * @UniqueEntity(fields="name", message="Un Flux existe déja avec ce nom. Point trop n'en faut!")
+ * @UniqueEntity(fields={"name", "type"}, message="Un Flux existe déja avec ce nom et ce type. Point trop n'en faut!")
  * @UniqueEntity(fields="url", message="Ce Flux est déjà enregistré. Laisse tomber!")
  */
 class Flux
@@ -22,7 +22,8 @@ class Flux
         1 => 'rss',
         2 => 'podcast',
         3 => 'radio',
-        4 => 'lien'
+        4 => 'lien',
+        5 => 'playlist'
     );
 
     const RADIO_TYPE = array(
