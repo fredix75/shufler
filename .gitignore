@@ -1,11 +1,13 @@
 /var/
 /app/config/parameters.yml
 /app/parameters.yml
-/app/parameters_livehost.yml
 /app/phpunit.xml
 /bin/
 /Scripts/
 /composer.phar
+/.buildpath
+/.dbeaver-data-sources.xml
+/.project
 /vendor/
 /web/bundles/
 /web/uploads/*
