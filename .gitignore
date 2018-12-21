@@ -5,6 +5,7 @@
 /bin/
 /Scripts/
 /composer.phar
+/desktop.ini
 /.buildpath
 /.dbeaver-data-sources.xml
 /.project
