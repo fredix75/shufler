@@ -1,6 +1,7 @@
 /var/
 /app/config/parameters.yml
 /app/parameters.yml
+/app/parameters_livehost.yml
 /app/phpunit.xml
 /bin/
 /Scripts/
@@ -9,6 +10,7 @@
 /.buildpath
 /.dbeaver-data-sources.xml
 /.project
+/.tern-project
 /vendor/
 /web/bundles/
 /web/uploads/*

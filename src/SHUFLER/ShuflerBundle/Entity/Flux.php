@@ -37,7 +37,7 @@ class Flux
         8 => 'classique',
         9 => 'electro',
         10 => 'bossa nova',
-        11=>'informations',
+        11 => 'informations',
         99 => 'autre'
     );
 
@@ -83,9 +83,9 @@ class Flux
      * @Assert\File(maxSize="200k", mimeTypes= {"image/jpeg", "image/png", "image/gif", "image/jpg"}, mimeTypesMessage = "Le fichier choisi ne correspond pas à un fichier valide")
      */
     private $image;
-    
+
     /**
-     * 
+     *
      * @var old_image
      */
     private $old_image;
@@ -194,7 +194,7 @@ class Flux
     public function setImage($image = null)
     {
         $this->image = $image;
-       
+        
         return $this;
     }
 
@@ -209,23 +209,25 @@ class Flux
     }
 
     /**
-     * 
-     * @param string $image
+     *
+     * @param string $image            
      * @return Flux
      */
-    public function setOldImage($image = null) {
+    public function setOldImage($image = null)
+    {
         $this->old_image = $image;
         return $this;
     }
-    
+
     /**
-     * 
+     *
      * @return string
      */
-    public function getOldImage() {
+    public function getOldImage()
+    {
         return $this->old_image;
     }
-    
+
     /**
      * Set dateInsert
      *
@@ -307,7 +309,9 @@ class Flux
      */
     public function setCategoryLink($mood)
     {
-        return $this->setMood($mood);
+        if ($this->type === 4) {
+            return $this->setMood($mood);
+        }
     }
 
     /**
@@ -370,16 +374,16 @@ class Flux
         $this->channel = $channel;
         return $this;
     }
-    
+
     /**
      * Delete Image
      *
-     * @param string $filePath
+     * @param string $filePath            
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteLogo($filePath=null)
+    public function deleteLogo($filePath = null)
     {
-        if(file_exists($filePath)) {
+        if (file_exists($filePath)) {
             unlink($filePath);
             return true;
         }

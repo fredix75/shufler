@@ -336,7 +336,6 @@ class FluxController extends Controller
         if(!$flux) $flux = new Flux();
         
         $form = $this->createForm(FluxType::Class, $flux);
-        
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {

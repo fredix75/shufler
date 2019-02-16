@@ -175,14 +175,14 @@
 
 	$('#shufler_shuflerbundle_video_edit_lien').on('keyup',function(){
 		completeInfos();
-	});
+	}, { passive: true });
 	
 	
 	$('#shufler_shuflerbundle_video_edit_annee').on('keyup',function(){
 		if($('#shufler_shuflerbundle_video_edit_annee').val().length==4){
 			selPeriode();
 		}
-	});
+	}, { passive: true });
 
 		function completeInfos(){
 			var lien=$('#shufler_shuflerbundle_video_edit_lien').val();
@@ -249,10 +249,10 @@
 			if($('#shufler_shuflerbundle_video_edit_categorie').val()==2){
 				$('#genre').show();
 			}else{
-				$('#shufler_shuflerbundle_video_edit_genre option[value=]').prop('selected', true);
+				$('#shufler_shuflerbundle_video_edit_genre option[value=""]').prop('selected', true);
 				$('#genre').hide();
 			}
-		});
+		}, { passive: true });
 
 		function getVid(){
 			$('#search_api').val('{{ video.auteur|raw|replace({"'": ' '}) }} {{ video.titre|raw|replace({"'": ' '}) }}');
