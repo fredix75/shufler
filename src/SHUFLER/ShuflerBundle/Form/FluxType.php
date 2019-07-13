@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use SHUFLER\ShuflerBundle\Entity\ChannelFluxRepository;
 
 class FluxType extends AbstractType
 {
@@ -43,6 +44,9 @@ class FluxType extends AbstractType
         ))
             ->add('channel', EntityType::Class, array(
             'class' => 'SHUFLERShuflerBundle:ChannelFlux',
+            'query_builder' => function (ChannelFluxRepository $repo) {
+                return $repo->getChannelFluxAudio();
+                },
             'choice_label' => 'name',
             'placeholder' => 'Choose a channel',
             'required' => false

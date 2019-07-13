@@ -1,27 +1,59 @@
-{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
-	{# Les erreurs générales du formulaire. #}
-	{{ form_errors(form) }}
+{% extends "SHUFLERShuflerBundle::layout.html.twig" %}
 
-		<div class="form-group">
-			{{ form_label(form.name, 'Name'|trans, {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-				<div class="col-sm-6 col-md-6">
-					{{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
-				</div>
-			{{ form_errors(form.name) }}
-		</div>
-		<div class="form-group">
-			{{ form_label(form.image, 'Logo'|trans, {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-				<div class="col-xs-6 col-sm-6 col-md-6">
-					{{ form_widget(form.image) }}
-				</div>
-				<div class="col-xs-6 col-sm-5 col-md-6">
-				{% if channel.id is defined and channel.oldImage is not null %}
-					<img src="{{ asset('uploads/logos/' ~ channel.oldImage) }}" width="200px" /> <a href="{{ path('shufler_channel_deleteLogo',{'id': channel.id }) }}" onclick="return confirm('{{ 'Are You sure ?'|trans}}');" title="Delete this Logo"><span class="glyphicon glyphicon-remove-sign"></span></a>
-				{% endif %}
-				</div>
-			{{ form_errors(form.image) }}
-		</div>
-	 {% if channel.id is defined and channel.id !=0 %}
-		<a class="btn btn-danger" href="{{ path('shufler_channel_delete',{'id':channel.id, 'id_flux':id_flux}) }}" onclick="return confirm('{{ 'Are You sure ?'|trans}}');"><span class="glyphicon glyphicon-remove-sign"></span>&nbsp;{{ 'Delete Channel'|trans }}</a>
+{% block title %}{{ parent() }} {% trans %}flux.edit.title{% endtrans %}{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+    <style>
+        .ui-autocomplete {
+            max-height: 100px;
+            overflow-y: auto;
+            /* prevent horizontal scrollbar */
+            overflow-x: hidden;
+            /* add padding to account for vertical scrollbar */
+            padding-right: 20px;
+            background-color:white;
+            z-index:9999;
+        }
+        /* IE 6 doesn't support max-height
+         * we use height instead, but this forces the menu to always be this tall
+         */
+        * html .ui-autocomplete {
+            height: 100px;
+        }
+    </style>
+    <link rel="stylesheet" href="{{ asset('bundles/shuflershufler/css/bootstrap-switch.css') }}">
+{% endblock %}
+
+{% block body %}
+	{% if flux.id is defined and flux.id !=0  %}
+	<h1><span class="glyphicon glyphicon-edit"></span>&nbsp;{% trans %}channel.edit.title_edit{% endtrans %} {{ flux.id }}</h1>
+	<span class="badge" style="float:right;">{{ flux.dateInsert|localizeddate('short', 'short') }}</span><br/>
+	{% else %}
+	<h1><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;{% trans %}channel.edit.title_add{% endtrans %}</h1>
 	{% endif %}
-{{ form_end(form) }}
+	
+	<div class="well">
+		{% include 'SHUFLERShuflerBundle:Other:channelEdit_inc.html.twig' %}
+		{{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}, 'label':'Save'|trans}) }}
+	</div>	 
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+<script>
+{% if channel.id is empty %}
+	const YT_KEY = '{{ youtube_key }}';
+	$(function(){
+		if($('#shufler_shuflerbundle_channelflux_edit_providerName').val() == 'youtube') {
+			var key = $('#shufler_shuflerbundle_channelflux_edit_providerId').val();
+			$.get('https://www.googleapis.com/youtube/v3/channels?key=' + YT_KEY , { part: 'snippet', id: key }, function(result) {	
+				$('#shufler_shuflerbundle_channelflux_edit_name').val(result.items[0].snippet.localized.title);
+				$('#channel_image').attr('src', result.items[0].snippet.thumbnails.medium.url);
+				$('#imgNet').val(result.items[0].snippet.thumbnails.medium.url);
+			});
+		}
+	});
+{% endif %}	
+</script>	
+{% endblock %}

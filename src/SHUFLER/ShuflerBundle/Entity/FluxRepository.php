@@ -22,7 +22,7 @@ class FluxRepository extends \Doctrine\ORM\EntityRepository
             ->select('a')
             ->where('a.id= :id')
             ->setParameter('id', $id)
-            ->from('SHUFLERShuflerBundle:flux', 'a')
+            ->from('SHUFLERShuflerBundle:Flux', 'a')
             ->getQuery()
             ->getSingleResult();
     }

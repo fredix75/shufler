@@ -48,6 +48,10 @@ a:hover img {
     position: relative;
 }
 
+.media iframe {
+	background-color:black;
+}
+
 .topcol .media-body {
     background-color: rgba(0, 0, 0, 0.6);
     color: white;
@@ -150,7 +154,11 @@ a:hover img {
     height:190px;
     overflow:hidden;
     background-color: rgb(255, 255, 255, 0.6);
-    
+}
+
+.description_pl {
+	height: auto;
+	color:white;
 }
 
 .page_videos_sous_titre {

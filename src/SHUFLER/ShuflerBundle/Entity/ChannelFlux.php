@@ -44,6 +44,21 @@ class ChannelFlux
      * @var string
      */
     private $old_image;
+    
+    /**
+     * @var string
+     * 
+     * @ORM\Column(name="ProviderName", type="string", length=255,  nullable=true)
+     */
+    private $provider_name;
+    
+    /**
+     * 
+     * @var string
+     * @ORM\Column(name="ProviderId", type="string", length=255, unique=true, nullable=true)
+     */
+    private $provider_id;
+    
     /**
      *
      * @var \DateTime @ORM\Column(name="dateInsert", type="datetime")
@@ -137,6 +152,42 @@ class ChannelFlux
     }
     
     /**
+     * 
+     * @param string $providerName
+     * @return \SHUFLER\ShuflerBundle\Entity\ChannelFlux
+     */
+    public function setProviderName($providerName = null){
+        $this->provider_name = $providerName;
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return string
+     */
+    public function getProviderName() {
+        return $this->provider_name;
+    }
+
+    /**
+     * 
+     * @param string $providerId
+     * @return \SHUFLER\ShuflerBundle\Entity\ChannelFlux
+     */
+    public function setProviderId($providerId) {
+        $this->provider_id = $providerId;
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return string
+     */
+    public function getProviderId() {
+        return $this->provider_id;
+    }
+    
+    /**
      * Delete Image
      *
      * @param string $filePath
@@ -152,4 +203,36 @@ class ChannelFlux
         return;
     }
 
+
+    /**
+     * Set dateInsert
+     *
+     * @param \DateTime $dateInsert
+     *
+     * @return ChannelFlux
+     */
+    public function setDateInsert($dateInsert)
+    {
+        $this->dateInsert = $dateInsert;
+
+        return $this;
+    }
+
+    /**
+     * Get dateInsert
+     *
+     * @return \DateTime
+     */
+    public function getDateInsert()
+    {
+        return $this->dateInsert;
+    }
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function isVideo() {
+        return $this->provider_name ? true : false;
+    }
 }

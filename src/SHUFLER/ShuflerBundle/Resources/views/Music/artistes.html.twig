@@ -6,19 +6,18 @@
 
 {% block stylesheets %}
 	{{ parent() }}
-	<link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.2.0/css/ol.css" type="text/css">
 {% endblock %}
 	
 {% block body %}
 	<div class="row">
 		<section class="col-sm-12 col-md-12" style="background-color: white;">
 			<table id="table">
-			{% for i, track in liste %}
+			{% for artiste in artistes %}
 				<tr>
-					<td>{{ i }}</td>
-					<td class="nom">{{ track}}</td>
+					<td>{{ artiste.id }}</td>
+					<td class="nom">{{ artiste.name }}</td>
 				</tr>
-			{% endfor %}	
+			{% endfor %}
 			</table>
 		</section>
 	</div>
@@ -28,19 +27,20 @@
 	{{ parent() }}
 	<script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.2.0/build/ol.js"></script>
 	<script type="text/javascript">
-		var YT_KEY = '{{ youtube_key }}';
+		var LASTFM_API_URL = '{{ lastfm_api_url }}';
+		var LASTFM_API_KEY = '{{ lastfm_key }}';
 
 		$(function(){
 			$('#table tr').each(function(){
 				var id = $(this).find('td:first').html();
 				var search = $(this).find('td.nom').html();
-				$.get('https://www.googleapis.com/youtube/v3/search?key=' + YT_KEY, { part: 'snippet', q: search, type: 'videos', maxResults: 5 }, function(result) {			 
+				$.get(LASTFM_API_URL + '?method=artist.getInfo&format=json&api_key=' + LASTFM_API_KEY, { artist: search}, function(result) {			 
 					if(result) {
-						console.log(result.items[0].id.videoId);
+										
+						$.post("{{ path('shufler_save_artiste') }}", {id: id, image: result.artist.image[4]['#text'], bio: result.artist.bio.content}, function(response){
+							console.log(response);
+						});
 					}
-					$.post("{{ path('shufler_test_save') }}", {id: id, key: result.items[0].id.videoId}, function(response){
-						console.log(response);
-					});
 				});
 			});
 		});

@@ -117,6 +117,12 @@ class MusicTrack
      */
     private $note;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="youtubeKey", type="string", length=255, nullable=true)
+     */
+    private $youtubeKey;
 
     /**
      * Get id
@@ -390,6 +396,15 @@ class MusicTrack
     public function getNote()
     {
         return $this->note;
+    }
+    
+    public function getYoutubeKey(){
+        return $this->youtubeKey;
+    }
+    
+    public function setKey($key){
+        $this->youtubeKey = $key;
+       return $this;
     }
 }
 

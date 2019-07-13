@@ -61,9 +61,13 @@ shufler_searchAjax:
     path: /searchAjax
     defaults: {_controller: "SHUFLERShuflerBundle:Main:searchAjax"}
 
-shufler_apiyt:
-    path: /apiyt
-    defaults: {_controller: "SHUFLERShuflerBundle:Other:searchApi"}
+shufler_apisearch_video:
+    path: /apisearch/video
+    defaults: {_controller: "SHUFLERShuflerBundle:Other:searchApiVideo"}
+
+shufler_apisearch_channel:
+    path: /apisearch/channel
+    defaults: {_controller: "SHUFLERShuflerBundle:Other:searchApiChannel"}
 
 shufler_rss:
     path: /rss
@@ -103,6 +107,10 @@ shufler_flux_deleteLogo:
     requirements:
         id: \d*
       
+shufler_video_channels:
+    path: /videoChannels
+    defaults: {_controller: "SHUFLERShuflerBundle:Other:getVideoChannels"}      
+      
 shufler_channel_delete:
     path: /channelDelete/{id}/{id_flux}
     defaults: {_controller: "SHUFLERShuflerBundle:Other:delete", id_flux: null}
@@ -116,8 +124,10 @@ shufler_channel_deleteLogo:
         id: \d*
 
 shufler_edit_channel:
-    path: /channelEdit/
-    defaults: {_controller: "SHUFLERShuflerBundle:Other:channelEdit"}
+    path: /channelEdit/{id}
+    defaults: {_controller: "SHUFLERShuflerBundle:Other:channelEdit", id: null}
+    requirements:
+        id: \d*
 
 shufler_tweeter:
     path: /tweeter
@@ -134,7 +144,39 @@ shufler_music_tracks_by_album:
 shufler_insee:
     path: /insee
     defaults: {_controller: "SHUFLERShuflerBundle:Flux:insee"}
+
+shufler_map:
+    path: /map
+    defaults: {_controller: "SHUFLERShuflerBundle:Other:map"} 
     
 shufler_test:
     path: /test
     defaults: {_controller: "SHUFLERShuflerBundle:Other:test"}    
+
+shufler_albums_api:
+  path: /albums_api
+  defaults: {_controller: "SHUFLERShuflerBundle:MusicTrack:albumsApi"}    
+
+shufler_test_artiste:
+  path: /artistes
+  defaults: {_controller: "SHUFLERShuflerBundle:Other:testArtistes"}
+
+shufler_artistes_api:
+  path: /artistes_api
+  defaults: {_controller: "SHUFLERShuflerBundle:MusicTrack:artistesApi"}    
+
+shufler_save_artiste:
+  path: /saveArtiste:
+  defaults: {_controller: "SHUFLERShuflerBundle:Other:saveArtiste"}    
+
+shufler_testAlbum:
+  path: /testAlbum
+  defaults: { _controller: "SHUFLERShuflerBundle:Other:testAlbum"}
+
+shufler_save_album:
+  path: /saveAlbum:
+  defaults: {_controller: "SHUFLERShuflerBundle:Other:saveAlbum"}    
+
+shufler_test_save:
+  path: /test_save
+  defaults: {_controller: "SHUFLERShuflerBundle:Other:testSave"}    

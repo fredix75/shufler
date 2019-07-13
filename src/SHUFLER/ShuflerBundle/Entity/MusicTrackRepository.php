@@ -159,4 +159,40 @@ class MusicTrackRepository extends \Doctrine\ORM\EntityRepository
         return $getResult?$preparedQuery->getResult():$preparedQuery;
     }
     
+    /**
+     * Get music tracks by rating
+     *
+     * @return Array
+     */
+    public function getTracksByRating($rating)
+    {
+        $tracks = $this->_em->createQueryBuilder()
+        ->select('a')
+        ->orderBy('a.titre', 'ASC')
+        ->from('SHUFLERShuflerBundle:MusicTrack', 'a')
+        ->where('a.note = :note')
+        ->setParameter('note', $rating)
+        ->andWhere('a.youtubeKey IS NOT NULL')
+        ->getQuery()
+        ->getResult();
+        
+        return $tracks;
+    }
+        
+    public function getAlbumsFromTracks() {
+        $albums = $this->_em->createQueryBuilder()
+        ->select('a')
+        ->orderBy('a.album', 'ASC')
+        ->from('SHUFLERShuflerBundle:MusicTrack', 'a')
+        ->where('LOWER(a.artiste) != :artiste')
+        ->setParameter('artiste', 'divers')
+        ->AndWhere('LOWER(a.album) != :album')
+        ->setParameter('album', 'divers')
+        ->groupBy('a.album')
+        ->getQuery()
+        ->getResult();
+        
+        return $albums;
+    }
+
 }

@@ -7,6 +7,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use SHUFLER\ShuflerBundle\Entity\ChannelFlux;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class ChannelFluxType extends AbstractType
 {
@@ -18,12 +19,19 @@ class ChannelFluxType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', TextType::class, array(
+        $builder->add('name', TextType::class, [
             'required' => false
-        ))
-            ->add('image', FileType::Class, array(
+        ])
+            ->add('image', FileType::Class, [
             'required' => false
-        ));
+        ])
+            ->add('providerName', TextType::class, [
+            'required' => false
+        ])
+        ->add('providerId', TextType::class, [
+            'required' => false
+        ])
+        ->add('save', SubmitType::Class);;
     }
 
     /**

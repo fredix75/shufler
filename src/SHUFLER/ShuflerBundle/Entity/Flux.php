@@ -23,7 +23,8 @@ class Flux
         2 => 'podcast',
         3 => 'radio',
         4 => 'lien',
-        5 => 'playlist'
+        5 => 'music playlist',
+        6 => 'video playlist'
     );
 
     const RADIO_TYPE = array(
@@ -136,6 +137,7 @@ class Flux
         return $this->id;
     }
 
+    
     /**
      * Set name
      *

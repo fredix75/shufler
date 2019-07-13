@@ -9,17 +9,19 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use SHUFLER\ShuflerBundle\Entity\ChannelFlux;
 use SHUFLER\ShuflerBundle\Form\ChannelFluxType;
+use SHUFLER\ShuflerBundle\Entity\MusicTrack;
+use SHUFLER\ShuflerBundle\Entity\Album;
 
 class OtherController extends Controller
 {
-    
+
     /**
      * Search API
-     * 
-     * @param Request $request
+     *
+     * @param Request $request            
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function searchApiAction(Request $request)
+    public function searchApiVideoAction(Request $request)
     {
         if ($request->get('search_api')) {
             $search = $request->get('search_api');
@@ -89,117 +91,187 @@ class OtherController extends Controller
         ));
     }
 
+    public function searchApiChannelAction(Request $request)
+    {
+        $search = null;
+        if ($request->get('search_api')) {
+            $search = $request->get('search_api');
+        }
+        $idChannel = null;
+        return $this->render('SHUFLERShuflerBundle:Other:channelsAPI.html.twig', array(
+            'search' => $search,
+            'idChannel' => $idChannel
+        ));
+    }
+
     /**
      * Edit Channel of Flux
      *
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
-     * @Security("has_role('ROLE_AUTEUR')")
+     * @param Request $request            
+     * @return \Symfony\Component\HttpFoundation\Response @Security("has_role('ROLE_AUTEUR')")
      */
     public function channelEditAction(Request $request)
     {
-        
         $channel = new ChannelFlux();
         
-        $id =  $request->get('id');
-        $id_flux =  $request->get('id_flux');
+        $id = $request->get('id');
+        
+        $key = $request->get('channelkey');
+        $providerName = $request->get('channelTypeName');
+        
+        $id_flux = @$request->get('id_flux');
+        $type = @$request->get('type');
+        
+        $channel->setProviderId($key);
+        $channel->setProviderName($providerName);
         
         if ($id != 0) {
             try {
                 $channel = $this->getDoctrine()
-                ->getManager()
-                ->getRepository('SHUFLERShuflerBundle:ChannelFlux')
-                ->find($id);
-                
+                    ->getManager()
+                    ->getRepository('SHUFLERShuflerBundle:ChannelFlux')
+                    ->find($id);
             } catch (\Exception $e) {
                 $this->get('session')
-                ->getFlashBag()
-                ->add('danger', $e->getMessage());
+                    ->getFlashBag()
+                    ->add('danger', $e->getMessage());
                 return $this->redirectToRoute('shufler_flux_edit');
             }
         }
         
         $form = $this->createForm(ChannelFluxType::Class, $channel, array(
-            'action' => $this->generateUrl('shufler_edit_channel') . '?id=' . $id ,
+            'action' => $this->generateUrl('shufler_edit_channel', array(
+                'type' => $type,
+                'id' => $id
+            )),
             'method' => 'POST'
         ));
         
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($request->get('imgNet')) {
+                $channel->setImage($request->get('imgNet'));
+                $channel->setOldImage($request->get('imgNet'));
+            }
+            
             $em = $this->getDoctrine()->getManager();
             $em->persist($channel);
             $em->flush();
             
-            $response = new Response(json_encode([
-                'success' => true,
-                'id' => $channel->getId(),
-                'name' => $channel->getName()
-            ]));
-            
-            $response->headers->set('Content-Type', 'application/json');
-            
-            return $response;
+            if (!$channel->isVideo()) {
+                $response = new Response(json_encode([
+                    'success' => true,
+                    'id' => $channel->getId(),
+                    'name' => $channel->getName()
+                ]));
+                
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
+            } else {
+                $request->getSession()
+                    ->getFlashBag()
+                    ->add('success', 'Chaine bien enregistrée.');
+                
+                return $this->redirect($this->generateUrl('shufler_edit_channel', array(
+                    'type' => 2,
+                    'id' => $channel->getId()
+                )));
+            }
         }
         
-        return $this->render('SHUFLERShuflerBundle:Other:channelEdit.html.twig', array(
-            'form' => $form->createView(),
-            'channel' => $channel,
-            'id_flux' => $id_flux
+        if ($type == 1) {
+            return $this->render('SHUFLERShuflerBundle:Other:channelEdit_inc.html.twig', array(
+                'form' => $form->createView(),
+                'channel' => $channel,
+                'type' => $type,
+                'id_flux' => $id_flux
+            ));
+        } elseif ($type == 2) {
+            return $this->render('SHUFLERShuflerBundle:Other:channelEdit.html.twig', array(
+                'form' => $form->createView(),
+                'channel' => $channel,
+                'type' => $type
+            ));
+        }
+    }
+
+    public function getVideoChannelsAction()
+    {
+        $channels = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('SHUFLERShuflerBundle:ChannelFlux')
+            ->getChannelFluxVideo();
+        
+        shuffle($channels);    
+            
+        return $this->render('SHUFLERShuflerBundle:Other:videoChannels.html.twig', array(
+            'channels' => $channels
         ));
     }
-    
+
     /**
      * Delete Video
      *
-     * @param Flux $flux
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     *
-     *  @Security("has_role('ROLE_AUTEUR')")
+     * @param Flux $flux            
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse @Security("has_role('ROLE_AUTEUR')")
      */
-    public function deleteAction(ChannelFlux $channel, $id_flux)
+    public function deleteAction(ChannelFlux $channel, $id_flux = null)
     {
+        $isVideo = $channel->isVideo();
         $em = $this->getDoctrine()->getManager();
         try {
-            if($id_flux != 0) {
-                $flux = $em->getRepository('SHUFLERShuflerBundle:Flux')
-                ->find($id_flux);
+            if ($id_flux != 0) {
+                $flux = $em->getRepository('SHUFLERShuflerBundle:Flux')->find($id_flux);
                 $flux->setChannel();
             }
             $image = $channel->getOldImage();
             $em->remove($channel);
             $em->flush();
-            $channel->deleteLogo($this->getParameter('logo_directory') . '/' . $image);
+            if(!$isVideo) {
+                $channel->deleteLogo($this->getParameter('logo_directory') . '/' . $image);
+            }
         } catch (\Exception $e) {
             $message = $e->getMessage();
-            if (is_callable([$e, "getErrorCode"]) && $e->getErrorCode() === 1451) {
-                $message =  "Ce channel est utilisé par d'autres podcasts. Opération impossible en l'état actuel de la situation.
+            if (is_callable([
+                $e,
+                "getErrorCode"
+            ]) && $e->getErrorCode() === 1451) {
+                $message = "Ce channel est utilisé par d'autres podcasts. Opération impossible en l'état actuel de la situation.
                     Contactez vos parents au plus vite car les choses peuent prendre une sale tournure mon gaillard.
                     Que je ne vous y reprenne plus jamais.";
             }
             $this->get('session')
-            ->getFlashBag()
-            ->add('danger', $message);
-            return $this->redirectToRoute('shufler_podcast');
+                ->getFlashBag()
+                ->add('danger', $message);
+            if(!$isVideo) {
+                return $this->redirectToRoute('shufler_edit_channels', array('id' => $channel->getId()));
+            }
         }
         
-        return $this->redirect($this->generateUrl('shufler_flux_edit', array(
-            'id' => $id_flux
-        )));
+        $message = "Channel supprimé... sans vergogne ni pitié.";
+        
+        $this->get('session')
+        ->getFlashBag()
+        ->add('success', $message);
+        
+        if(!$isVideo) {
+            return $this->redirect($this->generateUrl('shufler_flux_edit', array(
+                'id' => $id_flux
+            )));
+        }
+        return $this->redirect($this->generateUrl('shufler_video_channels'));
     }
-    
+
     /**
      * Delete Image
      *
-     * @param ChannelFlux $channel
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     *
-     *  @Security("has_role('ROLE_AUTEUR')")
+     * @param ChannelFlux $channel            
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse @Security("has_role('ROLE_AUTEUR')")
      */
     public function deleteLogoAction(ChannelFlux $channel)
     {
-        try{
+        try {
             $image = $channel->getOldImage();
             $em = $this->getDoctrine()->getManager();
             $channel->setOldImage();
@@ -208,20 +280,123 @@ class OtherController extends Controller
             $channel->deleteLogo($this->getParameter('logo_directory') . '/' . $image);
         } catch (\Exception $e) {
             $this->get('session')
-            ->getFlashBag()
-            ->add('danger', $e->getMessage());
+                ->getFlashBag()
+                ->add('danger', $e->getMessage());
         }
         
         return $this->redirectToRoute('shufler_podcast');
     }
+
+    /**
+     * maps in progress ...
+     */
+    public function mapAction()
+    {
+        return $this->render('SHUFLERShuflerBundle:Other:map.html.twig');
+    }
     
     /**
-     * 
      * TEST ZONE
-     * 
      */
     public function testAction()
     {
-        return $this->render('SHUFLERShuflerBundle:Other:test.html.twig');
+        $em = $this->getDoctrine()->getManager();
+        $tracks = $em->getRepository('SHUFLERShuflerBundle:MusicTrack')->getTracksByRating(5);
+    
+        shuffle($tracks);
+       
+        $liste = "";
+        foreach($tracks as $key=>$track) {
+            if($key == 1) {
+                $single = $track->getYoutubeKey();
+                continue;
+            }
+            if($key>100) break;         
+            $liste .= $track->getYoutubeKey() . ',';
+        }
+
+        return $this->render('SHUFLERShuflerBundle:Other:test2.html.twig', array(
+            'single' => $single,
+            'liste' => $liste
+        ));
+       
+
+    }
+
+    
+    public function testArtistesAction() {
+        $em = $this->getDoctrine()->getManager();
+        $artistes = $em->getRepository('SHUFLERShuflerBundle:Artiste')->getArtistes();
+        return $this->render('SHUFLERShuflerBundle:Music:artistes.html.twig', array(
+            'artistes' => $artistes
+        ));
+    }
+    
+    public function testAlbumAction() {
+        $em = $this->getDoctrine()->getManager();
+        $albums = $em->getRepository('SHUFLERShuflerBundle:Album')->getAlbums();
+        return $this->render('SHUFLERShuflerBundle:Music:albums.html.twig', array(
+            'albums' => $albums
+        ));
+    /*
+        foreach($oldAlbums as $oldAlbum) {
+            $album = new Album();
+            $album->setName($oldAlbum->getAlbum());
+            $album->setAuteur($oldAlbum->getArtiste());
+            $album->setAnnee($oldAlbum->getAnnee());
+            $album->setGenre($oldAlbum->getGenre());
+            $em->persist($album);
+            $em->flush($album);
+        }
+        */
+        
+    }
+    
+    public function saveArtisteAction(Request $request) {
+        $id = $request->get('id');
+        $image = $request->get('image');
+        $bio = $request->get('bio');
+        var_dump($id . ' ' . $bio);
+        $em = $this->getDoctrine()->getManager();
+        $track = $em->getRepository('SHUFLERShuflerBundle:Artiste')->find($id);
+        $track->setImageUrl($image);
+        $track->setBio($bio);
+        $em->persist($track);
+        $em->flush();
+        
+        return new Response(json_encode([
+            'success' => true
+        ]));
+    }
+    
+    
+    public function saveAlbumAction(Request $request) {
+        $id = $request->get('id');
+        $key = $request->get('key');
+        var_dump($id . ' ' . $key);
+        $em = $this->getDoctrine()->getManager();
+        $album = $em->getRepository('SHUFLERShuflerBundle:Album')->find($id);
+        $album->setYoutubeKey($key);
+        $em->persist($album);
+        $em->flush();
+        
+        return new Response(json_encode([
+            'success' => 'ok'
+        ]));
+    }
+    
+    public function testSaveAction(Request $request) {
+        $id = $request->get('id');
+        $key = $request->get('key');
+        var_dump($id . ' ' . $key);
+        $em = $this->getDoctrine()->getManager();
+        $track = $em->getRepository('SHUFLERShuflerBundle:MusicTrack')->find($id);
+        $track->setKey($key);
+        $em->persist($track);
+        $em->flush();
+        
+        return new Response(json_encode([
+            'success' => true
+        ]));
     }
 }

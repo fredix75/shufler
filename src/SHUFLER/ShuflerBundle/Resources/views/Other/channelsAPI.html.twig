@@ -1,0 +1,175 @@
+{# src/SHUFLER/ShuflerBundle/Resources/views/Home/index.html.twig #}
+
+{% extends "SHUFLERShuflerBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} Videos Channel{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.css">
+	<link rel="stylesheet" type="text/css" href="{{ asset('bundles/shuflershufler/css/video.css') }}">
+	<style>
+		.well .row{
+			float:right;margin-top:-40px;
+		}
+		.mfp-content {
+			text-align:center;
+		}
+	</style>
+{% endblock %}
+
+{% block body %}
+	<div class="col-md-12" style="margin-bottom:30px;">
+		<form name="form1" action="{{  path('shufler_apisearch_channel') }}" method="POST">
+		<div class="col-xs-10 col-sm-10 col-md-10">
+			<input type="search" id="search_api" name="search_api" value="{{ search|trim }}" class="input-sm form-control" placeholder="search on the Web" style="background-color:#666666;color:white;font-size:200%;height:50px;" />
+    		{% if idChannel is defined and not null %}
+    			<input type="hidden" id="id_channel" name="id_channel" value="{{ idChannel }}"/>
+    		{% endif %}
+    	</div>
+    	<div class="col-xs-2 col-sm-2 col-md-2">
+    		<button type="submit" id="enter_search" class="btn btn-primary btn-sm" style="height:50px;width:50px;"><span class="glyphicon glyphicon-forward"></span></button>
+		</div>
+		</form>
+		{% if idChannel is defined and idChannel is not null %}
+			<br/>
+			<div id="channelId-claim" class="col-md-2 col-md-push-8"><strong>Channel #{{ idChannel }}</strong>&nbsp<a href="#" onclick="removeId();"><span class="glyphicon glyphicon-remove"></span></a></div>
+		{% endif %}
+	</div>	
+	<br/>
+	<form id="formEdit" name="formulaire" action="{{  path('shufler_edit_channel',{'id':idChannel, 'type': 2}) }}" method="POST">
+		<input type="hidden" id="channelkey" name="channelkey" />
+		<input type="hidden" id="channelTypeName" name="channelTypeName" />
+	</form>
+	<section id="contenuYT" class="col-xs-12 col-sm-6 col-md-6" style="margin-top:10px;"><h1>Youtube</h1></section>
+	<section id="contenuDM" class="col-xs-12 col-sm-6 col-md-6" style="margin-top:10px;">
+	<h1>DM</h1>
+
+	</section>
+{% endblock %}
+	
+{% block javascripts %}
+	{{ parent() }}
+	
+	<script>
+	const YT_KEY = '{{ youtube_key }}';
+	$(function(){
+		$('#search_api').focus();
+	});
+	
+	{% if search is not null %}
+		$(function(){		
+			var search='{{ search|replace({"'": ' '}) }}';
+			$.get('https://www.googleapis.com/youtube/v3/search?key=' + YT_KEY, { part: 'snippet', q: search, type: 'channel', maxResults: 50 }, function(result) {			 
+			    if(result) {
+					var titre;
+					var url;
+					var image;
+					var vignette;
+					var infos=new Array();
+					for(var i=0; i<result.items.length; i++){
+						if(typeof result.items[i] != 'undefined'){		
+							$.get('https://www.googleapis.com/youtube/v3/playlists?key=' + YT_KEY, { part: 'contentDetails, snippet', id: result.items[i].id.channelId, maxResults: 50 } , function(result2) {								
+							    	//infos[i]=new Array(result2.items[0].statistics.viewCount,result2.items[0].contentDetails.duration);
+							    	infos[i] = [];
+									return infos;
+							},'jsonp');
+
+							if(i != null){
+								url= result.items[i].id.channelId;
+								vignette=createVignette(result.items[i].snippet,url, 'channel', i);
+								$('#contenuYT').append(vignette);
+							}else{
+								console.log('error' + i);
+							}
+						}
+					}
+			    } else {
+			        alert('Error');
+			    }
+			},'jsonp');
+		});
+	{% endif %}
+
+
+		function createVignette(snippet, url, type, index){
+			let height, div_main_name, margin_bottom;
+			if(type == 'playlist') {
+				height = '90px';
+				div_main_name = 'lienPl';
+				div_description_class = 'description_pl';
+			} else if(type == 'channel') {
+				height = '180px';
+				div_main_name = 'lienChannel';
+				div_description_class = 'description';
+			}
+			vignette = '<div class="col-sm-12"><div class="col-sm-3 col-md-3"><div class="media topcol embed-responsive-16by9" style="margin-bottom:30px;"><a id ="pl' + index + '" class="' + div_main_name + '" href="';
+			vignette = vignette + url;
+			vignette = vignette + '"><img src="';
+			vignette = vignette + snippet.thumbnails.medium.url;
+			vignette = vignette + '" height=' + height + '/>';
+			vignette = vignette + '<div class="media-body">';
+			vignette = vignette + snippet.channelTitle
+			vignette = vignette + '</div>';
+			vignette = vignette + '</a></div></div>';
+			vignette = vignette + '<div class="' + div_description_class + ' col-sm-9 col-md-9">';
+			vignette = vignette + '<strong>' + snippet.channelTitle + '</strong>';
+			{% if is_granted('ROLE_AUTEUR') %}
+				vignette = vignette + '<div id="' + url + '" class="channel_edit"><a href="#"><span class="glyphicon glyphicon-edit"></span></a></div>';
+			{% endif %}
+			vignette = vignette + '<br/><br/>' + snippet.description;
+			var options = { year: "numeric", month: "long", day: "numeric"};
+			vignette = vignette + '<br/><br/><span class="badge">' + new Date(snippet.publishedAt).toLocaleDateString('fr-FR',options) + '</span>';
+			vignette = vignette + '</div><div id="contenu' + url + '"></div>';
+			return vignette;
+		}
+
+		$(document).on('click','.channel_edit',function(e){
+			$('#channelkey').val(this.id);
+			$('#channelTypeName').val('youtube');
+			document.formulaire.submit();
+			e.preventDefault();
+		});
+		
+		
+		$(document).on('click','.lienChannel',function(e){
+				let channel_yt_id = $(this).attr('href');
+				$.ajax({
+					url: "https://www.googleapis.com/youtube/v3/playlists",
+					method: 'GET',
+					data: {
+						part: 'snippet, contentDetails',
+						channelId: channel_yt_id,
+						key: YT_KEY
+						},
+					success: function(result){
+						for(var i=0; i<result.items.length; i++){
+							url = result.items[i].id;
+							vignette=createVignette(result.items[i].snippet,url, 'playlist', i);
+							$('#contenu' + channel_yt_id).append(vignette);
+						}
+					}
+				});
+				e.preventDefault();
+		});
+		
+		$(document).on('click','.lienPl',function(e){
+			let pl_yt_id = $(this).attr('href');
+			$(this).magnificPopup({
+				items: {
+					src: '<iframe width="800" height="500" src="https://www.youtube.com/embed/videoseries?list=' + pl_yt_id + '" frameborder="0" allowfullscreen></iframe>',
+					type: 'inline'
+				}
+			});
+			e.preventDefault();
+		});
+
+		function removeId(){
+			$('#videoId-claim').hide();
+			$('#id_video').val(null);
+			//console.log($('#formEdit').attr('action'));
+			$('#formEdit').attr('action','{{ path('shufler_video_edit') }}');
+		}
+	</script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.js"></script> 		
+{% endblock %}	

@@ -13,24 +13,24 @@ class MusicTrackController extends Controller
     /**
      * Tracks Index.
      * *
-     * 
+     *
      * @return Rendering template
      *         @Security("has_role('ROLE_ADMIN')")
      */
     public function getTracksAction(Request $request, $mode = "tracks")
     {
-        if($mode === 'tracks') {
+        if ($mode === 'tracks') {
             $columns_to_display_db = MusicTrack::TRACKS_COLUMNS_TO_DISPLAY_DB;
             $columns_to_display_dt = MusicTrack::TRACKS_COLUMNS_TO_DISPLAY_DT;
-        } elseif($mode === 'albums') {
+        } elseif ($mode === 'albums') {
             $columns_to_display_db = MusicTrack::ALBUMS_COLUMNS_TO_DISPLAY_DB;
             $columns_to_display_dt = MusicTrack::ALBUMS_COLUMNS_TO_DISPLAY_DT;
         } else {
             return;
         }
-
+        
         if ($request->isXmlHttpRequest()) {
-
+            
             $length = $request->get('length');
             $length = $length && ($length != - 1) ? $length : 0;
             
@@ -65,24 +65,21 @@ class MusicTrackController extends Controller
                 foreach ($tracks as $track) {
                     $output['data'][] = [
                         'id' => $track->getId(),
-                        'auteur' =>  strtoupper($track->getAuteur()) !== 'DIVERS' ? '<a href="#" class="artiste_track" data-toggle="modal" data-target="#musicModal" data-artiste="' . $track->getAuteur() . '" ><span class="glyphicon glyphicon-chevron-right"></span></a> ' 
-                            . $track->getAuteur() : $track->getAuteur(),
+                        'auteur' => strtoupper($track->getAuteur()) !== 'DIVERS' ? '<a href="#" class="artiste_track" data-toggle="modal" data-target="#musicModal" data-artiste="' . $track->getAuteur() . '" ><span class="glyphicon glyphicon-chevron-right"></span></a> ' . $track->getAuteur() : $track->getAuteur(),
                         'titre' => $track->getTitre(),
                         'numero' => $track->getNumero(),
-                        'album' => '<a href="#" class="album_tracks" data-toggle="modal" data-target="#musicModal" data-artiste="' . $track->getArtiste() . '" data-album="' . $track->getAlbum() . '" ><span class="glyphicon glyphicon-chevron-right"></span></a> ' 
-                            . $track->getAlbum(),
+                        'album' => '<a href="#" class="album_tracks" data-toggle="modal" data-target="#musicModal" data-artiste="' . $track->getArtiste() . '" data-album="' . $track->getAlbum() . '" ><span class="glyphicon glyphicon-chevron-right"></span></a> ' . $track->getAlbum(),
                         'annee' => $track->getAnnee(),
-                        'artiste' => strtoupper($track->getArtiste()) !== 'DIVERS' ? '<a href="#" class="artiste_track" data-toggle="modal" data-target="#musicModal" data-artiste="' . $track->getArtiste() . '" ><span class="glyphicon glyphicon-chevron-right"></span></a> '
-                        . $track->getArtiste(): $track->getArtiste(),
+                        'artiste' => strtoupper($track->getArtiste()) !== 'DIVERS' ? '<a href="#" class="artiste_track" data-toggle="modal" data-target="#musicModal" data-artiste="' . $track->getArtiste() . '" ><span class="glyphicon glyphicon-chevron-right"></span></a> ' . $track->getArtiste() : $track->getArtiste(),
                         'genre' => $track->getGenre(),
                         'duree' => $track->getDuree(),
                         'pays' => $track->getPays(),
                         'bitrate' => $track->getBitrate(),
-                        'note' => $track->getNote(),
+                        'note' => $track->getNote()
                     ];
-                } 
+                }
             } elseif ($mode === 'albums') {
-                        
+                
                 $albums = $this->getDoctrine()
                     ->getRepository('SHUFLERShuflerBundle:MusicTrack')
                     ->getAlbumsAjax($filters, $start, $length, $sort, $dir);
@@ -140,11 +137,49 @@ class MusicTrackController extends Controller
                 'titre' => $track->getTitre(),
                 'auteur' => $track->getAuteur(),
                 'duree' => $track->getDuree(),
-                'annee' => $track->getAnnee(),
+                'annee' => $track->getAnnee()
             ];
         }
         return new Response(json_encode($output), 200, [
             'Content-Type' => 'application/json'
         ]);
+    }
+
+    public function albumsApiAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $albums = $em->getRepository('SHUFLERShuflerBundle:Album')->getAlbums('youtube');
+        
+        shuffle($albums);
+        
+        $liste = [];
+        foreach ($albums as $key => $album) {
+            if ($key > 19)
+                break;
+            $liste[$album->getId()] = $album->getYoutubeKey();
+        }
+        
+        return $this->render('SHUFLERShuflerBundle:Music:albumsApi.html.twig', array(
+            'liste' => $liste
+        ));
+    }
+
+    public function artistesApiAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $artistes = $em->getRepository('SHUFLERShuflerBundle:Artiste')->getArtistes('youtube');
+        
+        shuffle($artistes);
+        
+        $liste = [];
+        foreach ($artistes as $key => $artiste) {
+            if ($key >= 500)
+                break;
+            $liste[] = $artiste;
+        }
+        
+        return $this->render('SHUFLERShuflerBundle:Music:artistesApi.html.twig', array(
+            'liste' => $liste
+        ));
     }
 }

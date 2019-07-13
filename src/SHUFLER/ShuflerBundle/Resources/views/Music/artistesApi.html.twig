@@ -1,0 +1,140 @@
+{# src/SHUFLER/ShuflerBundle/Resources/views/Home/index.html.twig #}
+
+{% extends "SHUFLERShuflerBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} View{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/shuflershufler/css/jquery.magnific-popup.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ asset('bundles/shuflershufler/css/component.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ asset('bundles/shuflershufler/css/animations.css') }}" />
+	<style>
+	.container {
+		background-color:black;
+	}
+		.mfp-content {
+			text-align:center;
+		}
+	</style>
+{% endblock %}
+	
+{% block body %}
+	<div class="row">
+	<button id="iterateEffects" class="pt-touch-button">Show next page transition</button>
+		<section id="pt-main" class="col-sm-12 col-md-12 pt-perspective" style="color:white;height:800px">
+		{% for id, artiste in liste %}
+		<div class="row pt-page pt-page-{{ id }}" data-id="{{ id }}">
+			<div class="col col-sm-12 col-md-6 col-lg-6" style="min-width: 500px; max-width:700px; margin:auto;padding:20px;">
+				<div>
+					<div style="width:30%;float:left">
+						<img src="{{ artiste.imageUrl }}" width="200px" style="border-radius:120px;"/>
+					</div>
+					<div style="width:68%;float:right;padding-top:20px;">
+						<span class="artiste_title" style="font-size:450%;text-align:right;color:orange;">{{ artiste.name }}</span>
+					</div>
+				</div>
+				<div style="float:left;margin-top:30px;text-align:justify;">
+					<p>{{ artiste.bio|raw }}</p>
+				</div>
+			</div>
+			<div id="contenuYT" class="col-sm-12 col-md-6 col-lg-6" style="padding:50px 20px 20px 20px;">
+				<div id="playlistVedette_{{ id }}" class="col-sm-6 col-md-12 col-lg-12"></div>
+				<div id="playlistsAuto_{{ id }}" class="col-sm-6 col-md-12 col-lg-12"></div>
+			</div>
+		</div>	
+		{% endfor %}
+		</section>
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script>
+		const YT_KEY = '{{ youtube_key }}';
+			
+		$('#iterateEffects').on('click', function(){
+			let id = $('#pt-main').find('.pt-page-current').data('id') * 1;
+			id ++;
+			if($('#playlistVedette_' + id).html() == "") {
+				let search = $('.pt-page-' + id).find('.artiste_title').html();
+				getYoutubeContent(id, search);
+			}
+		});
+		function createVignette(liste, single=null) {
+			let link, width;
+			if(single) {
+				link = single + '/videoseries?playlist=' + liste; 
+				width = '100%';
+				height = '500px';
+			} else {
+				link =  'videoseries?list=' + liste;
+				width = '33%';
+				height = '200px';
+			}
+			let vignette = '<iframe width="' + width + '" height="' + height + '" src="https://www.youtube.com/embed/' + link + '&rel=0" frameborder="0" allowfullscreen></iframe>';
+			return vignette;
+		}
+		
+		$(function(){		
+			getYoutubeContent(0, '{{ liste.0.name }}');
+			/*
+			$.get('https://www.googleapis.com/youtube/v3/search?key=' + YT_KEY, { part: 'snippet', q: SEARCH, type: 'playlist', maxResults: 9}, function(result) {			 
+			    if(result) {
+					var url = '';
+					var vignette;
+					for(var i=0; i<result.items.length; i++){
+						if(typeof result.items[i] != 'undefined'){
+							if(i != null){
+								var stat = ' ';
+								var views = ' ';
+								url = result.items[i].id.playlistId;
+								vignette = createVignette(url);
+								$('#playlistsAuto').append(vignette);			
+							}else{
+								console.log('error' + i);
+							}
+						}
+					}
+
+			    } else {
+			        alert('Error');
+			    }
+			},'jsonp');
+			*/
+		});
+		
+		function getYoutubeContent(idDiv, search) {
+			$.get('https://www.googleapis.com/youtube/v3/search?key=' + YT_KEY, { part: 'snippet', q: search, type: 'video', maxResults: 50 }, function(result) {			 
+			    if(result) {
+					var url = '';
+					var vignette, single;
+					for(var i=0; i<result.items.length; i++){
+						if(typeof result.items[i] != 'undefined'){
+							if(i != null){
+								var stat = ' ';
+								var views = ' ';
+								if(i == 0) {
+									single = result.items[i].id.videoId;
+								} else {
+									url = url + result.items[i].id.videoId + ',';
+								}
+							}else{
+								console.log('error' + i);
+							}
+						}
+					}
+					vignette = createVignette(url, single);
+					$('#playlistVedette_' + idDiv).append(vignette);
+
+			    } else {
+			        alert('Error');
+			    }
+			},'jsonp');
+		}
+		
+	</script>
+			<script src="{{ asset('bundles/shuflershufler/js/modernizr.custom.js') }}"></script>
+					<script src="{{ asset('bundles/shuflershufler/js/jquery.dlmenu.js') }}"></script>
+		<script src="{{ asset('bundles/shuflershufler/js/pagetransitions.js') }}"></script>	
+{% endblock %}

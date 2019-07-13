@@ -253,10 +253,10 @@
 	function displayChannelEdit(key, id_flux) {
 		$.ajax({
 			type    : 'get',
-			url     : "{{ path('shufler_edit_channel') }}",
+			url     : "{{ path('shufler_edit_channel') }}" + '/' + key,
 			dataType: 'html',
 			encode	: true,
-			data	: {id: key, id_flux: id_flux},
+			data	: {id: key, id_flux: id_flux, type : 1},
 			success : function(response) {
 				$('#channel_modal').find('.modal-body').html(response);
 			},

@@ -19,19 +19,27 @@
 				<li><a href="{{ path('shufler_playlist') }}"><span class="glyphicon glyphicon-list"></span>&nbsp;{{'Playlists'|trans}}</a></li>
 				<li><a href="{{ path('shufler_tweeter') }}"><span class="glyphicon glyphicon-alert"></span>&nbsp;{{'Tweeter'}}</a></li>
            		{% if is_granted('ROLE_ADMIN') %}
+					<li><a href="{{ path('shufler_video_channels') }}"><span class="glyphicon glyphicon-film"></span>&nbsp;{{ 'Video Channels'|trans }}</a></li>
    					<li><a href="{{ path('shufler_links') }}"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;{{ 'Links'|trans }}</a></li>
-					<li><a href="{{ path('shufler_apiyt') }}"><span class="glyphicon glyphicon-cloud"></span>&nbsp;{{ 'APIs Search'|trans }}</a></li>
            		{% endif %}
            {% endif %}
             </ul>
          </li> 
 	{%  if app.user %}
     	<li><a href="{{ path('shufler_videos') }}"><span class="glyphicon glyphicon-film"></span>&nbsp;{{'Videos'|trans}}</a></li>
-		{% if is_granted('ROLE_ADMIN') %}
+		
+	{% if is_granted('ROLE_ADMIN') %}
+		<li class="dropdown"><a data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-cloud"></span>&nbsp;{{ 'APIs Search'|trans }}<b class="caret"></b></a>
+        	<ul class="dropdown-menu">
+				<li><a href="{{ path('shufler_apisearch_video') }}"><span class="glyphicon glyphicon-cloud"></span>&nbsp;{{ 'APIs Video Search'|trans }}</a></li>
+				<li><a href="{{ path('shufler_apisearch_channel') }}"><span class="glyphicon glyphicon-cloud"></span>&nbsp;{{ 'APIs Channel Search'|trans }}</a></li>
+			</ul>
+         </li>
 		<li class="dropdown"><a data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-edit"></span>&nbsp;{{ 'Edit'|trans }}<b class="caret"></b></a>
         	<ul class="dropdown-menu">
 				<li><a href="{{ path('shufler_video_edit') }}">{{ 'Add a Video'|trans }}</a></li>
 				<li><a href="{{ path('shufler_flux_edit') }}">{{ 'Add a Flow'|trans }}</a></li>
+				<li><a href="{{ path('shufler_edit_channel', {'type' : 2}) }}">{{ 'Add a Video Channel'|trans }}</a></li>
             </ul>
          </li>
 		 <li><a href="{{ path('shufler_trash') }}"><span class="glyphicon glyphicon-trash"></span>&nbsp;{{'Trash'|trans}}</a></li>

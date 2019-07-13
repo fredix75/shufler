@@ -1,0 +1,51 @@
+{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+	{# Les erreurs générales du formulaire. #}
+	{{ form_errors(form) }}
+		<div class="form-group">
+			{{ form_label(form.name, 'Name'|trans, {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+				<div class="col-sm-6 col-md-6">
+					{{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+				</div>
+			{{ form_errors(form.name) }}
+		</div>
+		{% if type == 1 %}
+			<div class="form-group">
+				{{ form_label(form.image, 'Logo'|trans, {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+					<div class="col-xs-6 col-sm-6 col-md-6">
+						{{ form_widget(form.image) }}
+					</div>
+					<div class="col-xs-6 col-sm-5 col-md-6">
+					{% if channel.id is defined and channel.oldImage is not null %}
+						<img src="{{ asset('uploads/logos/' ~ channel.oldImage) }}" width="200px" /> <a href="{{ path('shufler_channel_deleteLogo',{'id': channel.id }) }}" onclick="return confirm('{{ 'Are You sure ?'|trans}}');" title="Delete this Logo"><span class="glyphicon glyphicon-remove-sign"></span></a>
+					{% endif %}
+					</div>
+				{{ form_errors(form.image) }}
+			</div>
+		{% endif %}
+		{% if type == 2%}
+			<div class="form-group">
+				<div class="col-xs-6 col-sm-5 col-md-6 col">
+					{{ form_label(form.providerName, 'providerName'|trans, {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+					{{ form_widget(form.providerName) }}
+				</div>
+				<div class="col-xs-6 col-sm-5 col-md-6">
+					{{ form_label(form.providerId, 'Channel_id'|trans, {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+					{{ form_widget(form.providerId) }}
+				</div>
+				<div class="col-xs-6 col-sm-5 col-md-6">
+					{% if channel.id is defined and channel.oldImage is not null %}
+						<img src="{{ channel.oldImage }}" width="200px" />
+					{% else %}
+						<img id="channel_image" src="" width="200px" />
+					{% endif %}
+					<input id="imgNet" type="hidden" name="imgNet" value="" />
+				</div>	
+			</div>
+		{% endif %}
+	 {% if channel.id is defined and channel.id !=0 %}
+		{% if type == 1 %}
+			<a class="btn btn-danger" href="{{ path('shufler_channel_delete',{'id':channel.id, 'id_flux':id_flux}) }}" onclick="return confirm('{{ 'Are You sure ?'|trans}}');"><span class="glyphicon glyphicon-remove-sign"></span>&nbsp;{{ 'Delete Channel'|trans }}</a>		
+		{% elseif type == 2 %}
+			<a class="btn btn-danger" href="{{ path('shufler_channel_delete',{'id':channel.id}) }}" onclick="return confirm('{{ 'Are You sure ?'|trans}}');"><span class="glyphicon glyphicon-remove-sign"></span>&nbsp;{{ 'Delete Channel'|trans }}</a>		
+		{% endif %}
+	{% endif %}

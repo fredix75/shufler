@@ -17,7 +17,7 @@
 
 {% block body %}
 	<div class="col-md-12" style="margin-bottom:30px;">
-		<form name="form1" action="{{  path('shufler_apiyt') }}" method="POST">
+		<form name="form1" action="{{  path('shufler_apisearch_video') }}" method="POST">
 		<div class="col-xs-10 col-sm-10 col-md-10">
 			<input type="search" id="search_api" name="search_api" value="{{ search|trim }}" class="input-sm form-control" placeholder="search on the Web" style="background-color:#666666;color:white;font-size:200%;height:50px;" />
     		{% if idVideo is defined and not null %}
@@ -118,7 +118,7 @@
 		function createVignette(snippet, url, duration, stat){
 			vignette = '<div class="col-sm-12"><div class="col-sm-6 col-md-6"><div class="media topcol embed-responsive-16by9" style="margin-bottom:30px;"><a class="lienvideo" href="';
 			vignette = vignette + url;
-			vignette = vignette + '" onclick="return false;"><img src="';
+			vignette = vignette + '"><img src="';
 			vignette = vignette + snippet.thumbnails.medium.url;
 			vignette = vignette + '" height=180px />';
 			vignette = vignette + '<div class="media-body">';
@@ -143,7 +143,7 @@
 		});
 		
 		
-		$(document).on('click','.lienvideo',function(){
+		$(document).on('click','.lienvideo',function(e){
 			
 			$('.lienvideo').magnificPopup({
 				  type: 'iframe',
@@ -171,6 +171,7 @@
 				    }
 				  }
 			});
+			e.preventDefault();
 		});
 
 		function removeId(){

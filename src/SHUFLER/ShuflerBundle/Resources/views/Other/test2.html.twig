@@ -1,0 +1,21 @@
+{# src/SHUFLER/ShuflerBundle/Resources/views/Home/index.html.twig #}
+
+{% extends "SHUFLERShuflerBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} View{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+{% endblock %}
+	
+{% block body %}
+	<div class="row">
+		<section class="col-sm-12 col-md-12" style="background-color: white;">
+			<iframe width="800" height="500" src="https://www.youtube.com/embed/{{ single }}?playlist={{ liste }}" frameborder="0" allowfullscreen></iframe>
+		</section>
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+{% endblock %}

@@ -73,6 +73,7 @@ class ImageUploadListener
         if (! $entity instanceof Flux && ! $entity instanceof ChannelFlux) {
             return;
         }
+
         if ($entity->getImage() != null) {
             if(file_exists($this->uploader->getTargetDirectory() . '/' . $entity->getImage())) {
                 $fileName = $entity->getImage();
@@ -80,6 +81,9 @@ class ImageUploadListener
                     $entity->setOldImage($entity->getImage());
                 }
                 $entity->setImage(new File($this->uploader->getTargetDirectory() . '/' . $fileName));
+            } elseif(@get_headers($entity->getImage())) {
+                $entity->setOldImage($entity->getImage());
+                $entity->setImage();
             } else {
                 $entity->setImage();
             }

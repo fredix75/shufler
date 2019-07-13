@@ -1,0 +1,23 @@
+{# src/SHUFLER/ShuflerBundle/Resources/views/Home/index.html.twig #}
+
+{% extends "SHUFLERShuflerBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} View{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+{% endblock %}
+	
+{% block body %}
+	<div class="row">
+		<section class="col-sm-12 col-md-12" style="background-color: black;">
+		{% for id, playlist in liste %}
+			<iframe id={{ id }} width="400" height="320" src="https://www.youtube.com/embed/1uWspznvSRc&t=0s?list={{ playlist }}" frameborder="0" allowfullscreen></iframe>
+		{% endfor %}
+		</section>
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+{% endblock %}

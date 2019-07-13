@@ -200,7 +200,7 @@ class Video
      * Année
      *
      * @var integer @ORM\Column(name="annee", type="integer",nullable=true)
-     *      @Assert\Range(min=1895, max=2030)
+     *      @Assert\Range(min=1895, max=2999)
      *     
      *      @Expose
      *     

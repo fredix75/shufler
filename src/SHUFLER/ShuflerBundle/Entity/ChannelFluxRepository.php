@@ -9,5 +9,26 @@ namespace SHUFLER\ShuflerBundle\Entity;
  */
 class ChannelFluxRepository extends \Doctrine\ORM\EntityRepository
 {
-
+    /**
+     * Get Channels by type
+     *
+     * @param unknown $id
+     * @return mixed|\Doctrine\DBAL\Driver\Statement|array|NULL
+     */
+    function getChannelFluxAudio()
+    {
+        return $this->_em->createQueryBuilder()
+        ->select('c')
+        ->where('c.provider_name is NULL')
+        ->from('SHUFLERShuflerBundle:ChannelFlux', 'c');
+    }
+    
+    function getChannelFluxVideo() {
+        return $this->_em->createQueryBuilder()
+        ->select('c')
+        ->where('c.provider_name IS NOT NULL')
+        ->from('SHUFLERShuflerBundle:ChannelFlux', 'c')
+        ->getQuery()
+        ->getResult();
+    }
 }

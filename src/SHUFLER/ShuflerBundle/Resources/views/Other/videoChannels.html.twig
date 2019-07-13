@@ -1,0 +1,112 @@
+{# src/SHUFLER/ShuflerBundle/Resources/views/Other/videoChanels.html.twig #}
+
+{% extends "SHUFLERShuflerBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} Videos Channel{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/shuflershufler/css/jquery.magnific-popup.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ asset('bundles/shuflershufler/css/video.css') }}">
+	<style>
+		.well .row{
+			float:right;margin-top:-40px;
+		}
+		.mfp-content {
+			text-align:center;
+		}
+		
+		.lienPl {
+		}
+		
+		a:hover.lienPl .bande-pl {
+			background-oolor: orange;
+		}
+		
+		a.lienPl .bande-pl {
+			background-color:black;
+			transition: 2s;
+			padding: 0;
+			font-size:80%;
+		}
+		
+		.description-pl {
+			background-color:black;
+			color:white;
+		}
+		
+	</style>
+{% endblock %}
+
+{% block body %}
+	<h1><span class="glyphicon glyphicon-film"></span>&nbsp;{% trans %}channel.videos{% endtrans %}</h1>
+	{% for index, channel in channels %}
+		<div class="col col-12 col-xs-6 col-sm-3 col-md-2">
+			<div class="media topcol embed-responsive-16by9" style="margin-bottom:30px;">
+				<a class="lienchannel" href="{{ channel.providerId }}" data-toggle="tooltip" data-original-title="{{ channel.providerId }}">
+					<img src="{{ channel.oldImage}}" width=300px />
+					<div class="media-body">
+					{% if is_granted('ROLE_AUTEUR') %}
+						<div class="link_edit"><a href="{{ path('shufler_edit_channel',{'id':channel.id, 'type':2}) }}"><span class="glyphicon glyphicon-edit"></span></a></div> 
+					{% endif %}
+						<h3 class="media-heading">{{  channel.name }}</h3>
+					</div>
+				</a>
+				<div id="playlist{{channel.providerId}}" class="playlist"></div>
+			</div>
+			
+		</div>
+	{% endfor %}
+{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+	<script>
+		var YT_KEY = '{{ youtube_key }}';
+		$('.lienchannel').click(function(e){
+			e.preventDefault();
+			let key = $(this).attr('href');
+			if($('#playlist' + key).html() != '') {
+				$('#playlist' + key).html('');
+				return;
+			}
+			$.ajax({
+				url: "https://www.googleapis.com/youtube/v3/playlists",
+				method: 'GET',
+				data: {
+					part: 'snippet, contentDetails',
+					channelId: key,
+					key: YT_KEY,
+					maxResults: 50
+				},
+				success: function(result){
+					$('.playlist').html('');
+					for(var i=0; i<result.items.length; i++){
+						url = result.items[i].id;
+						vignette=createVignettePl(result.items[i].snippet,url);
+						$('#playlist' + key).append(vignette);
+					}
+				}
+			});	
+		});
+		
+		function createVignettePl(snippet, url) {
+			let vignette = '<a href="' + url + '" class="lienPl"><div class="col col-md-12 bande-pl"><div class="col col-md-3 bande-pl"><img src="' + snippet.thumbnails.medium.url + '" width=100% /></div>';
+			vignette = vignette + '<div class="col col-md-9 description-pl">' + snippet.title + '</div></div></a>';
+			
+			return vignette;
+		}
+		
+		$(document).on('click','.lienPl',function(e){
+			let key = $(this).attr('href');
+			$(this).magnificPopup({
+				items: {
+					src: '<iframe width="800" height="500" src="https://www.youtube.com/embed/videoseries?list=' + key + '" frameborder="0" allowfullscreen></iframe>',
+					type: 'inline'
+				}
+			});
+			e.preventDefault();
+		});
+		
+	</script>
+	<script type="text/javascript" src="{{ asset('bundles/shuflershufler/js/jquery.magnific-popup.js') }}"></script>
+{% endblock %}
