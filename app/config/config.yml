@@ -14,6 +14,7 @@ parameters:
   lastfm_key: 10fb79b666c60393833efb96b601bb73
   logo_directory: '%kernel.project_dir%/web/uploads/logos'
   csv_path: '%kernel.project_dir%/web/uploads/music.csv'
+  bd_directory: '%kernel.project_dir%/web/uploads/bd'
 framework:
   translator:
     fallbacks:

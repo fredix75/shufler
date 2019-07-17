@@ -166,7 +166,7 @@ shufler_artistes_api:
   defaults: {_controller: "SHUFLERShuflerBundle:MusicTrack:artistesApi"}    
 
 shufler_save_artiste:
-  path: /saveArtiste:
+  path: /saveArtiste
   defaults: {_controller: "SHUFLERShuflerBundle:Other:saveArtiste"}    
 
 shufler_testAlbum:
@@ -174,9 +174,13 @@ shufler_testAlbum:
   defaults: { _controller: "SHUFLERShuflerBundle:Other:testAlbum"}
 
 shufler_save_album:
-  path: /saveAlbum:
+  path: /saveAlbum
   defaults: {_controller: "SHUFLERShuflerBundle:Other:saveAlbum"}    
 
 shufler_test_save:
   path: /test_save
-  defaults: {_controller: "SHUFLERShuflerBundle:Other:testSave"}    
+  defaults: {_controller: "SHUFLERShuflerBundle:Other:testSave"} 
+  
+shufler_aspicture:
+  path: /aspicture
+  defaults: {_controller: "SHUFLERShuflerBundle:Other:aspicture"} 

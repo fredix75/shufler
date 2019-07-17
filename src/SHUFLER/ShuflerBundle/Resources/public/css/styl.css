@@ -68,6 +68,11 @@ a:hover, a:active {
 	height: 105px;
 }
 
+.alert-error {
+	color: white;
+	background-color: red;
+}
+
 .bande {
 	border-radius: 8px;
 	height: 420px;

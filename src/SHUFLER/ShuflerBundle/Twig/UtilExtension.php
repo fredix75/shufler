@@ -15,6 +15,10 @@ class UtilExtension extends \Twig_Extension
                 $this,
                 'imageSubsFilter'
             )),
+            new \Twig_SimpleFilter('stripAccents', array(
+                $this,
+                'stripAccentsFilter'
+            ))
         );
     }
 
@@ -33,6 +37,11 @@ class UtilExtension extends \Twig_Extension
         $pos = strpos($url, '?');
         $image = substr($url, 0, $pos);
         return $image;
+    }
+
+    public function stripAccentsFilter($string) {
+        return strtr(utf8_decode($string),utf8_decode('àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ'),
+            'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
     }
     
     public function getName()

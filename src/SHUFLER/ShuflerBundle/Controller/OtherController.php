@@ -11,6 +11,7 @@ use SHUFLER\ShuflerBundle\Entity\ChannelFlux;
 use SHUFLER\ShuflerBundle\Form\ChannelFluxType;
 use SHUFLER\ShuflerBundle\Entity\MusicTrack;
 use SHUFLER\ShuflerBundle\Entity\Album;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 class OtherController extends Controller
 {
@@ -159,7 +160,7 @@ class OtherController extends Controller
             $em->persist($channel);
             $em->flush();
             
-            if (!$channel->isVideo()) {
+            if (! $channel->isVideo()) {
                 $response = new Response(json_encode([
                     'success' => true,
                     'id' => $channel->getId(),
@@ -203,8 +204,8 @@ class OtherController extends Controller
             ->getRepository('SHUFLERShuflerBundle:ChannelFlux')
             ->getChannelFluxVideo();
         
-        shuffle($channels);    
-            
+        shuffle($channels);
+        
         return $this->render('SHUFLERShuflerBundle:Other:videoChannels.html.twig', array(
             'channels' => $channels
         ));
@@ -228,7 +229,7 @@ class OtherController extends Controller
             $image = $channel->getOldImage();
             $em->remove($channel);
             $em->flush();
-            if(!$isVideo) {
+            if (! $isVideo) {
                 $channel->deleteLogo($this->getParameter('logo_directory') . '/' . $image);
             }
         } catch (\Exception $e) {
@@ -244,18 +245,20 @@ class OtherController extends Controller
             $this->get('session')
                 ->getFlashBag()
                 ->add('danger', $message);
-            if(!$isVideo) {
-                return $this->redirectToRoute('shufler_edit_channels', array('id' => $channel->getId()));
+            if (! $isVideo) {
+                return $this->redirectToRoute('shufler_edit_channels', array(
+                    'id' => $channel->getId()
+                ));
             }
         }
         
         $message = "Channel supprimé... sans vergogne ni pitié.";
         
         $this->get('session')
-        ->getFlashBag()
-        ->add('success', $message);
+            ->getFlashBag()
+            ->add('success', $message);
         
-        if(!$isVideo) {
+        if (! $isVideo) {
             return $this->redirect($this->generateUrl('shufler_flux_edit', array(
                 'id' => $id_flux
             )));
@@ -288,13 +291,70 @@ class OtherController extends Controller
     }
 
     /**
+     * Aspicture
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Security("has_role('ROLE_ADMIN')")
+     */
+    public function aspictureAction(Request $request)
+    {
+        $state = 0;
+        if ($request->get('aspicture_name')) {
+            $id = $request->get('aspicture_id');
+            $name = $this->get('util.twig_extension')->stripAccentsFilter(($request->get('aspicture_name')));
+            if (!is_dir($this->getParameter('bd_directory') . '/' . $name)) {
+                rename($this->getParameter('bd_directory') . '/' . $id, $this->getParameter('bd_directory') . '/' . $name);
+            } else{
+                $request->getSession()
+                ->getFlashBag()
+                ->add('error', 'Nommage impossible, le dossier existe déja');
+            }
+        }
+        if ($request->get('aspicture_url')) {
+            $url = $request->get('aspicture_url');
+            try {
+                $id = array_reverse(explode('/', explode('?', $url)[0]))[0];
+                $sign = explode('sign=', $url)[1];
+                $root = 'https://reader.izneo.com/read/';
+                
+                if (! is_dir($this->getParameter('bd_directory')))
+                    mkdir($this->getParameter('bd_directory'));
+                    $targetDirectory = $this->getParameter('bd_directory') . '/' . $id;
+                    if (! is_dir($targetDirectory))
+                        mkdir($targetDirectory);
+                        $files = scandir($targetDirectory);
+                        
+                        rsort($files, SORT_STRING);
+                        $lastKey = ($files[0] != '.' && $files[0] != '..') ? explode('.jpg', $files[0])[0] * 1 : - 1;
+                        
+                        $key = $lastKey + 1;
+                        
+                        while (get_headers($root . $id . '/' . $key . '?login=cvs&sign=' . $sign)[0] == 'HTTP/1.1 200 OK') {
+                            copy($root . $id . '/' . $key . '?login=cvs&sign=' . $sign, $this->getParameter('bd_directory') . '/' . $id . '/' . sprintf("%04d", $key) . '.jpg');
+                            $key ++;
+                        }
+                        $state = $id;
+            } catch (\Exception $e) {
+                $state = -1;
+                $request->getSession()
+                ->getFlashBag()
+                ->add('error', 'Problème d\'URL ou quelque chose du genre. Bref: mauvais délire');
+            }
+        }
+        return $this->render('SHUFLERShuflerBundle:Other:aspicture.html.twig', array(
+            'state' => $state
+        ));
+    }
+    
+    /**
      * maps in progress ...
      */
     public function mapAction()
     {
         return $this->render('SHUFLERShuflerBundle:Other:map.html.twig');
     }
-    
+
     /**
      * TEST ZONE
      */
@@ -302,57 +362,57 @@ class OtherController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $tracks = $em->getRepository('SHUFLERShuflerBundle:MusicTrack')->getTracksByRating(5);
-    
+        
         shuffle($tracks);
-       
+        
         $liste = "";
-        foreach($tracks as $key=>$track) {
-            if($key == 1) {
+        foreach ($tracks as $key => $track) {
+            if ($key == 1) {
                 $single = $track->getYoutubeKey();
                 continue;
             }
-            if($key>100) break;         
+            if ($key > 100)
+                break;
             $liste .= $track->getYoutubeKey() . ',';
         }
-
+        
         return $this->render('SHUFLERShuflerBundle:Other:test2.html.twig', array(
             'single' => $single,
             'liste' => $liste
         ));
-       
-
     }
 
-    
-    public function testArtistesAction() {
+    public function testArtistesAction()
+    {
         $em = $this->getDoctrine()->getManager();
         $artistes = $em->getRepository('SHUFLERShuflerBundle:Artiste')->getArtistes();
         return $this->render('SHUFLERShuflerBundle:Music:artistes.html.twig', array(
             'artistes' => $artistes
         ));
     }
-    
-    public function testAlbumAction() {
+
+    public function testAlbumAction()
+    {
         $em = $this->getDoctrine()->getManager();
         $albums = $em->getRepository('SHUFLERShuflerBundle:Album')->getAlbums();
         return $this->render('SHUFLERShuflerBundle:Music:albums.html.twig', array(
             'albums' => $albums
         ));
-    /*
-        foreach($oldAlbums as $oldAlbum) {
-            $album = new Album();
-            $album->setName($oldAlbum->getAlbum());
-            $album->setAuteur($oldAlbum->getArtiste());
-            $album->setAnnee($oldAlbum->getAnnee());
-            $album->setGenre($oldAlbum->getGenre());
-            $em->persist($album);
-            $em->flush($album);
-        }
-        */
-        
+        /*
+         * foreach($oldAlbums as $oldAlbum) {
+         * $album = new Album();
+         * $album->setName($oldAlbum->getAlbum());
+         * $album->setAuteur($oldAlbum->getArtiste());
+         * $album->setAnnee($oldAlbum->getAnnee());
+         * $album->setGenre($oldAlbum->getGenre());
+         * $em->persist($album);
+         * $em->flush($album);
+         * }
+         */
     }
-    
-    public function saveArtisteAction(Request $request) {
+
+    public function saveArtisteAction(Request $request)
+    {
         $id = $request->get('id');
         $image = $request->get('image');
         $bio = $request->get('bio');
@@ -368,9 +428,9 @@ class OtherController extends Controller
             'success' => true
         ]));
     }
-    
-    
-    public function saveAlbumAction(Request $request) {
+
+    public function saveAlbumAction(Request $request)
+    {
         $id = $request->get('id');
         $key = $request->get('key');
         var_dump($id . ' ' . $key);
@@ -384,8 +444,9 @@ class OtherController extends Controller
             'success' => 'ok'
         ]));
     }
-    
-    public function testSaveAction(Request $request) {
+
+    public function testSaveAction(Request $request)
+    {
         $id = $request->get('id');
         $key = $request->get('key');
         var_dump($id . ' ' . $key);
@@ -399,4 +460,5 @@ class OtherController extends Controller
             'success' => true
         ]));
     }
+
 }

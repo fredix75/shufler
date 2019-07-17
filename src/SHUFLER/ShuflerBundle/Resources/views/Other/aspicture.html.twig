@@ -1,0 +1,53 @@
+{# src/SHUFLER/ShuflerBundle/Resources/views/Home/index.html.twig #}
+
+{% extends "SHUFLERShuflerBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} Aspicture{% endblock %}
+
+
+{% block body %}
+
+<h1><i class="glyphicon glyphicon-book"></i>&nbsp;AsPicture</h1>
+<br/>
+<form name="form1" action="{{  path('shufler_aspicture') }}" method="POST">
+	<div class="col-xs-10 col-sm-10 col-md-10">
+		<input type="text" id="aspicture_url" name="aspicture_url" value="" class="input-sm form-control" placeholder="URL of the Stuff" style="background-color:#666666;color:white;font-size:200%;height:50px;" />    		
+	</div>
+	<div class="col-xs-2 col-sm-2 col-md-2">
+	   <button type="submit" id="submit_url" class="btn btn-primary btn-sm" style="height:50px;width:50px;"><span class="glyphicon glyphicon-forward"></span></button>
+	</div>
+<br/><br/><br/>
+<span id="state" style="font-weight:bold;color:green;">
+	{% if state > 1 %}
+		DOWNLOAD OK <i class="glyphicon glyphicon-ok"></i>&nbsp;<br/>{{ state }}
+	{% endif %}
+</span>
+	{% if state > 1 %}
+		<div id="bloc_rename">
+			<img src="{{ asset('uploads/bd/' ~ state ~ '/0000.jpg') }}" width="200px"/>
+			&nbsp;<input type="text" id="aspicture_name" name="aspicture_name" value="" placeholder="Give a name to that, guy!" style="height:50px;width:800px" />
+			<input type="hidden" id="aspicture_id" name="aspicture_id" value="{{ state }}" />
+			&nbsp;<button type="submit" id="enter_name" class="btn btn-primary btn-sm" style="height:50px;width:50px;">OK</button>
+		</div>
+	{% endif %}
+</form>
+
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script>
+	$("#submit_url").on("click", function(){
+		let txt = '<span id="counter"></span><br/>In Progress';
+		$('#state').css("color", "orange");
+		$('#state').html(txt);
+		let i = 0;
+		setInterval(function(){
+			$('#counter').html(i);
+			$('#state').append('.');
+			i++;
+		},1000);
+	});
+	
+	</script>
+{% endblock %}

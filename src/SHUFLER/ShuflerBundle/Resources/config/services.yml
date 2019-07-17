@@ -13,6 +13,6 @@ services:
 
     util.twig_extension:
         class: SHUFLER\ShuflerBundle\Twig\UtilExtension
-        public: false
+        public: true
         tags:
             - { name: twig.extension }

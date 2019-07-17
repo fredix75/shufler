@@ -1,5 +1,4 @@
 <?php
-
 namespace SHUFLER\ShuflerBundle\Service;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
