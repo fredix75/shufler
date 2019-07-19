@@ -48,6 +48,9 @@
         	<ul class="dropdown-menu">
             	<li><a href="{{ path('shufler_music_tracks', {"mode" : "tracks"}) }}">&nbsp;{{ 'Tracks'|trans }}</a></li>
             	<li><a href="{{ path('shufler_music_tracks', {"mode" : "albums"}) }}">&nbsp;{{ 'Albums'|trans }}</a></li>
+				<li><a href="{{ path('shufler_artistes_api') }}">&nbsp;{{ 'Des Artistes'|trans }}</a></li>
+				<li><a href="{{ path('shufler_albums_api') }}">&nbsp;{{ 'Des Albums'|trans }}</a></li>
+				<li><a href="{{ path('shufler_bestTracksList') }}">&nbsp;{{ 'LA Playlist Maison'|trans }}</a></li>
             </ul>
          </li>
         {% endif %}

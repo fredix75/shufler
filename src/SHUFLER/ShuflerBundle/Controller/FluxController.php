@@ -204,7 +204,8 @@ class FluxController extends Controller
      * @param Request $request
      *            request of the Flow
      *
-     * @return Response Ajax or Rendering template
+     * @return Rendering template
+     * @Security("has_role('ROLE_AUTEUR')")
      */
     public function playlistAction(Request $request)
     {
@@ -220,7 +221,28 @@ class FluxController extends Controller
         ));
     }
     
-    
+    /**
+     * Get All Flows Videos playlists.
+     *
+     * @param Request $request
+     *            request of the Flow
+     *
+     * @return Rendering template
+     * @Security("has_role('ROLE_AUTEUR')")
+     */
+    public function videosPlaylistAction(Request $request)
+    {
+        error_reporting(0);
+        
+        $playlists = $this->getDoctrine()
+        ->getManager()
+        ->getRepository('SHUFLERShuflerBundle:Flux')
+        ->getVideosPlaylists();
+        
+        return $this->render('SHUFLERShuflerBundle:Flux:videosPlaylists.html.twig', array(
+            'playlists' => $playlists
+        ));
+    }
 
     /**
      * Get Tweets API Tweeter
@@ -339,7 +361,6 @@ class FluxController extends Controller
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
-            
             $em = $this->getDoctrine()->getManager();
             $em->persist($flux);
             $em->flush();
@@ -358,7 +379,6 @@ class FluxController extends Controller
             'flux' => $flux
         ));
     }
-
     
     /**
      * Delete Video

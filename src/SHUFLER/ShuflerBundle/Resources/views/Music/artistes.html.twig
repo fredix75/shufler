@@ -25,24 +25,4 @@
 
 {% block javascripts %}
 	{{ parent() }}
-	<script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.2.0/build/ol.js"></script>
-	<script type="text/javascript">
-		var LASTFM_API_URL = '{{ lastfm_api_url }}';
-		var LASTFM_API_KEY = '{{ lastfm_key }}';
-
-		$(function(){
-			$('#table tr').each(function(){
-				var id = $(this).find('td:first').html();
-				var search = $(this).find('td.nom').html();
-				$.get(LASTFM_API_URL + '?method=artist.getInfo&format=json&api_key=' + LASTFM_API_KEY, { artist: search}, function(result) {			 
-					if(result) {
-										
-						$.post("{{ path('shufler_save_artiste') }}", {id: id, image: result.artist.image[4]['#text'], bio: result.artist.bio.content}, function(response){
-							console.log(response);
-						});
-					}
-				});
-			});
-		});
-    </script>
 {% endblock %}

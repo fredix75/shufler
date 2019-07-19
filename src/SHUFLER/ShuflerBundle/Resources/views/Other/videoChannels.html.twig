@@ -43,7 +43,7 @@
 	{% for index, channel in channels %}
 		<div class="col col-12 col-xs-6 col-sm-3 col-md-2">
 			<div class="media topcol embed-responsive-16by9" style="margin-bottom:30px;">
-				<a class="lienchannel" href="{{ channel.providerId }}" data-toggle="tooltip" data-original-title="{{ channel.providerId }}">
+				<a id="channel_{{ index }}" class="lienchannel {{ channel.channelClass}}" href="{{ channel.providerId }}" data-toggle="tooltip" data-original-title="{{ channel.providerId }}">
 					<img src="{{ channel.oldImage}}" width=300px />
 					<div class="media-body">
 					{% if is_granted('ROLE_AUTEUR') %}
@@ -63,30 +63,58 @@
 	<script>
 		var YT_KEY = '{{ youtube_key }}';
 		$('.lienchannel').click(function(e){
+			if($(this).hasClass('lienPl')) {
+				return;
+			}
 			e.preventDefault();
+			let frame_id = $(this).attr('id');
 			let key = $(this).attr('href');
+			
 			if($('#playlist' + key).html() != '') {
 				$('#playlist' + key).html('');
 				return;
 			}
+			
 			$.ajax({
 				url: "https://www.googleapis.com/youtube/v3/playlists",
 				method: 'GET',
 				data: {
 					part: 'snippet, contentDetails',
-					channelId: key,
 					key: YT_KEY,
+					channelId: key,
 					maxResults: 50
 				},
 				success: function(result){
 					$('.playlist').html('');
-					for(var i=0; i<result.items.length; i++){
-						url = result.items[i].id;
-						vignette=createVignettePl(result.items[i].snippet,url);
-						$('#playlist' + key).append(vignette);
+					if(result.items.length > 0) {
+						for(var i=0; i<result.items.length; i++){
+							url = result.items[i].id;
+							vignette=createVignettePl(result.items[i].snippet,url);
+							$('#playlist' + key).append(vignette);
+						}
+					} else {
+						$.ajax({
+							url: "https://www.googleapis.com/youtube/v3/activities",
+							method: 'GET',
+							data: {
+								part: 'snippet, contentDetails',
+								channelId: key,
+								key: YT_KEY,
+								maxResults: 50
+							},
+							success: function(result){
+								let ids_video = '';
+								let id_video = result.items[0].contentDetails.upload.videoId;
+								for(var i=1; i<result.items.length; i++) { 
+									ids_video = ids_video + result.items[i].contentDetails.upload.videoId + ',';
+								}
+								createPopupPL(frame_id, id_video, ids_video);
+							}
+						});
 					}
 				}
-			});	
+			});
+			
 		});
 		
 		function createVignettePl(snippet, url) {
@@ -94,6 +122,15 @@
 			vignette = vignette + '<div class="col col-md-9 description-pl">' + snippet.title + '</div></div></a>';
 			
 			return vignette;
+		}
+		
+		function createPopupPL(id_frame, id_video, list_videos) {
+			$('#' + id_frame).magnificPopup({
+				items: {
+					src: '<iframe width="800" height="500" src="https://www.youtube.com/embed/' + id_video + '?playlist=' + list_videos + '" frameborder="0" allowfullscreen></iframe>',
+					type: 'inline'
+				}
+			});
 		}
 		
 		$(document).on('click','.lienPl',function(e){

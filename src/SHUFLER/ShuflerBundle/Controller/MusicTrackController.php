@@ -145,6 +145,11 @@ class MusicTrackController extends Controller
         ]);
     }
 
+    /**
+     *  Get Albums Random View
+     *   
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function albumsApiAction()
     {
         $em = $this->getDoctrine()->getManager();
@@ -164,6 +169,11 @@ class MusicTrackController extends Controller
         ));
     }
 
+    /**
+     * Get Artistes Random View
+     * 
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function artistesApiAction()
     {
         $em = $this->getDoctrine()->getManager();
@@ -175,10 +185,35 @@ class MusicTrackController extends Controller
         foreach ($artistes as $key => $artiste) {
             if ($key >= 500)
                 break;
+            
             $liste[] = $artiste;
         }
         
         return $this->render('SHUFLERShuflerBundle:Music:artistesApi.html.twig', array(
+            'liste' => $liste
+        ));
+    }
+    
+    public function bestTracksAction() {
+        $em = $this->getDoctrine()->getManager();
+        $tracks = $em->getRepository('SHUFLERShuflerBundle:MusicTrack')->getTracksByRating(5);
+        
+        shuffle($tracks);
+        
+        $liste = "";
+        foreach ($tracks as $key => $track) {
+            if ($key == 1) {
+                $single = $track->getYoutubeKey();
+                continue;
+            }
+            if ($key > 100)
+                break;
+                
+            $liste .= $track->getYoutubeKey() . ',';
+        }
+        
+        return $this->render('SHUFLERShuflerBundle:Music:bestTracks.html.twig', array(
+            'single' => $single,
             'liste' => $liste
         ));
     }

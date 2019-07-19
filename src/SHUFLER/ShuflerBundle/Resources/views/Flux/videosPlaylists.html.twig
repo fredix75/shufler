@@ -1,0 +1,27 @@
+{% extends "SHUFLERShuflerBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} Playlists{% endblock %}
+
+{% block stylesheets %}
+	{{  parent() }}
+	<link rel="stylesheet" type="text/css" href="{{ asset('bundles/shuflershufler/css/flux-styl.css') }}">
+{% endblock %}
+
+{% block body %}
+	{% for key in playlists %}
+		<div class="col col-md-3 col-sm-6"> 
+			<div class="col col-md-6 media topcol embed-responsive-16by9" style="margin-bottom:30px;position:relative;">
+				<a id="link_vu" class="lienchannel" href="UCqt99sKYNTxqlHtzV9weUYA" data-toggle="tooltip" data-original-title="UCqt99sKYNTxqlHtzV9weUYA">
+					<img src="https://yt3.ggpht.com/a-/AAuE7mBImRSxn5XIphVspA2v6YPih39hJQEzaml_2w=s176-c-k-c0x00ffffff-no-rj-mo" width=100% />
+				</a>
+			</div>
+			{% if is_granted('ROLE_ADMIN') %}
+				<a href="{{ path('shufler_flux_edit',{'id':key.id}) }}" style="position:absolute;top:50%;right:50px;"><span class="glyphicon glyphicon-edit"></span></a>
+			{% endif %}
+		</div>
+	{% endfor %}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+{% endblock %}

@@ -10,18 +10,26 @@
 	<link rel="stylesheet" type="text/css" href="{{ asset('bundles/shuflershufler/css/component.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ asset('bundles/shuflershufler/css/animations.css') }}" />
 	<style>
-	.container {
-		background-color:black;
-	}
+		.container {
+			background-color:black;
+		}
 		.mfp-content {
 			text-align:center;
+		}
+		
+		#iterateEffects {
+			width:auto;
+			margin-left:50px;
+			background-color:black;
+			color:white;
+			border:1px solid white;
 		}
 	</style>
 {% endblock %}
 	
 {% block body %}
 	<div class="row">
-	<button id="iterateEffects" class="pt-touch-button">Show next page transition</button>
+	<button id="iterateEffects" class="pt-touch-button">Next >></button>
 		<section id="pt-main" class="col-sm-12 col-md-12 pt-perspective" style="color:white;height:800px">
 		{% for id, artiste in liste %}
 		<div class="row pt-page pt-page-{{ id }}" data-id="{{ id }}">
@@ -78,30 +86,6 @@
 		
 		$(function(){		
 			getYoutubeContent(0, '{{ liste.0.name }}');
-			/*
-			$.get('https://www.googleapis.com/youtube/v3/search?key=' + YT_KEY, { part: 'snippet', q: SEARCH, type: 'playlist', maxResults: 9}, function(result) {			 
-			    if(result) {
-					var url = '';
-					var vignette;
-					for(var i=0; i<result.items.length; i++){
-						if(typeof result.items[i] != 'undefined'){
-							if(i != null){
-								var stat = ' ';
-								var views = ' ';
-								url = result.items[i].id.playlistId;
-								vignette = createVignette(url);
-								$('#playlistsAuto').append(vignette);			
-							}else{
-								console.log('error' + i);
-							}
-						}
-					}
-
-			    } else {
-			        alert('Error');
-			    }
-			},'jsonp');
-			*/
 		});
 		
 		function getYoutubeContent(idDiv, search) {
@@ -134,7 +118,7 @@
 		}
 		
 	</script>
-			<script src="{{ asset('bundles/shuflershufler/js/modernizr.custom.js') }}"></script>
-					<script src="{{ asset('bundles/shuflershufler/js/jquery.dlmenu.js') }}"></script>
-		<script src="{{ asset('bundles/shuflershufler/js/pagetransitions.js') }}"></script>	
+	<script src="{{ asset('bundles/shuflershufler/js/modernizr.custom.js') }}"></script>
+	<script src="{{ asset('bundles/shuflershufler/js/jquery.dlmenu.js') }}"></script>
+	<script src="{{ asset('bundles/shuflershufler/js/pagetransitions.js') }}"></script>	
 {% endblock %}

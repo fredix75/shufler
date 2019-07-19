@@ -25,22 +25,4 @@
 
 {% block javascripts %}
 	{{ parent() }}
-	<script type="text/javascript">
-		var YT_KEY = '{{ youtube_key }}';
-
-		$(function(){
-			$('#table tr').each(function(){
-				var id = $(this).find('td:first').html();
-				var search = $(this).find('td.nom').html();
-				$.get('https://www.googleapis.com/youtube/v3/search?key=' + YT_KEY, { part: 'snippet', q: search, type: 'playlist', maxResults: 5 }, function(result) {			 
-					if(result) {
-						console.log(result.items[0].id.playlistId);
-					}
-					$.post("{{ path('shufler_save_album') }}", {id: id, key: result.items[0].id.playlistId}, function(response){
-						console.log(response);
-					});
-				});
-			});
-		});
-    </script>
 {% endblock %}

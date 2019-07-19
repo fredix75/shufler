@@ -15,7 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(fields={"name", "type"}, message="Un Flux existe déja avec ce nom et ce type. Point trop n'en faut!")
  * @UniqueEntity(fields="url", message="Ce Flux est déjà enregistré. Laisse tomber!")
  */
-class Flux
+class Flux implements ChannelInterface
 {
 
     const FLUX_TYPE = array(
@@ -390,5 +390,21 @@ class Flux
             return true;
         }
         return;
-    }
+    }
+ /**
+  * {@inheritDoc}
+  * @see \SHUFLER\ShuflerBundle\Entity\ChannelInterface::getProvider()
+  */
+ public function getProviderId() {
+     return array_reverse(explode('list=', $this->url))[0];
+ }
+
+ /**
+  * {@inheritDoc}
+  * @see \SHUFLER\ShuflerBundle\Entity\ChannelInterface::getTypeChannel()
+  */
+ public function getChannelClass() {
+     return 'lienPl';
+ }
+
 }

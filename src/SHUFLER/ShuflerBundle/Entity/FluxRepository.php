@@ -95,6 +95,40 @@ class FluxRepository extends \Doctrine\ORM\EntityRepository
         ->getResult();
     }
     
+
+    /**
+     * Get Video Plalists
+     * 
+     * @return array
+     */
+    function getPlaylistsVideo() {
+        return $this->_em->createQueryBuilder()
+        ->select('a')
+        ->where('a.type= :type')
+        ->setParameter('type', 6)
+        ->from('SHUFLERShuflerBundle:Flux', 'a')
+        ->orderBy('a.id', 'ASC')
+        ->getQuery()
+        ->getResult();
+    }
+    
+    /**
+     * Get Playlists
+     *
+     * @return array
+     */
+    function getVideosPlaylists()
+    {
+        return $this->_em->createQueryBuilder()
+        ->select('a')
+        ->where('a.type= :type')
+        ->setParameter('type', 6)
+        ->from('SHUFLERShuflerBundle:Flux', 'a')
+        ->orderBy('a.id', 'ASC')
+        ->getQuery()
+        ->getResult();
+    }
+    
     /**
      * Get Links
      * 

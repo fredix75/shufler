@@ -15,7 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(fields="name", message="Un Channel de Flux existe déja avec ce nom, faut quand même pas pousser!")
  *
  */
-class ChannelFlux
+class ChannelFlux implements ChannelInterface
 {
     /**
      * @var int
@@ -235,4 +235,13 @@ class ChannelFlux
     public function isVideo() {
         return $this->provider_name ? true : false;
     }
+
+ /**
+  * {@inheritDoc}
+  * @see \SHUFLER\ShuflerBundle\Entity\ChannelInterface::getTypeChannel()
+  */
+ public function getChannelClass() {
+    return 'channel';
+ }
+
 }

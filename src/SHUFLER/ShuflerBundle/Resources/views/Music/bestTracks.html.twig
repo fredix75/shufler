@@ -8,10 +8,12 @@
 	{{ parent() }}
 {% endblock %}
 	
-{% block body %}
+{% block body %}	
 	<div class="row">
-		<section class="col-sm-12 col-md-12" style="background-color: white;">
-			<iframe width="800" height="500" src="https://www.youtube.com/embed/{{ single }}?playlist={{ liste }}" frameborder="0" allowfullscreen></iframe>
+		<section class="col-sm-12 col-md-12" style="background-color: black;">
+			<div id="player">
+				<iframe width="100%" height="600px" src="https://www.youtube.com/embed/{{ single }}?playlist={{ liste }}" frameborder="0" allowfullscreen style="background-color: black;"></iframe>
+			</div>
 		</section>
 	</div>
 {% endblock %}

@@ -84,6 +84,10 @@ shufler_radio:
 shufler_playlist:
     path: /playlist
     defaults: {_controller: "SHUFLERShuflerBundle:Flux:playlist"}
+    
+shufler_video_playlist:
+    path: /vplaylist
+    defaults: {_controller: "SHUFLERShuflerBundle:Flux:videosPlaylist"}    
 
 shufler_dailypod:
     path: /dailypod
@@ -133,6 +137,10 @@ shufler_tweeter:
     path: /tweeter
     defaults: {_controller: "SHUFLERShuflerBundle:Flux:tweeter"}
 
+shufler_aspicture:
+  path: /aspicture
+  defaults: {_controller: "SHUFLERShuflerBundle:Other:aspicture"}
+
 shufler_music_tracks:
     path: /music/{mode}
     defaults: {_controller: "SHUFLERShuflerBundle:MusicTrack:getTracks", mode : 'tracks'}
@@ -149,38 +157,26 @@ shufler_map:
     path: /map
     defaults: {_controller: "SHUFLERShuflerBundle:Other:map"} 
     
-shufler_test:
-    path: /test
-    defaults: {_controller: "SHUFLERShuflerBundle:Other:test"}    
+shufler_bestTracksList:
+    path: /bestTracksList
+    defaults: {_controller: "SHUFLERShuflerBundle:MusicTrack:bestTracks"}    
 
 shufler_albums_api:
   path: /albums_api
   defaults: {_controller: "SHUFLERShuflerBundle:MusicTrack:albumsApi"}    
 
-shufler_test_artiste:
-  path: /artistes
-  defaults: {_controller: "SHUFLERShuflerBundle:Other:testArtistes"}
-
 shufler_artistes_api:
   path: /artistes_api
   defaults: {_controller: "SHUFLERShuflerBundle:MusicTrack:artistesApi"}    
 
-shufler_save_artiste:
-  path: /saveArtiste
-  defaults: {_controller: "SHUFLERShuflerBundle:Other:saveArtiste"}    
+shufler_test_artiste:
+  path: /artistes
+  defaults: {_controller: "SHUFLERShuflerBundle:Other:testArtistes"}
 
 shufler_testAlbum:
   path: /testAlbum
   defaults: { _controller: "SHUFLERShuflerBundle:Other:testAlbum"}
 
-shufler_save_album:
-  path: /saveAlbum
-  defaults: {_controller: "SHUFLERShuflerBundle:Other:saveAlbum"}    
-
 shufler_test_save:
   path: /test_save
   defaults: {_controller: "SHUFLERShuflerBundle:Other:testSave"} 
-  
-shufler_aspicture:
-  path: /aspicture
-  defaults: {_controller: "SHUFLERShuflerBundle:Other:aspicture"} 

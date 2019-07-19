@@ -32,14 +32,14 @@ class Artiste
     /**
      * @var string
      *
-     * @ORM\Column(name="imageUrl", type="string", length=255)
+     * @ORM\Column(name="imageUrl", type="string", length=255, nullable=true)
      */
     private $imageUrl;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="bio", type="text")
+     * @ORM\Column(name="bio", type="text", nullable=true)
      */
     private $bio;
     
