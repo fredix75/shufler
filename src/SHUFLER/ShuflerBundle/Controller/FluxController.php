@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FluxController extends Controller
 {
-
+    
     /**
      * Get All Flows RSS.
      *
@@ -361,6 +361,19 @@ class FluxController extends Controller
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
+            if($flux->getType() == 6) {
+                $url =$this->getParameter('youtube_api_playlists_url') . '?part=snippet,contentDetails&maxResults=5&key=' . $this->getParameter('youtube_key') . '&id=' . $flux->getProviderId();
+                
+                $curl = $this->get('get.curl')->getInit($url);
+                $response = curl_exec($curl);
+                curl_close($curl);
+                $value = json_decode($response);
+                if($value->items && $value->items[0]->snippet && $value->items[0]->snippet->thumbnails->medium->url){
+                    $flux->setImage($value->items[0]->snippet->thumbnails->medium->url);
+                    $flux->setOldImage($value->items[0]->snippet->thumbnails->medium->url);
+                }
+            }
+            
             $em = $this->getDoctrine()->getManager();
             $em->persist($flux);
             $em->flush();
@@ -442,6 +455,10 @@ class FluxController extends Controller
                 return $this->redirectToRoute('shufler_radio');
             case 4:
                 return $this->redirectToRoute('shufler_links');
+            case 5:
+                return $this->redirectToRoute('shufler_playlist');
+            case 6:
+                return $this->redirectToRoute('shufler_video_channels');
         }
     }
 

@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use SHUFLER\ShuflerBundle\Entity\Video;
 use SHUFLER\ShuflerBundle\Form\VideoType;
 use Symfony\Component\HttpFoundation\Response;
+use SHUFLER\ShuflerBundle\Entity\Flux;
 
 class VideoController extends Controller
 {
@@ -48,8 +49,16 @@ class VideoController extends Controller
             }
         }
         
+        $playlist = $this->getDoctrine()
+        ->getManager()
+        ->getRepository('SHUFLERShuflerBundle:Flux')
+        ->getVu();
+        
+        if (empty($playlist)) $playlist = new Flux();
+                
         return $this->render('SHUFLERShuflerBundle:Video:index.html.twig', array(
             'videos' => $videos,
+            'playlist' => $playlist,
             'anims' => $anims,
             'musics' => $musics,
             'etranges' => $etranges

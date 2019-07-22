@@ -29,7 +29,7 @@
 	{%  if app.user %}
     	<li><a href="{{ path('shufler_videos') }}"><span class="glyphicon glyphicon-film"></span>&nbsp;{{'Videos'|trans}}</a></li>
 		
-	{% if is_granted('ROLE_ADMIN') %}
+		{% if is_granted('ROLE_ADMIN') %}
 		<li class="dropdown"><a data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-cloud"></span>&nbsp;{{ 'APIs Search'|trans }}<b class="caret"></b></a>
         	<ul class="dropdown-menu">
 				<li><a href="{{ path('shufler_apisearch_video') }}"><span class="glyphicon glyphicon-cloud"></span>&nbsp;{{ 'APIs Video Search'|trans }}</a></li>
@@ -48,12 +48,12 @@
         	<ul class="dropdown-menu">
             	<li><a href="{{ path('shufler_music_tracks', {"mode" : "tracks"}) }}">&nbsp;{{ 'Tracks'|trans }}</a></li>
             	<li><a href="{{ path('shufler_music_tracks', {"mode" : "albums"}) }}">&nbsp;{{ 'Albums'|trans }}</a></li>
-				<li><a href="{{ path('shufler_artistes_api') }}">&nbsp;{{ 'Des Artistes'|trans }}</a></li>
-				<li><a href="{{ path('shufler_albums_api') }}">&nbsp;{{ 'Des Albums'|trans }}</a></li>
-				<li><a href="{{ path('shufler_bestTracksList') }}">&nbsp;{{ 'LA Playlist Maison'|trans }}</a></li>
+				<li><a href="{{ path('shufler_music_artistes_api') }}">&nbsp;{{ 'Des Artistes'|trans }}</a></li>
+				<li><a href="{{ path('shufler_music_albums_api') }}">&nbsp;{{ 'Des Albums'|trans }}</a></li>
+				<li><a href="{{ path('shufler_music_random_tracks', {"note": 5 }) }}">&nbsp;{{ 'LA Playlist Maison'|trans }}</a></li>
             </ul>
          </li>
-        {% endif %}
+		{% endif %}
          <li class="dropdown"><a data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-flag"></span>&nbsp;{{ 'My account'|trans }}<b class="caret"></b></a>
         	<ul class="dropdown-menu">
             	<li><a href="#" data-toggle="modal" data-target="#userModal"><span class="glyphicon glyphicon-user"></span>&nbsp;{{ 'My Profile'|trans }}</a></li>
@@ -62,7 +62,7 @@
          </li>
 	{% else %}
          <li><a href="#" data-toggle="modal" data-target="#userModal"><span class="glyphicon glyphicon-fire"></span>&nbsp;{{ 'Login'|trans }}</a></li>
-      {% endif %}
+    {% endif %}
      </ul>
      <form class="navbar-form navbar-right inline-form" role="form" action="{{ url('shufler_search') }}">
         <div class="form-group">

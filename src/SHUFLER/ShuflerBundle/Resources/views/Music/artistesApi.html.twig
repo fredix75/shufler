@@ -89,7 +89,7 @@
 		});
 		
 		function getYoutubeContent(idDiv, search) {
-			$.get('https://www.googleapis.com/youtube/v3/search?key=' + YT_KEY, { part: 'snippet', q: search, type: 'video', maxResults: 50 }, function(result) {			 
+			$.get('{{ youtube_api_search_url}}?key=' + YT_KEY, { part: 'snippet', q: search, type: 'video', maxResults: 50 }, function(result) {			 
 			    if(result) {
 					var url = '';
 					var vignette, single;

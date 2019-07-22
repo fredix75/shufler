@@ -6,7 +6,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use SHUFLER\ShuflerBundle\Entity\Flux;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use SHUFLER\ShuflerBundle\Entity\ChannelFlux;
 use SHUFLER\ShuflerBundle\Form\ChannelFluxType;
 use SHUFLER\ShuflerBundle\Entity\MusicTrack;
@@ -28,11 +27,7 @@ class OtherController extends Controller
             $search = $request->get('search_api');
             
             // Vimeo
-            $client_id = 'd39d579aedf22d12315f374a456d0656b23c7b40';
-            $client_secret = 'Ed9/U8ZIOcdP+aO2if/jYC4YMJbl811TeoGZIRNzalRG498hn/VA3jKrxsCytn01kV8rIgwIfa6rLrkdYSsPvaSXmy9R93ikhGCN31mtylcqCKKtXkYPmdw737sU0oEA';
-            $token_access = 'bc14d9b5371d9669ecdd1e3027572db1';
-            
-            $lib = new \Vimeo\Vimeo($client_id, $client_secret, $token_access);
+            $lib = new \Vimeo\Vimeo($this->getParameter('vimeo_id'), $this->getParameter('vimeo_secret'), $this->getParameter('vimeo_access_token'));
             
             $content = $lib->request('/videos', array(
                 'query' => $search,
@@ -203,14 +198,14 @@ class OtherController extends Controller
             ->getManager()
             ->getRepository('SHUFLERShuflerBundle:ChannelFlux')
             ->getChannelFluxVideo();
-
-          $videosPlaylists = $this->getDoctrine()
+        
+        $videosPlaylists = $this->getDoctrine()
             ->getManager()
             ->getRepository('SHUFLERShuflerBundle:Flux')
             ->getPlayListsVideo();
         
         $channels = array_merge($fluxChannels, $videosPlaylists);
-            
+        
         shuffle($channels);
         
         return $this->render('SHUFLERShuflerBundle:Other:videoChannels.html.twig', array(
@@ -365,48 +360,5 @@ class OtherController extends Controller
      * TEST ZONE
      */
     public function testAction()
-    {
-
-    }
-
-    /**
-     * Get Tracks Artistes
-     * 
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function testArtistesAction()
-    {
-        $em = $this->getDoctrine()->getManager();
-        $artistes = $em->getRepository('SHUFLERShuflerBundle:Artiste')->getArtistes();
-        return $this->render('SHUFLERShuflerBundle:Music:artistes.html.twig', array(
-            'artistes' => $artistes
-        ));
-    }
-
-    
-    
-    public function testAlbumAction()
-    {
-        $em = $this->getDoctrine()->getManager();
-        $albums = $em->getRepository('SHUFLERShuflerBundle:Album')->getAlbums();
-        return $this->render('SHUFLERShuflerBundle:Music:albums.html.twig', array(
-            'albums' => $albums
-        ));
-    }
-
-    public function testSaveAction(Request $request)
-    {
-        $id = $request->get('id');
-        $key = $request->get('key');
-        var_dump($id . ' ' . $key);
-        $em = $this->getDoctrine()->getManager();
-        $track = $em->getRepository('SHUFLERShuflerBundle:MusicTrack')->find($id);
-        $track->setKey($key);
-        $em->persist($track);
-        $em->flush();
-        
-        return new Response(json_encode([
-            'success' => true
-        ]));
-    }
+    {}
 }

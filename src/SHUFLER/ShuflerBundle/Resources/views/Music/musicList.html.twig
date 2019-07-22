@@ -11,6 +11,9 @@
 {% block body %}	
 	<div class="row">
 		<section class="col-sm-12 col-md-12" style="background-color: black;">
+			<div id="selector">
+				<input type="text" name="annee" value="" maxlength=9/>
+			</div>
 			<div id="player">
 				<iframe width="100%" height="600px" src="https://www.youtube.com/embed/{{ single }}?playlist={{ liste }}" frameborder="0" allowfullscreen style="background-color: black;"></iframe>
 			</div>

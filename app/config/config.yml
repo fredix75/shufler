@@ -8,8 +8,13 @@ parameters:
   public_key: '%kernel.root_dir%/var/jwt/public.pem'
   pass_phrase: ThisTokenIsNotSoSecretChangeItPlease
   token_ttl: 86400
-  youtube_api_url: https://www.googleapis.com/youtube/v3/videos
+  youtube_api_videos_url: https://www.googleapis.com/youtube/v3/videos
+  youtube_api_playlists_url: https://www.googleapis.com/youtube/v3/playlists
+  youtube_api_search_url: https://www.googleapis.com/youtube/v3/search
   youtube_key: AIzaSyBNgi3EddUNsFThnFQpPt3RR9kkuWmhHdo
+  vimeo_id: d39d579aedf22d12315f374a456d0656b23c7b40
+  vimeo_secret: Ed9/U8ZIOcdP+aO2if/jYC4YMJbl811TeoGZIRNzalRG498hn/VA3jKrxsCytn01kV8rIgwIfa6rLrkdYSsPvaSXmy9R93ikhGCN31mtylcqCKKtXkYPmdw737sU0oEA
+  vimeo_access_token: bc14d9b5371d9669ecdd1e3027572db1
   lastfm_api_url: 'http://ws.audioscrobbler.com/2.0/'
   lastfm_key: '10fb79b666c60393833efb96b601bb73'
   logo_directory: '%kernel.project_dir%/web/uploads/logos'
@@ -43,10 +48,15 @@ twig:
   strict_variables: '%kernel.debug%'
   globals:
     webmaster: '%app_webmaster%'
-    youtube_api_url: '%youtube_api_url%'
+    youtube_api_videos_url: '%youtube_api_videos_url%'
+    youtube_api_playlists_url: '%youtube_api_playlists_url%'
+    youtube_api_search_url: '%youtube_api_search_url%'
     youtube_key: '%youtube_key%'
     lastfm_api_url: '%lastfm_api_url%'
     lastfm_key: '%lastfm_key%'
+    vimeo_id: '%vimeo_id%'
+    vimeo_secret: '%vimeo_secret%'
+    vimeo_access_token: '%vimeo_access_token%'
 assetic:
   debug: '%kernel.debug%'
   use_controller: false

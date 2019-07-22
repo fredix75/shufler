@@ -12,7 +12,6 @@ class MusicTrackController extends Controller
 
     /**
      * Tracks Index.
-     * *
      *
      * @return Rendering template
      *         @Security("has_role('ROLE_ADMIN')")
@@ -146,8 +145,38 @@ class MusicTrackController extends Controller
     }
 
     /**
-     *  Get Albums Random View
-     *   
+     * Get All Tracks Artistes.
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Security("has_role('ROLE_ADMIN')")
+     */
+    public function getArtistesAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $artistes = $em->getRepository('SHUFLERShuflerBundle:Artiste')->getArtistes();
+        return $this->render('SHUFLERShuflerBundle:Music:artistes.html.twig', array(
+            'artistes' => $artistes
+        ));
+    }
+    
+    /**
+     * Get All Albums.
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Security("has_role('ROLE_ADMIN')")
+     */
+    public function getAlbumsAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $albums = $em->getRepository('SHUFLERShuflerBundle:Album')->getAlbums();
+        return $this->render('SHUFLERShuflerBundle:Music:albums.html.twig', array(
+            'albums' => $albums
+        ));
+    }
+    
+    /**
+     * Get Albums Random View of some Albums
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function albumsApiAction()
@@ -170,8 +199,8 @@ class MusicTrackController extends Controller
     }
 
     /**
-     * Get Artistes Random View
-     * 
+     * Get Artistes Random View of some Artists
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function artistesApiAction()
@@ -193,11 +222,30 @@ class MusicTrackController extends Controller
             'liste' => $liste
         ));
     }
-    
-    public function bestTracksAction() {
-        $em = $this->getDoctrine()->getManager();
-        $tracks = $em->getRepository('SHUFLERShuflerBundle:MusicTrack')->getTracksByRating(5);
+
+    /**
+     * Get Random Tracks
+     * 
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function getRandomTracksAction(Request $request)
+    {
+        $genre = $request->query->get('genre');
+        $note = $request->query->get('note');
+        $annee = $request->query->get('annee');
         
+        $tracks = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('SHUFLERShuflerBundle:MusicTrack')
+            ->getTracks($genre, $note, $annee);
+
+        if (empty($tracks)) {
+            $tracks = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('SHUFLERShuflerBundle:MusicTrack')
+                ->getTracks();
+        }
         shuffle($tracks);
         
         $liste = "";
@@ -208,11 +256,11 @@ class MusicTrackController extends Controller
             }
             if ($key > 100)
                 break;
-                
+            
             $liste .= $track->getYoutubeKey() . ',';
         }
         
-        return $this->render('SHUFLERShuflerBundle:Music:bestTracks.html.twig', array(
+        return $this->render('SHUFLERShuflerBundle:Music:musicList.html.twig', array(
             'single' => $single,
             'liste' => $liste
         ));

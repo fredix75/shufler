@@ -150,20 +150,17 @@ class FluxRepository extends \Doctrine\ORM\EntityRepository
     }
     
     
-    /**
-     * Get Category Links
-     * 
-     * @return array
-     */
-    function getCategories()
-    {
-        $categories = $this->_em->createQueryBuilder()
-        ->select('distinct a.category')
+/**
+ * Get Vu 
+ * @return array
+ */
+    function getVu() {
+        return $this->_em->createQueryBuilder()
+        ->select('a')
+        ->where('a.name LIKE :name')
+        ->setParameter('name', '%Vu - France 2%')
         ->from('SHUFLERShuflerBundle:Flux', 'a')
-        ->orderBy('a.category', 'ASC')
         ->getQuery()
-        ->getResult();
-        
-        return $categories;
+        ->getOneOrNullResult();
     }
 }

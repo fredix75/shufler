@@ -15,39 +15,58 @@ class MusicTrackRepository extends \Doctrine\ORM\EntityRepository
 
     /**
      * Get the paginated list of music tracks
-     *            
+     *
      * @return Paginator
      */
     public function getPaginatedTracks($page = 1, $maxperpage = MusicTrack::MAX_LIST)
     {
         $q = $this->_em->createQueryBuilder()
-        ->select('a')
-        ->orderBy('a.titre', 'DESC')
-        ->from('SHUFLERShuflerBundle:MusicTrack', 'a');
+            ->select('a')
+            ->orderBy('a.titre', 'DESC')
+            ->from('SHUFLERShuflerBundle:MusicTrack', 'a');
         
         $q->setFirstResult(($page - 1) * $maxperpage)->setMaxResults($maxperpage);
         
         return new Paginator($q);
     }
-    
+
     /**
      * Get All music tracks
      *
-     * @return Array 
+     * @return Array
      */
-    public function getTracks()
+    public function getTracks($genre = null, $note = null, $annee = null, $periode = null)
     {
-        $tracks = $this->_em->createQueryBuilder()
-        ->select('a')
-        ->orderBy('a.titre', 'ASC')
-        ->from('SHUFLERShuflerBundle:MusicTrack', 'a')
-        ->setMaxResults(10)
-        ->getQuery()
-        ->getResult();
-                
+        $q = $this->_em->createQueryBuilder()
+            ->select('a')
+            ->orderBy('a.titre', 'ASC')
+            ->where('1 = 1')
+            ->from('SHUFLERShuflerBundle:MusicTrack', 'a');
+        
+        if ($genre) {
+            $q->andWhere('a.genre = :genre')->setParameter('genre', $genre);
+        }
+        if ($note) {
+            $q->andWhere('a.note = :note')->setParameter('note', $note);
+        }
+        if ($annee) {
+            if (substr_count($annee, '-')) {
+                $annee1 = (explode('-', $annee)[0] && is_numeric(explode('-', $annee)[0])) ? explode('-', $annee)[0] : 1;
+                $annee2 = (explode('-', $annee)[1] && is_numeric(explode('-', $annee)[1])) ? explode('-', $annee)[1] : date('Y');
+                if ($annee1 && $annee2) {
+                    $q->andWhere('a.annee >= :annee1')->setParameter('annee1', $annee1);
+                    $q->andWhere('a.annee <= :annee2')->setParameter('annee2', $annee2);
+                }
+            } elseif(is_numeric($annee)) {
+                $q->andWhere('a.annee = :annee')->setParameter('annee', $annee);
+            }
+        }
+        
+        $tracks = $q->getQuery()->getResult();
+        
         return $tracks;
     }
-    
+
     /**
      * Get music track by album
      *
@@ -56,19 +75,19 @@ class MusicTrackRepository extends \Doctrine\ORM\EntityRepository
     public function getTracksByAlbum($artiste, $album)
     {
         $tracks = $this->_em->createQueryBuilder()
-        ->select('t')
-        ->orderBy('t.numero', 'ASC')
-        ->from('SHUFLERShuflerBundle:MusicTrack', 't')
-        ->where('t.artiste =  :artiste')
-        ->setParameter(':artiste', $artiste)
-        ->andWhere('t.album = :album')
-        ->setParameter(':album', $album)
-        ->getQuery()
-        ->getResult();
+            ->select('t')
+            ->orderBy('t.numero', 'ASC')
+            ->from('SHUFLERShuflerBundle:MusicTrack', 't')
+            ->where('t.artiste =  :artiste')
+            ->setParameter(':artiste', $artiste)
+            ->andWhere('t.album = :album')
+            ->setParameter(':album', $album)
+            ->getQuery()
+            ->getResult();
         
         return $tracks;
     }
-    
+
     /**
      * Get music tracks by ajax method
      *
@@ -76,89 +95,81 @@ class MusicTrackRepository extends \Doctrine\ORM\EntityRepository
      */
     public function getTracksAjax($data, $page = 0, $max = NULL, $sort = 'titre', $dir = 'ASC', $getResult = true)
     {
-
         $qb = $this->_em->createQueryBuilder();
-        $query = isset($data['query']) && $data['query']?$data['query']:null;
+        $query = isset($data['query']) && $data['query'] ? $data['query'] : null;
         
-        $qb
-        ->select('t')
-        ->from('SHUFLERShuflerBundle:MusicTrack', 't')
-        ;
+        $qb->select('t')->from('SHUFLERShuflerBundle:MusicTrack', 't');
         
         if ($query) {
-            $qb
-            ->andWhere('t.auteur like :query OR t.artiste like :query OR t.titre like :query OR t.album like :query')
-            ->setParameter('query', "%".$query."%")
-            ;
+            $qb->andWhere('t.auteur like :query OR t.artiste like :query OR t.titre like :query OR t.album like :query')->setParameter('query', "%" . $query . "%");
         }
         
         $qb->orderBy('t.' . $sort, $dir);
         
-        
-        if($sort !== 'annee')  $qb->addOrderBy('t.annee', $dir);
-        if($sort !== 'album')  $qb->addOrderBy('t.album', $dir);
-        if($sort !== 'auteur')  $qb->addOrderBy('t.auteur', $dir);
-        if($sort !== 'artiste')  $qb->addOrderBy('t.artiste', $dir);
+        if ($sort !== 'annee')
+            $qb->addOrderBy('t.annee', $dir);
+        if ($sort !== 'album')
+            $qb->addOrderBy('t.album', $dir);
+        if ($sort !== 'auteur')
+            $qb->addOrderBy('t.auteur', $dir);
+        if ($sort !== 'artiste')
+            $qb->addOrderBy('t.artiste', $dir);
         
         $qb->addOrderBy('t.numero', $dir);
         
-        if($sort !== 'titre')  $qb->addOrderBy('t.titre', $dir);
+        if ($sort !== 'titre')
+            $qb->addOrderBy('t.titre', $dir);
         
         if ($max) {
             $preparedQuery = $qb->getQuery()
-            ->setMaxResults($max)
-            ->setFirstResult($page * $max)
-            ;
+                ->setMaxResults($max)
+                ->setFirstResult($page * $max);
         } else {
             $preparedQuery = $qb->getQuery();
         }
         
-        return $getResult?$preparedQuery->getResult():$preparedQuery;
+        return $getResult ? $preparedQuery->getResult() : $preparedQuery;
     }
-    
+
     /**
      * Get music albums by ajax method
      *
      * @return Array
      */
-    public function getAlbumsAjax($data, $page = 0, $max = NULL, $sort = 'album', $dir='ASC', $getResult = true)
+    public function getAlbumsAjax($data, $page = 0, $max = NULL, $sort = 'album', $dir = 'ASC', $getResult = true)
     {
-        
         $qb = $this->_em->createQueryBuilder();
-        $query = isset($data['query']) && $data['query']?$data['query']:null;
+        $query = isset($data['query']) && $data['query'] ? $data['query'] : null;
         
-        $qb
-        ->select('t')
-        ->from('SHUFLERShuflerBundle:MusicTrack', 't')
-        ->groupBy("t.album")
-        ->addGroupBy("t.artiste")
-        ;
+        $qb->select('t')
+            ->from('SHUFLERShuflerBundle:MusicTrack', 't')
+            ->groupBy("t.album")
+            ->addGroupBy("t.artiste");
         
         if ($query) {
-            $qb
-            ->andWhere('t.auteur like :query OR t.artiste like :query OR t.titre like :query OR t.album like :query')
-            ->setParameter('query', "%".$query."%")
-            ;
+            $qb->andWhere('t.auteur like :query OR t.artiste like :query OR t.titre like :query OR t.album like :query')->setParameter('query', "%" . $query . "%");
         }
         
         $qb->orderBy('t.' . $sort, $dir);
         
-        if($sort !== 'annee')  $qb->addOrderBy('t.annee', $dir);
-        if($sort !== 'album')  $qb->addOrderBy('t.album', $dir);
-        if($sort !== 'artiste')  $qb->addOrderBy('t.artiste', $dir);
-                
+        if ($sort !== 'annee')
+            $qb->addOrderBy('t.annee', $dir);
+        if ($sort !== 'album')
+            $qb->addOrderBy('t.album', $dir);
+        if ($sort !== 'artiste')
+            $qb->addOrderBy('t.artiste', $dir);
+        
         if ($max) {
             $preparedQuery = $qb->getQuery()
-            ->setMaxResults($max)
-            ->setFirstResult($page * $max)
-            ;
+                ->setMaxResults($max)
+                ->setFirstResult($page * $max);
         } else {
             $preparedQuery = $qb->getQuery();
         }
         
-        return $getResult?$preparedQuery->getResult():$preparedQuery;
+        return $getResult ? $preparedQuery->getResult() : $preparedQuery;
     }
-    
+
     /**
      * Get music tracks by rating
      *
@@ -167,32 +178,32 @@ class MusicTrackRepository extends \Doctrine\ORM\EntityRepository
     public function getTracksByRating($rating)
     {
         $tracks = $this->_em->createQueryBuilder()
-        ->select('a')
-        ->orderBy('a.titre', 'ASC')
-        ->from('SHUFLERShuflerBundle:MusicTrack', 'a')
-        ->where('a.note = :note')
-        ->setParameter('note', $rating)
-        ->andWhere('a.youtubeKey IS NOT NULL')
-        ->getQuery()
-        ->getResult();
+            ->select('a')
+            ->orderBy('a.titre', 'ASC')
+            ->from('SHUFLERShuflerBundle:MusicTrack', 'a')
+            ->where('a.note = :note')
+            ->setParameter('note', $rating)
+            ->andWhere('a.youtubeKey IS NOT NULL')
+            ->getQuery()
+            ->getResult();
         
         return $tracks;
     }
-        
-    public function getAlbumsFromTracks() {
+
+    public function getAlbumsFromTracks()
+    {
         $albums = $this->_em->createQueryBuilder()
-        ->select('a')
-        ->orderBy('a.album', 'ASC')
-        ->from('SHUFLERShuflerBundle:MusicTrack', 'a')
-        ->where('LOWER(a.artiste) != :artiste')
-        ->setParameter('artiste', 'divers')
-        ->AndWhere('LOWER(a.album) != :album')
-        ->setParameter('album', 'divers')
-        ->groupBy('a.album')
-        ->getQuery()
-        ->getResult();
+            ->select('a')
+            ->orderBy('a.album', 'ASC')
+            ->from('SHUFLERShuflerBundle:MusicTrack', 'a')
+            ->where('LOWER(a.artiste) != :artiste')
+            ->setParameter('artiste', 'divers')
+            ->AndWhere('LOWER(a.album) != :album')
+            ->setParameter('album', 'divers')
+            ->groupBy('a.album')
+            ->getQuery()
+            ->getResult();
         
         return $albums;
     }
-
 }

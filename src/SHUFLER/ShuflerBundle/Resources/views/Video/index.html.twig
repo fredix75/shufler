@@ -60,18 +60,18 @@
   </div>
   <br/>
   <div class="row">
-    <section class="col-sm-6 col-md-6" style="margin-top:10px;">
-		<div class="col col-xs-12 col-sm-12 col-md-12" style="background-color:black;color:white;height:auto;">
-			<div class="col col-md-6 media topcol embed-responsive-16by9" style="margin-bottom:30px;position:relative;">
-				<a id="link_vu" class="lienchannel" href="UCqt99sKYNTxqlHtzV9weUYA" data-toggle="tooltip" data-original-title="UCqt99sKYNTxqlHtzV9weUYA">
-					<img src="https://yt3.ggpht.com/a-/AAuE7mBImRSxn5XIphVspA2v6YPih39hJQEzaml_2w=s176-c-k-c0x00ffffff-no-rj-mo" width=100% />
+    <section class="col-sm-6 col-md-6 position-relative" style="margin-top:10px;">
+		<div class="col col-xs-12 col-sm-12 col-md-12" style="background-color:black;color:white;height:auto;padding-left:0px;margin:0px 20px 50px 15px;background-image: url({{ asset('bundles/shuflershufler/img/tv_old.png') }});border-radius:12px;">
+			<div class="col col-md-6 media topcol embed-responsive-16by9" style="position:relative;padding:0px;border:none;">
+				<a id="link_vu" class="{{ playlist.channelClass}}" href="{{ playlist.ProviderId}}" data-toggle="tooltip">
+					<img src="{{ playlist.oldImage }}" width=60% />
 				</a>
 			</div>
-			<div class="col col-md-6">
-				<h3>Vu - France 2</h3>
-				Le meilleur de qu'est-ce qui s'est passé chaque jour à la télé
+			<div class="col col-md-6" style="font-size:130%;">
+				<h3 style="background-color:#0153e7;color:white;">{{ playlist.name }}</h3>
+				<p style="background-color:white;color:black;">Le meilleur et le pire de qu'est-ce qui s'est passé chaque jour à la télé...</p>
 			</div>
-		</div>	
+		</div>
 		<h1 style="margin-left:15px;margin-right:15px;text-align:left;"><span class="glyphicon glyphicon-music"></span>&nbsp;Du son, des images</h1>
 		<p class="legend">Une palanquée de morceaux d'anthologie, parfois méconnus, amoureusement choisis</p><br/>
 		{% for video in musics|slice(0, 2) %}
@@ -129,38 +129,16 @@
   {% block javascripts %}
     {{ parent() }}
 	<script>
-	const YT_KEY = '{{ youtube_key }}';
-		$('#link_vu').click(function(e){
-			e.preventDefault();
+		$(document).on('click','.lienPl',function(e){
 			let key = $(this).attr('href');
-			$.ajax({
-				url: "https://www.googleapis.com/youtube/v3/activities",
-				method: 'GET',
-				data: {
-					part: 'snippet, contentDetails',
-					channelId: key,
-					key: YT_KEY,
-					maxResults: 50
-				},
-				success: function(result){
-					let ids_video = '';
-					let id_video = result.items[0].contentDetails.upload.videoId;
-					for(var i=1; i<result.items.length; i++) { 
-						ids_video = ids_video + result.items[i].contentDetails.upload.videoId + ',';
-					}
-					createPopup(id_video, ids_video);
-				}
-			});	
-		});
-		
-		function createPopup(id_video, list_videos) {
-			$('#link_vu').magnificPopup({
+			$(this).magnificPopup({
 				items: {
-					src: '<iframe width="800" height="500" src="https://www.youtube.com/embed/' + id_video + '?playlist=' + list_videos + '" frameborder="0" allowfullscreen></iframe>',
+					src: '<iframe width="800" height="500" src="https://www.youtube.com/embed/videoseries?list=' + key + '" frameborder="0" allowfullscreen></iframe>',
 					type: 'inline'
 				}
 			});
-		}
+			e.preventDefault();
+		});
 	</script>
       <script type="text/javascript" src="{{ asset('bundles/shuflershufler/js/jquery.magnific-popup.js') }}"></script>
       <script type="text/javascript" src="{{ asset('bundles/shuflershufler/js/main.js') }}"></script>

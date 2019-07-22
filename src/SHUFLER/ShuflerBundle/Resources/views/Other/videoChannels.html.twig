@@ -47,7 +47,13 @@
 					<img src="{{ channel.oldImage}}" width=300px />
 					<div class="media-body">
 					{% if is_granted('ROLE_AUTEUR') %}
-						<div class="link_edit"><a href="{{ path('shufler_edit_channel',{'id':channel.id, 'type':2}) }}"><span class="glyphicon glyphicon-edit"></span></a></div> 
+						<div class="link_edit">
+						{% if channel.channelClass == 'lienPl' %}
+							<a href="{{ path('shufler_flux_edit',{'id':channel.id }) }}"><span class="glyphicon glyphicon-edit"></span></a>
+						{% else %}
+							<a href="{{ path('shufler_edit_channel',{'id':channel.id, 'type':2}) }}"><span class="glyphicon glyphicon-edit"></span></a> 
+						{% endif %}
+						</div>
 					{% endif %}
 						<h3 class="media-heading">{{  channel.name }}</h3>
 					</div>
@@ -76,7 +82,7 @@
 			}
 			
 			$.ajax({
-				url: "https://www.googleapis.com/youtube/v3/playlists",
+				url: "{{ youtube_api_playlists_url }}",
 				method: 'GET',
 				data: {
 					part: 'snippet, contentDetails',
@@ -86,32 +92,12 @@
 				},
 				success: function(result){
 					$('.playlist').html('');
-					if(result.items.length > 0) {
-						for(var i=0; i<result.items.length; i++){
-							url = result.items[i].id;
-							vignette=createVignettePl(result.items[i].snippet,url);
-							$('#playlist' + key).append(vignette);
-						}
-					} else {
-						$.ajax({
-							url: "https://www.googleapis.com/youtube/v3/activities",
-							method: 'GET',
-							data: {
-								part: 'snippet, contentDetails',
-								channelId: key,
-								key: YT_KEY,
-								maxResults: 50
-							},
-							success: function(result){
-								let ids_video = '';
-								let id_video = result.items[0].contentDetails.upload.videoId;
-								for(var i=1; i<result.items.length; i++) { 
-									ids_video = ids_video + result.items[i].contentDetails.upload.videoId + ',';
-								}
-								createPopupPL(frame_id, id_video, ids_video);
-							}
-						});
+					for(var i=0; i<result.items.length; i++){
+						url = result.items[i].id;
+						vignette=createVignettePl(result.items[i].snippet,url);
+						$('#playlist' + key).append(vignette);
 					}
+					
 				}
 			});
 			
@@ -123,16 +109,7 @@
 			
 			return vignette;
 		}
-		
-		function createPopupPL(id_frame, id_video, list_videos) {
-			$('#' + id_frame).magnificPopup({
-				items: {
-					src: '<iframe width="800" height="500" src="https://www.youtube.com/embed/' + id_video + '?playlist=' + list_videos + '" frameborder="0" allowfullscreen></iframe>',
-					type: 'inline'
-				}
-			});
-		}
-		
+				
 		$(document).on('click','.lienPl',function(e){
 			let key = $(this).attr('href');
 			$(this).magnificPopup({

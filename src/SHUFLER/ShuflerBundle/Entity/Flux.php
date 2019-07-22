@@ -26,7 +26,7 @@ class Flux implements ChannelInterface
         5 => 'music playlist',
         6 => 'video playlist'
     );
-
+     
     const RADIO_TYPE = array(
         1 => 'généraliste',
         2 => 'rock',
@@ -56,9 +56,19 @@ class Flux implements ChannelInterface
         111 => 'Radios',
         112 => 'Tumbler',
         113 => 'Web dev',
-        114 => 'Webdocs'
+        114 => 'Webdocs',
+        115 => 'Musique'
     );
 
+    const RSS_TYPE = array(
+        201 => 'Info',
+        202 => 'PQR',
+        203 => 'Sciences et techniques',
+        204 => 'Dev et Informatique',
+        205 => 'Divertissements',
+        299 => 'Autres'
+    );
+    
     /**
      *
      * @var integer @ORM\Column(name="id", type="integer")
@@ -391,20 +401,20 @@ class Flux implements ChannelInterface
         }
         return;
     }
- /**
-  * {@inheritDoc}
-  * @see \SHUFLER\ShuflerBundle\Entity\ChannelInterface::getProvider()
-  */
- public function getProviderId() {
-     return array_reverse(explode('list=', $this->url))[0];
- }
-
- /**
-  * {@inheritDoc}
-  * @see \SHUFLER\ShuflerBundle\Entity\ChannelInterface::getTypeChannel()
-  */
- public function getChannelClass() {
-     return 'lienPl';
- }
-
+     /**
+      * {@inheritDoc}
+      * @see \SHUFLER\ShuflerBundle\Entity\ChannelInterface::getProvider()
+      */
+     public function getProviderId() {
+         return array_reverse(explode('list=', $this->url))[0];
+     }
+    
+     /**
+      * {@inheritDoc}
+      * @see \SHUFLER\ShuflerBundle\Entity\ChannelInterface::getTypeChannel()
+      */
+     public function getChannelClass() {
+         return 'lienPl';
+     }
+ 
 }

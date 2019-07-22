@@ -60,7 +60,7 @@
 	{% if search is not null %}
 		$(function(){		
 			var search='{{ search|replace({"'": ' '}) }}';
-			$.get('https://www.googleapis.com/youtube/v3/search?key=' + YT_KEY, { part: 'snippet', q: search, type: 'channel', maxResults: 50 }, function(result) {			 
+			$.get('{{ youtube_api_search_url }}?key=' + YT_KEY, { part: 'snippet', q: search, type: 'channel', maxResults: 50 }, function(result) {			 
 			    if(result) {
 					var titre;
 					var url;
@@ -69,7 +69,7 @@
 					var infos=new Array();
 					for(var i=0; i<result.items.length; i++){
 						if(typeof result.items[i] != 'undefined'){		
-							$.get('https://www.googleapis.com/youtube/v3/playlists?key=' + YT_KEY, { part: 'contentDetails, snippet', id: result.items[i].id.channelId, maxResults: 50 } , function(result2) {								
+							$.get('{{ youtube_api_playlists_url }}?key=' + YT_KEY, { part: 'contentDetails, snippet', id: result.items[i].id.channelId, maxResults: 50 } , function(result2) {								
 							    	//infos[i]=new Array(result2.items[0].statistics.viewCount,result2.items[0].contentDetails.duration);
 							    	infos[i] = [];
 									return infos;
@@ -135,7 +135,7 @@
 		$(document).on('click','.lienChannel',function(e){
 				let channel_yt_id = $(this).attr('href');
 				$.ajax({
-					url: "https://www.googleapis.com/youtube/v3/playlists",
+					url: "{{ youtube_api_playlists_url }}",
 					method: 'GET',
 					data: {
 						part: 'snippet, contentDetails',

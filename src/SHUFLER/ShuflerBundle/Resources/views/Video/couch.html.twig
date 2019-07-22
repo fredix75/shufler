@@ -81,7 +81,7 @@
 	          
 
 	          
-	          $.get("{{ youtube_api_url }}", {
+	          $.get("{{ youtube_api_videos_url }}", {
 		          id: player.getPlaylist()[index],
 				  data: "key={{ youtube_key }}",
 		          part: 'snippet'

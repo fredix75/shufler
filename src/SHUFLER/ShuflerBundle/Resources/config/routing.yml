@@ -85,10 +85,6 @@ shufler_playlist:
     path: /playlist
     defaults: {_controller: "SHUFLERShuflerBundle:Flux:playlist"}
     
-shufler_video_playlist:
-    path: /vplaylist
-    defaults: {_controller: "SHUFLERShuflerBundle:Flux:videosPlaylist"}    
-
 shufler_dailypod:
     path: /dailypod
     defaults: {_controller: "SHUFLERShuflerBundle:Flux:dailyPod"}
@@ -142,12 +138,32 @@ shufler_aspicture:
   defaults: {_controller: "SHUFLERShuflerBundle:Other:aspicture"}
 
 shufler_music_tracks:
-    path: /music/{mode}
-    defaults: {_controller: "SHUFLERShuflerBundle:MusicTrack:getTracks", mode : 'tracks'}
+    path: /music/list/{mode}
+    defaults: {_controller: "SHUFLERShuflerBundle:MusicTrack:getTracks", mode: "tracks"}
 
 shufler_music_tracks_by_album:
     path: /music/album/tracks
     defaults: {_controller: "SHUFLERShuflerBundle:MusicTrack:getTracksByAlbum"}
+
+shufler_music_albums_api:
+  path: /albums_api
+  defaults: {_controller: "SHUFLERShuflerBundle:MusicTrack:albumsApi"}    
+
+shufler_music_artistes_api:
+  path: /artistes_api
+  defaults: {_controller: "SHUFLERShuflerBundle:MusicTrack:artistesApi"}    
+
+shufler_music_artistes:
+  path: /artistes
+  defaults: {_controller: "SHUFLERShuflerBundle:MusicTrack:getArtistes"}
+
+shufler_music_albums:
+  path: /albums
+  defaults: { _controller: "SHUFLERShuflerBundle:MusicTrack:getAlbums"}
+
+shufler_music_random_tracks:
+    path: /music/random/
+    defaults: {_controller: "SHUFLERShuflerBundle:MusicTrack:getRandomTracks", genre : null, note: null}
 
 shufler_insee:
     path: /insee
@@ -156,27 +172,3 @@ shufler_insee:
 shufler_map:
     path: /map
     defaults: {_controller: "SHUFLERShuflerBundle:Other:map"} 
-    
-shufler_bestTracksList:
-    path: /bestTracksList
-    defaults: {_controller: "SHUFLERShuflerBundle:MusicTrack:bestTracks"}    
-
-shufler_albums_api:
-  path: /albums_api
-  defaults: {_controller: "SHUFLERShuflerBundle:MusicTrack:albumsApi"}    
-
-shufler_artistes_api:
-  path: /artistes_api
-  defaults: {_controller: "SHUFLERShuflerBundle:MusicTrack:artistesApi"}    
-
-shufler_test_artiste:
-  path: /artistes
-  defaults: {_controller: "SHUFLERShuflerBundle:Other:testArtistes"}
-
-shufler_testAlbum:
-  path: /testAlbum
-  defaults: { _controller: "SHUFLERShuflerBundle:Other:testAlbum"}
-
-shufler_test_save:
-  path: /test_save
-  defaults: {_controller: "SHUFLERShuflerBundle:Other:testSave"} 

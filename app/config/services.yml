@@ -29,6 +29,9 @@ services:
         class: SHUFLER\ShuflerBundle\Service\ConvertCSVToArray
         arguments:
             $filePath: '%csv_path%'
+
+    get.curl:
+        class: SHUFLER\ShuflerBundle\Service\Curl
             
 #    service_name:
 #        class: AppBundle\Directory\ClassName

@@ -15,7 +15,7 @@ class ImportCommand extends ContainerAwareCommand
 
     const BATCH_SIZE = 20;
 
-    const YOUTUBE_URL = 'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&format=json&q=';
+    const YOUTUBE_URL = '?part=snippet&maxResults=5&format=json&q=';
 
     private $artistes = [];
 
@@ -42,8 +42,7 @@ class ImportCommand extends ContainerAwareCommand
         // Importing Artistes from Tracks via Doctrine ORM
         if ($import_status) {
             $output->writeln('<comment>Step 2. Importing Artists</comment>');
-           // $import_status2 = $this->importArtists($input, $output);
-            $import_status2 = false;
+            $import_status2 = $this->importArtists($input, $output);
         } else {
             $output->writeln('<comment>File Trouble Ciao bello!</comment>');
         }
@@ -61,7 +60,7 @@ class ImportCommand extends ContainerAwareCommand
         
         // Showing when the script is over
         $now = new \DateTime();
-        $output->writeln('\r\n<comment>End : ' . $now->format('d-m-Y G:i:s') . ' ---</comment>');
+        $output->writeln('<comment>End : ' . $now->format('d-m-Y G:i:s') . ' ---</comment>');
     }
 
     protected function importTracks(InputInterface $input, OutputInterface $output)
@@ -114,11 +113,11 @@ class ImportCommand extends ContainerAwareCommand
             $track->setBitrate($row[9]);
             $track->setNote($row[10]);
             //if($track->getNote() == 5) {
-            if(strtolower($track->getTitre()) != 'intro' && strtolower($track->getTitre()) != 'outro') {
+            if($track->getNote() == 5) {
                 try {
                     $search = str_replace(' ', '%20', $row[0] . ' ' . $row[2]);
-                    $url = self::YOUTUBE_URL . $search . '&key=' . $this->getContainer()->getParameter('youtube_key') . '&type=videos';
-                    $curl = $this->setCurl($url);               
+                    $url = $this->getContainer()->getParameter('youtube_api_search_url') . self::YOUTUBE_URL . $search . '&key=' . $this->getContainer()->getParameter('youtube_key') . '&type=videos';
+                    $curl = $this->getContainer()->get('get.curl')->getInit($url);
                     $response = curl_exec($curl);
                     curl_close($curl);
                     $value = json_decode($response);
@@ -172,10 +171,11 @@ class ImportCommand extends ContainerAwareCommand
         
         // TRUNCATE INITIAL DB
         $query = 'TRUNCATE artiste;';
+        /*
         $em->getConnection()
             ->prepare($query)
             ->execute();
-        
+        */
         // Turning off doctrine default logs queries for saving memory
         $em->getConnection()
             ->getConfiguration()
@@ -194,7 +194,7 @@ class ImportCommand extends ContainerAwareCommand
             $artiste->setName($artisteName);
             try {             
                 $url = $this->getContainer()->getParameter('lastfm_api_url') . '?method=artist.getInfo&format=json&api_key=' . $this->getContainer()->getParameter('lastfm_key') . '&artist=' . $artisteName;
-                $curl = $this->setCurl($url);
+                $curl = $this->getContainer()->get('get.curl')->getInit($url);
                 $response = json_decode(curl_exec($curl));
                 curl_close($curl);
                 
@@ -241,9 +241,11 @@ class ImportCommand extends ContainerAwareCommand
         
         // TRUNCATE INITIAL DB
         $query = 'TRUNCATE album;';
+        /*
         $em->getConnection()
             ->prepare($query)
             ->execute();
+        */
         
         // Turning off doctrine default logs queries for saving memory
         $em->getConnection()
@@ -268,10 +270,10 @@ class ImportCommand extends ContainerAwareCommand
                 if(strtolower($albumName) != 'divers' && strtolower($artisteName) != 'divers') {
                     $search = $artisteName . " " . $albumName;
                     $search = str_replace(" ", "%20", $search);
-                    $url = self::YOUTUBE_URL . $search . '&key=' . $this->getContainer()->getParameter('youtube_key') . '&type=playlist';
+                    $url = $this->getContainer()->getParameter('youtube_api_search_url') . self::YOUTUBE_URL . $search . '&key=' . $this->getContainer()->getParameter('youtube_key') . '&type=playlist';
 
                     try {
-                        $curl = $this->setCurl($url);
+                        $curl = $this->getContainer()->get('get.curl')->getInit($url);
                         $response = curl_exec($curl);
                         curl_close($curl);
                         $value = json_decode($response);
@@ -320,13 +322,4 @@ class ImportCommand extends ContainerAwareCommand
         return $data;
     }
 
-    private function setCurl($url)
-    {
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_HEADER, 0);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_VERBOSE, 0);
-        return $curl;
-    }
 }
