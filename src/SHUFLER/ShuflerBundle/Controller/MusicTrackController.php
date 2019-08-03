@@ -234,11 +234,12 @@ class MusicTrackController extends Controller
         $genre = $request->query->get('genre');
         $note = $request->query->get('note');
         $annee = $request->query->get('annee');
+        $search = $request->query->get('search');
         
         $tracks = $this->getDoctrine()
             ->getManager()
             ->getRepository('SHUFLERShuflerBundle:MusicTrack')
-            ->getTracks($genre, $note, $annee);
+            ->getTracks($genre, $note, $annee, $search);
 
         if (empty($tracks)) {
             $tracks = $this->getDoctrine()

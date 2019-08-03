@@ -8,27 +8,26 @@
 </div>
 <div class="collapse navbar-collapse">
 	<ul class="nav navbar-nav">
-    	<li><a href="{{ path('shufler_homepage') }}"><span class="glyphicon glyphicon-refresh"></span>&nbsp;{{'Random'|trans}}</a> </li>
-    	<li><a href="{{ path('shufler_couch') }}"><span class="glyphicon glyphicon-road"></span>&nbsp;{{'Couch\' Mode'|trans}}</a></li>
-    	<li class="dropdown"><a data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-tasks"></span>&nbsp;{{ 'Misc'|trans }}<b class="caret"></b></a>
-        	<ul class="dropdown-menu">
-		    	<li><a href="{{ path('shufler_rss') }}"><span class="glyphicon glyphicon-globe"></span>&nbsp;{{'News'|trans}}</a></li>
-           {%  if app.user %}
-                <li><a href="{{ path('shufler_podcast') }}"><span class="glyphicon glyphicon-headphones"></span>&nbsp;{{'Podcasts'|trans}}</a></li>
-                <li><a href="{{ path('shufler_radio') }}"><span class="glyphicon glyphicon-flash"></span>&nbsp;{{'Radios'|trans}}</a></li>
-				<li><a href="{{ path('shufler_playlist') }}"><span class="glyphicon glyphicon-list"></span>&nbsp;{{'Playlists'|trans}}</a></li>
-				<li><a href="{{ path('shufler_tweeter') }}"><span class="glyphicon glyphicon-alert"></span>&nbsp;{{'Tweeter'}}</a></li>
-           		{% if is_granted('ROLE_ADMIN') %}
-					<li><a href="{{ path('shufler_video_channels') }}"><span class="glyphicon glyphicon-film"></span>&nbsp;{{ 'Video Channels'|trans }}</a></li>
-   					<li><a href="{{ path('shufler_links') }}"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;{{ 'Links'|trans }}</a></li>
-					<li><a href="{{ path('shufler_aspicture') }}"><span class="glyphicon glyphicon-book"></span>&nbsp;{{ 'Aspicture'|trans }}</a></li>
-           		{% endif %}
-           {% endif %}
-            </ul>
-         </li> 
 	{%  if app.user %}
     	<li><a href="{{ path('shufler_videos') }}"><span class="glyphicon glyphicon-film"></span>&nbsp;{{'Videos'|trans}}</a></li>
-		
+	{% endif %}
+	<li class="dropdown"><a data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-tasks"></span>&nbsp;{{ 'Misc'|trans }}<b class="caret"></b></a>
+		<ul class="dropdown-menu">
+			<li><a href="{{ path('shufler_rss') }}"><span class="glyphicon glyphicon-globe"></span>&nbsp;{{'News'|trans}}</a></li>
+	{%  if app.user %}
+			<li><a href="{{ path('shufler_podcast') }}"><span class="glyphicon glyphicon-headphones"></span>&nbsp;{{'Podcasts'|trans}}</a></li>
+			<li><a href="{{ path('shufler_radio') }}"><span class="glyphicon glyphicon-flash"></span>&nbsp;{{'Radios'|trans}}</a></li>
+			<li><a href="{{ path('shufler_playlist') }}"><span class="glyphicon glyphicon-list"></span>&nbsp;{{'Playlists'|trans}}</a></li>
+			<li><a href="{{ path('shufler_tweeter') }}"><span class="glyphicon glyphicon-alert"></span>&nbsp;{{'Tweeter'}}</a></li>
+		{% if is_granted('ROLE_ADMIN') %}
+			<li><a href="{{ path('shufler_video_channels') }}"><span class="glyphicon glyphicon-film"></span>&nbsp;{{ 'Video Channels'|trans }}</a></li>
+			<li><a href="{{ path('shufler_links') }}"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;{{ 'Links'|trans }}</a></li>
+			<li><a href="{{ path('shufler_aspicture') }}"><span class="glyphicon glyphicon-book"></span>&nbsp;{{ 'Aspicture'|trans }}</a></li>
+		{% endif %}
+	{% endif %}
+	    </ul>
+    </li> 
+	{% if app.user %}
 		{% if is_granted('ROLE_ADMIN') %}
 		<li class="dropdown"><a data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-cloud"></span>&nbsp;{{ 'APIs Search'|trans }}<b class="caret"></b></a>
         	<ul class="dropdown-menu">
@@ -50,7 +49,7 @@
             	<li><a href="{{ path('shufler_music_tracks', {"mode" : "albums"}) }}">&nbsp;{{ 'Albums'|trans }}</a></li>
 				<li><a href="{{ path('shufler_music_artistes_api') }}">&nbsp;{{ 'Des Artistes'|trans }}</a></li>
 				<li><a href="{{ path('shufler_music_albums_api') }}">&nbsp;{{ 'Des Albums'|trans }}</a></li>
-				<li><a href="{{ path('shufler_music_random_tracks', {"note": 5 }) }}">&nbsp;{{ 'LA Playlist Maison'|trans }}</a></li>
+				<li><a href="{{ path('shufler_music_random_tracks', {"note": 5 }) }}">&nbsp;{{ 'Playlist aléatoire'|trans }}</a></li>
             </ul>
          </li>
 		{% endif %}

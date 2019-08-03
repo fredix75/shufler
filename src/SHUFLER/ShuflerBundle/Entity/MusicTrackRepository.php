@@ -35,7 +35,7 @@ class MusicTrackRepository extends \Doctrine\ORM\EntityRepository
      *
      * @return Array
      */
-    public function getTracks($genre = null, $note = null, $annee = null, $periode = null)
+    public function getTracks($genre = null, $note = null, $annee = null, $search = null)
     {
         $q = $this->_em->createQueryBuilder()
             ->select('a')
@@ -57,9 +57,25 @@ class MusicTrackRepository extends \Doctrine\ORM\EntityRepository
                     $q->andWhere('a.annee >= :annee1')->setParameter('annee1', $annee1);
                     $q->andWhere('a.annee <= :annee2')->setParameter('annee2', $annee2);
                 }
-            } elseif(is_numeric($annee)) {
+            } elseif (is_numeric($annee)) {
                 $q->andWhere('a.annee = :annee')->setParameter('annee', $annee);
             }
+        }
+        
+        if ($search) {
+            $orModule = $q->expr()
+                ->orx()
+                ->add($q->expr()
+                ->like('a.auteur', ':search'))
+                ->add($q->expr()
+                ->like('a.titre', ':search'))
+                ->add($q->expr()
+                ->like('a.album', ':search'))
+                ->add($q->expr()
+                ->like('a.artiste', ':search'));
+            
+            $q->andWhere($orModule)
+                ->setParameter('search', '%' . $search . '%');
         }
         
         $tracks = $q->getQuery()->getResult();
@@ -168,26 +184,6 @@ class MusicTrackRepository extends \Doctrine\ORM\EntityRepository
         }
         
         return $getResult ? $preparedQuery->getResult() : $preparedQuery;
-    }
-
-    /**
-     * Get music tracks by rating
-     *
-     * @return Array
-     */
-    public function getTracksByRating($rating)
-    {
-        $tracks = $this->_em->createQueryBuilder()
-            ->select('a')
-            ->orderBy('a.titre', 'ASC')
-            ->from('SHUFLERShuflerBundle:MusicTrack', 'a')
-            ->where('a.note = :note')
-            ->setParameter('note', $rating)
-            ->andWhere('a.youtubeKey IS NOT NULL')
-            ->getQuery()
-            ->getResult();
-        
-        return $tracks;
     }
 
     public function getAlbumsFromTracks()

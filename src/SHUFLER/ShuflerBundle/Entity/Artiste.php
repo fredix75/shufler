@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Artiste
  *
- * @ORM\Table(name="Artiste")
+ * @ORM\Table(name="artiste")
  * @ORM\Entity(repositoryClass="SHUFLER\ShuflerBundle\Entity\ArtisteRepository")
  */
 class Artiste
