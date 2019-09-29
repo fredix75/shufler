@@ -93,7 +93,7 @@
 					var contentCont='<div class="info col-md-12"><small class="date">' + obj[i].pubDate + '</small>'
 						+ '<h2><a href="' + obj[i].link + '" target="_blank" >' + obj[i].title + '</a></h2>';
 
-					if(typeof obj[i].enclosure !== 'undefined'){
+					if(typeof obj[i].enclosure !== 'undefined' && typeof obj[i].enclosure["@attributes"] != 'undefined'){
 						contentCont += '<img src="' + obj[i].enclosure["@attributes"].url + '" alt="' + obj[i].title +'" />';
 					}
 					if(obj[i].description != null){

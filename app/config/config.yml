@@ -8,10 +8,10 @@ parameters:
   public_key: '%kernel.root_dir%/var/jwt/public.pem'
   pass_phrase: ThisTokenIsNotSoSecretChangeItPlease
   token_ttl: 86400
-  youtube_api_videos_url: https://www.googleapis.com/youtube/v3/videos
+  youtube_api_url: https://www.googleapis.com/youtube/v3/videos
   youtube_api_playlists_url: https://www.googleapis.com/youtube/v3/playlists
   youtube_api_search_url: https://www.googleapis.com/youtube/v3/search
-  youtube_key: AIzaSyBNgi3EddUNsFThnFQpPt3RR9kkuWmhHdo
+  youtube_key: AIzaSyDtP3r2jBFTFiNipzoBqJsRS6APiS9hwWk
   vimeo_id: d39d579aedf22d12315f374a456d0656b23c7b40
   vimeo_secret: Ed9/U8ZIOcdP+aO2if/jYC4YMJbl811TeoGZIRNzalRG498hn/VA3jKrxsCytn01kV8rIgwIfa6rLrkdYSsPvaSXmy9R93ikhGCN31mtylcqCKKtXkYPmdw737sU0oEA
   vimeo_access_token: bc14d9b5371d9669ecdd1e3027572db1

@@ -22,7 +22,11 @@
 		"doctrine/doctrine-fixtures-bundle" : "~2.2",
 		"friendsofsymfony/user-bundle" : "dev-master",
 		"vimeo/vimeo-api" : "~1.2",
+<<<<<<< HEAD
 		"twig/extensions" : "~1.3",
+=======
+		"twig/extensions" : "^1.5",
+>>>>>>> 1a4aaed3f20797f08645a6c4e80f91ea67005e9f
 		"paragonie/random_compat" : "1.2.*",
 		"jms/i18n-routing-bundle" : "2.0.x",
 		"coresphere/console-bundle" : "dev-master",
