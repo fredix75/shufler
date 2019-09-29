@@ -162,9 +162,9 @@ class ShuflerExtension extends \Twig_Extension
                 if (strstr($lien, 'http')) {
                     $vid = $lien;
                 } elseif (strstr($lien, '//')) {
-                    $vid = 'http:' . $lien;
+                    $vid = 'https:' . $lien;
                 } else {
-                    $vid = 'http://' . $lien;
+                    $vid = 'https://' . $lien;
                 }
                 
                 $data = file_get_contents(Video::DAILYMOTION_API . $vid);

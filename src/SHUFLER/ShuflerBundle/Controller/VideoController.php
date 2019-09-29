@@ -47,7 +47,7 @@ class VideoController extends Controller
                 break;
             }
         }
-        
+
         return $this->render('SHUFLERShuflerBundle:Video:index.html.twig', array(
             'videos' => $videos,
             'anims' => $anims,

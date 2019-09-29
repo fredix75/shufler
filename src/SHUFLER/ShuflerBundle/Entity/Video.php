@@ -87,7 +87,7 @@ class Video
 
     const YOUTUBE_WWW = 'www.' . self::YOUTUBE;
 
-    const YOUTUBE_API = 'http://img.' . self::YOUTUBE . '/vi/';
+    const YOUTUBE_API = 'https://img.' . self::YOUTUBE . '/vi/';
     
     const YOUTUBE_EMBED = 'https://' . self::YOUTUBE_WWW . '/embed/';
 
@@ -121,7 +121,7 @@ class Video
     
     const VIMEO_VIDEO = '//player.' . self::VIMEO . '/video/';
     
-    const VIMEO_API = 'http://' . self::VIMEO . '/api/v2/video/';
+    const VIMEO_API = 'https://' . self::VIMEO . '/api/v2/video/';
 
     const VIMEO_STAFFPICKS = 'https://' . self::VIMEO . '/channels/staffpicks/';
     
