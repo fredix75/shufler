@@ -151,7 +151,6 @@
 	{{ parent() }}
 	<script>
 	$(function(){
-
 		$('#shufler_shuflerbundle_video_edit_published').bootstrapSwitch();
 		
 		if($('#shufler_shuflerbundle_video_edit_categorie').val()!=2){
@@ -170,48 +169,51 @@
 				completeInfos();
 			{% endif %}
 		{% endif %}
-
 	});
 
-	$('#shufler_shuflerbundle_video_edit_lien').on('keyup',function(){
+	$('#shufler_shuflerbundle_video_edit_lien').keyup(function(){
 		completeInfos();
-	}, { passive: true });
+	});
 	
 	
-	$('#shufler_shuflerbundle_video_edit_annee').on('keyup',function(){
+	$('#shufler_shuflerbundle_video_edit_annee').keyup(function(){
 		if($('#shufler_shuflerbundle_video_edit_annee').val().length==4){
 			selPeriode();
 		}
-	}, { passive: true });
+	});
 
 		function completeInfos(){
 			var lien=$('#shufler_shuflerbundle_video_edit_lien').val();
 						
 			if(lien.indexOf('youtube')>0 || lien.indexOf('youtu.be')){				
+
 				var makey='{{ youtube_key }}';
 				var match = $('#shufler_shuflerbundle_video_edit_lien').val().match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
-
-				var video_id=match[1];
-				
-				//var url='https://www.googleapis.com/youtube/v3/videos?id='+video_id+'&key='+key+'&fields=items(id,snippet(channelId,title,categoryId),statistics)&part=snippet,statistics';
-				$.get('https://www.googleapis.com/youtube/v3/videos?key=' + makey, {	id: video_id, part: 'snippet' }, function(result) {			 
-				    if(result.items[0].id) {
-				    	$('#shufler_shuflerbundle_video_edit_auteur').val(result.items[0].snippet.title);
-				    	$('#shufler_shuflerbundle_video_edit_titre').val(result.items[0].snippet.title);
-				    } else {
-				        alert('La vidéo n\'existe pas');
-				    }
-				},'jsonp');
+				if(match != null) {
+					console.log(match);
+    				var video_id=match[1];
+    				//var url='https://www.googleapis.com/youtube/v3/videos?id='+video_id+'&key='+key+'&fields=items(id,snippet(channelId,title,categoryId),statistics)&part=snippet,statistics';
+    				$.get('https://www.googleapis.com/youtube/v3/videos?key=' + makey, {	id: video_id, part: 'snippet' }, function(result) {			 
+    				    if(result.items[0].id) {
+    				    	$('#shufler_shuflerbundle_video_edit_auteur').val(result.items[0].snippet.title);
+    				    	$('#shufler_shuflerbundle_video_edit_titre').val(result.items[0].snippet.title);
+    				    } else {
+    				        alert('La vidéo n\'existe pas');
+    				    }
+    				},'jsonp');
+				}
 			}else if (lien.indexOf('vimeo')>0){
 				var part=lien.split('/');
-				var key=part[part.length-1];
-				url='http://vimeo.com/api/v2/video/'+key+'.json';
-				$.get('http://vimeo.com/api/v2/video/'+key+'.json', {	id: key }, function(result) {
-					$('#shufler_shuflerbundle_video_edit_auteur').val(result[0].user_name);
-					$('#shufler_shuflerbundle_video_edit_titre').val(result[0].title);
-					$('#shufler_shuflerbundle_video_edit_annee').val(result[0].upload_date.substring(0,4));
-					selPeriode();
-				}, 'jsonp');
+				if(part != 'udefined') {
+    				var key=part[part.length-1];
+    				url='http://vimeo.com/api/v2/video/'+key+'.json';
+    				$.get('http://vimeo.com/api/v2/video/'+key+'.json', {	id: key }, function(result) {
+    					$('#shufler_shuflerbundle_video_edit_auteur').val(result[0].user_name);
+    					$('#shufler_shuflerbundle_video_edit_titre').val(result[0].title);
+    					$('#shufler_shuflerbundle_video_edit_annee').val(result[0].upload_date.substring(0,4));
+    					selPeriode();
+    				}, 'jsonp');
+				}
 			}
 		}
 				
@@ -252,7 +254,7 @@
 				$('#shufler_shuflerbundle_video_edit_genre option[value=""]').prop('selected', true);
 				$('#genre').hide();
 			}
-		}, { passive: true });
+		});
 
 		function getVid(){
 			$('#search_api').val('{{ video.auteur|raw|replace({"'": ' '}) }} {{ video.titre|raw|replace({"'": ' '}) }}');

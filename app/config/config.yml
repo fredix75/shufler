@@ -9,7 +9,7 @@ parameters:
   pass_phrase: ThisTokenIsNotSoSecretChangeItPlease
   token_ttl: 86400
   youtube_api_url: https://www.googleapis.com/youtube/v3/videos
-  youtube_key: AIzaSyBNgi3EddUNsFThnFQpPt3RR9kkuWmhHdo
+  youtube_key: AIzaSyDtP3r2jBFTFiNipzoBqJsRS6APiS9hwWk
   lastfm_api_url: http://ws.audioscrobbler.com/2.0/
   lastfm_key: 10fb79b666c60393833efb96b601bb73
   logo_directory: '%kernel.project_dir%/web/uploads/logos'

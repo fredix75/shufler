@@ -3,14 +3,13 @@
 /app/parameters.yml
 /app/parameters_livehost.yml
 /app/phpunit.xml
-/bin/
 /Scripts/
-/composer.phar
 /desktop.ini
 /.buildpath
 /.dbeaver-data-sources.xml
 /.project
 /.tern-project
+/.php-version
 /vendor/
 /web/bundles/
 /web/uploads/*

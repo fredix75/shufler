@@ -73,7 +73,7 @@
           	$('#cartouche').html(progressbar);
           	$('#description').html('');       	
 		  }
-		  
+
       	  if (event.data == YT.PlayerState.PLAYING && !done) {
 	          //done = true;
 	          
@@ -81,11 +81,11 @@
 	          
 
 	          
-	          $.get("{{ youtube_api_url }}", {
+	          $.get("{{ youtube_api_url }}?html5=1", {
 		          id: player.getPlaylist()[index],
 				  data: "key={{ youtube_key }}",
 		          part: 'snippet'
-			    }, function(result) {	 
+			    }, function(result) {
 				    if(result && result.items && result.items[0].id) {
 				    	$('#cartouche').html(result.items[0].snippet.title);
 				    	$('#description').html(result.items[0].snippet.description);
