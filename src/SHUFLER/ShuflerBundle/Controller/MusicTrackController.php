@@ -178,6 +178,7 @@ class MusicTrackController extends Controller
      * Get Albums Random View of some Albums
      *
      * @return \Symfony\Component\HttpFoundation\Response
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function albumsApiAction()
     {
@@ -202,6 +203,7 @@ class MusicTrackController extends Controller
      * Get Artistes Random View of some Artists
      *
      * @return \Symfony\Component\HttpFoundation\Response
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function artistesApiAction()
     {
@@ -228,6 +230,7 @@ class MusicTrackController extends Controller
      * 
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function getRandomTracksAction(Request $request)
     {

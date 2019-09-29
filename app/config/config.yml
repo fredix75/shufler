@@ -15,7 +15,7 @@ parameters:
   vimeo_id: d39d579aedf22d12315f374a456d0656b23c7b40
   vimeo_secret: Ed9/U8ZIOcdP+aO2if/jYC4YMJbl811TeoGZIRNzalRG498hn/VA3jKrxsCytn01kV8rIgwIfa6rLrkdYSsPvaSXmy9R93ikhGCN31mtylcqCKKtXkYPmdw737sU0oEA
   vimeo_access_token: bc14d9b5371d9669ecdd1e3027572db1
-  lastfm_api_url: 'http://ws.audioscrobbler.com/2.0/'
+  lastfm_api_url: 'https://ws.audioscrobbler.com/2.0/'
   lastfm_key: '10fb79b666c60393833efb96b601bb73'
   logo_directory: '%kernel.project_dir%/web/uploads/logos'
   csv_path: '%kernel.project_dir%/web/uploads/music.csv'

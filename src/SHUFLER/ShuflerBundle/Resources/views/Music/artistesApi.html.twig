@@ -91,26 +91,28 @@
 		function getYoutubeContent(idDiv, search) {
 			$.get('{{ youtube_api_search_url}}?key=' + YT_KEY, { part: 'snippet', q: search, type: 'video', maxResults: 50 }, function(result) {			 
 			    if(result) {
-					var url = '';
-					var vignette, single;
-					for(var i=0; i<result.items.length; i++){
-						if(typeof result.items[i] != 'undefined'){
-							if(i != null){
-								var stat = ' ';
-								var views = ' ';
-								if(i == 0) {
-									single = result.items[i].id.videoId;
-								} else {
-									url = url + result.items[i].id.videoId + ',';
-								}
-							}else{
-								console.log('error' + i);
-							}
-						}
-					}
-					vignette = createVignette(url, single);
-					$('#playlistVedette_' + idDiv).append(vignette);
-
+				    console.log(result);
+				    if(typeof result.item != 'undefined') {
+    					var url = '';
+    					var vignette, single;
+    					for(var i=0; i<result.items.length; i++){
+    						if(typeof result.items[i] != 'undefined'){
+    							if(i != null){
+    								var stat = ' ';
+    								var views = ' ';
+    								if(i == 0) {
+    									single = result.items[i].id.videoId;
+    								} else {
+    									url = url + result.items[i].id.videoId + ',';
+    								}
+    							}else{
+    								console.log('error' + i);
+    							}
+    						}
+    					}
+    					vignette = createVignette(url, single);
+    					$('#playlistVedette_' + idDiv).append(vignette);
+				    }
 			    } else {
 			        alert('Error');
 			    }

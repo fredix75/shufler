@@ -76,7 +76,7 @@
 
       	  if (event.data == YT.PlayerState.PLAYING && !done) {
 	          var index=player.getPlaylistIndex();
-	          $.get("{{ youtube_api_url }}?html5=1", {
+	          $.get("{{ youtube_api_videos_url }}?html5=1", {
 
 		          id: player.getPlaylist()[index],
 				  data: "key={{ youtube_key }}",

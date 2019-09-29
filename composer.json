@@ -10,7 +10,7 @@
 	},
 	"require" : {
 		"php" : ">=5.5.9",
-		"symfony/symfony" : "3.4.*",
+		"symfony/symfony" : "~4.1",
 		"doctrine/orm" : "^2.4.8",
 		"doctrine/doctrine-bundle" : "~1.4",
 		"symfony/assetic-bundle" : "dev-master",
@@ -28,14 +28,13 @@
 		"coresphere/console-bundle" : "dev-master",
 		"friendsofsymfony/rest-bundle" : "dev-master",
 		"nelmio/api-doc-bundle" : "~2.8",
-		"jms/serializer-bundle" : "^2.0",
+		"jms/serializer-bundle" : "^3.0",
 		"lexik/jwt-authentication-bundle" : "dev-master",
 		"endroid/twitter" : "^1.3",
 		"monolog/monolog" : "^1.23"
 	},
 	"require-dev" : {
-		"sensio/generator-bundle" : "~3.1",
-		"phpunit/phpunit" : "4.8.*"
+		"sensio/generator-bundle" : "~3.0"
 	},
 	"scripts" : {
 		"post-install-cmd" : [

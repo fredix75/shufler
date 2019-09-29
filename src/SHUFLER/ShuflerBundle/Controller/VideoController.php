@@ -305,6 +305,7 @@ class VideoController extends Controller
      * Couch Video Mode
      *
      * @return \Symfony\Component\HttpFoundation\Response
+     * @Security("has_role('ROLE_AUTEUR')")
      */
     public function couchAction($categorie, $genre, $periode)
     {

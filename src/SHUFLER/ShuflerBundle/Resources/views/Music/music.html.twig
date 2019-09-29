@@ -161,9 +161,10 @@
 					data: "method=album.getinfo&format=json&artist=" + artiste + "&album=" + album + "&api_key={{ lastfm_key }}",
 					dataType : 'json',
 					success : function(response, statut){
-						var image = '<img src="' + response.album.image[5]["#text"] + '" />';
-						
-						$('#modal-subcontent2').html(image);
+						if(typeof response.album != 'undefined') {
+							var image = '<img src="' + response.album.image[5]["#text"] + '" />';
+							$('#modal-subcontent2').html(image);
+						}
 					},
 				});
 			}
