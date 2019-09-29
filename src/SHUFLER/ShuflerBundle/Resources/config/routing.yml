@@ -9,35 +9,35 @@ shufler_videos:
         page: \d*
 
 shufler_couch:
-    path: /couch/{categorie}/{genre}/{periode}
+    path: /video/couch/{categorie}/{genre}/{periode}
     defaults: {_controller: "SHUFLERShuflerBundle:Video:couch", categorie : 0, genre : 0, periode: 0}
 
 shufler_video_edit:
-    path: /VideoEdit/{id}
+    path: /video/edit/{id}
     defaults: {_controller: "SHUFLERShuflerBundle:Video:edit", id: 0}
     requirements:
         id: \d*
 
 shufler_trash:
-    path: /trash/{page}
+    path: /video/trash/{page}
     defaults: {_controller: "SHUFLERShuflerBundle:Video:getTrash", page : 1 }
     requirements:
         page: \d*
 
 shufler_view:
-    path: /view/{id}
+    path: /video/view/{id}
     defaults: {_controller: "SHUFLERShuflerBundle:Video:view"}
     requirements:
         id: \d*
 
 shufler_search:
-    path: /search/{page}
+    path: /video/search/{page}
     defaults: {_controller: "SHUFLERShuflerBundle:Video:search", page: 1}
     requirements:
         page: \d*
 
 shufler_video_delete:
-    path: /delete/{id}
+    path: /video/delete/{id}
     defaults: {_controller: "SHUFLERShuflerBundle:Video:delete"}
     requirements:
         id: \d*
@@ -90,7 +90,7 @@ shufler_dailypod:
     defaults: {_controller: "SHUFLERShuflerBundle:Flux:dailyPod"}
 
 shufler_flux_edit:
-    path: /fluxEdit/{id}
+    path: /flux/edit/{id}
     defaults: {_controller: "SHUFLERShuflerBundle:Flux:fluxEdit", id: null}
     requirements:
         id: \d*

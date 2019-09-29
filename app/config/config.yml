@@ -8,7 +8,7 @@ parameters:
   public_key: '%kernel.root_dir%/var/jwt/public.pem'
   pass_phrase: ThisTokenIsNotSoSecretChangeItPlease
   token_ttl: 86400
-  youtube_api_url: https://www.googleapis.com/youtube/v3/videos
+  youtube_api_videos_url: https://www.googleapis.com/youtube/v3/videos
   youtube_api_playlists_url: https://www.googleapis.com/youtube/v3/playlists
   youtube_api_search_url: https://www.googleapis.com/youtube/v3/search
   youtube_key: AIzaSyDtP3r2jBFTFiNipzoBqJsRS6APiS9hwWk
