@@ -11,6 +11,14 @@ services:
     volumes:
       - "db_data:/var/lib/mysql"
 
+  mailhog:
+    image: mailhog/mailhog
+    restart: on-failure
+    ports:
+      - '8025:8025'
+      - '1025:1025' 
+
 volumes:
 #  facial_flowder_data:
   db_data:
+  
